@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a6989fd3a4d92154794fa61b56fff77a
+guid: e15523e8a7e5c324b99e1a95b0b99110
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: bf6ed54d1477ca948aa0901c0f06d5d8
+    spriteID: 0ddc67690c1d4044e99626a363201b41
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -160,7 +160,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: 9a59069595e09674991480c1279bf1a9
+    spriteID: 233f5476f6868bf4baf415ca5ab00062
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -169,38 +169,17 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 28}
-  - name: Frame_2
-    originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 28
-      y: 4
-      width: 16
-      height: 16
-    spriteID: 2535bc3a0c3de144aac64583e5c60b73
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 28, y: 4}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 3366301025
+      value0: 2084075741
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: ez igy jo
+    name: setalo tipfeju (elore)
     layerFlags: 0
     layerType: 0
     blendMode: 0
@@ -213,7 +192,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 16
-      spriteId: bf6ed54d1477ca948aa0901c0f06d5d8
+      spriteId: 0ddc67690c1d4044e99626a363201b41
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -222,16 +201,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 16
-      spriteId: 9a59069595e09674991480c1279bf1a9
-    - name: Frame_2
-      frameIndex: 2
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-      spriteId: 2535bc3a0c3de144aac64583e5c60b73
+      spriteId: 233f5476f6868bf4baf415ca5ab00062
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -240,5 +210,5 @@ ScriptedImporter:
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
-  previousTextureSize: {x: 64, y: 64}
+  previousTextureSize: {x: 32, y: 64}
   canvasSize: {x: 16, y: 16}
