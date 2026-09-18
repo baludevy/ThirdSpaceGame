@@ -5,5 +5,8 @@
 
 public enum ServerPacketId : ushort
 {
-    PlayerJoined = 1,
+    Welcome = 1,
+    PlayerJoined,
+    PlayerLeft,
+    SpawnPlayer,
 }

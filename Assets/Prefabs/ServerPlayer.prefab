@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7722874592871503249}
   - component: {fileID: 6413142731136071292}
   m_Layer: 0
-  m_Name: Player
+  m_Name: ServerPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,7 +128,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.112376936, b: 0, a: 1}
+  m_Color: {r: 0.061502814, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

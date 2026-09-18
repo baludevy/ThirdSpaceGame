@@ -39,6 +39,14 @@ public class Server {
         _server.Stop();
         running = false;
 
+        foreach (Player player in ServerGameManager.Instance.players.Values) {
+            if (player.gameObject != null) {
+                UnityEngine.Object.Destroy(player.gameObject);
+            }
+        }
+        
+        ServerGameManager.Instance.players.Clear();
+        
         UnityEngine.Object.Destroy(ServerGameManager.Instance.gameObject);
 
         Debug.Log("Server stopped");
@@ -58,6 +66,8 @@ public class Server {
 
     private void OnClientConnected(NetPeer peer) {
         Debug.Log($"Client {peer.Id} connected from {peer.Address}");
+        
+        ServerSend.Welcome(peer.Id);
     }
 
     private void OnClientDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) {
@@ -65,7 +75,17 @@ public class Server {
             $"Client {peer.Id} disconnected: {disconnectInfo.Reason}"
         );
 
+        if (ClientGameManager.Instance.players[peer.Id].gameObject != null) {
+            UnityEngine.Object.Destroy(ClientGameManager.Instance.players[peer.Id].gameObject);
+        }
+        
+        ServerSend.PlayerLeft(peer.Id);
+        
         if (ServerGameManager.Instance.players.ContainsKey(peer.Id)) {
+            if (ServerGameManager.Instance.players[peer.Id].gameObject != null) {
+                UnityEngine.Object.Destroy(ServerGameManager.Instance.players[peer.Id].gameObject);
+            }
+            
             ServerGameManager.Instance.RemovePlayer(peer.Id);
         }
     }

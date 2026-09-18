@@ -23,7 +23,10 @@ public class Client {
     }
 
     private void RegisterPacketHandlers() {
+        PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.Welcome, ClientHandle.Welcome);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerJoined, ClientHandle.PlayerJoined);
+        PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerLeft, ClientHandle.PlayerLeft);
+        PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnPlayer, ClientHandle.SpawnPlayer);
     }
 
     public void Connect(string ip, int port) {
@@ -55,7 +58,6 @@ public class Client {
         UnityEngine.Object.Instantiate(PrefabManager.Instance.ClientGameManagerPrefab);
         
         NetworkUIManager.Instance.SetConnectionPanel(false);
-        ClientSend.Username(NetworkUIManager.Instance.username);
     }
 
     private void OnClientDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) {
@@ -64,6 +66,14 @@ public class Client {
         _serverPeer = null;
         connected = false;
         running = false;
+
+        foreach (Player player in ClientGameManager.Instance.players.Values) {
+            if (player.gameObject != null) {
+                UnityEngine.Object.Destroy(player.gameObject);
+            }
+        }
+        
+        ClientGameManager.Instance.players.Clear();
         
         UnityEngine.Object.Destroy(ClientGameManager.Instance.gameObject);
         
