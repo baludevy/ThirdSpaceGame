@@ -3,10 +3,13 @@ using UnityEngine;
 
 public static class ClientHandle {
     public static void PlayerJoined(NetDataReader reader) {
-        int id = reader.GetInt();
-        string username =  reader.GetString();
-        Vector3 position = reader.GetVector2();
+        Player joinedPlayer = new Player {
+            id = reader.GetInt(),
+            username = reader.GetString(),
+        };
         
-        Debug.Log($"{username} joined the game");
+        ClientGameManager.Instance.AddPlayer(joinedPlayer);
+        
+        Debug.Log($"{joinedPlayer.username} joined the game");
     }
 }

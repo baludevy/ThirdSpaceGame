@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClientGameManager : MonoBehaviour {
     public static ClientGameManager Instance;
     
-    public List<Player> players = new List<Player>();
+    public Dictionary<int, Player> players = new Dictionary<int, Player>();
     
     private void Awake()
     {
@@ -21,12 +21,14 @@ public class ClientGameManager : MonoBehaviour {
     }
 
     public void AddPlayer(Player player) {
-        players.Add(player);
+        players.Add(player.id, player);
     }
-    
+
     public void RemovePlayer(Player player) {
-        players.Remove(player);
+        players.Remove(player.id);
     }
     
-    public Player GetPlayer(int id) => players.Find(x => x.id == id);
+    public void RemovePlayer(int playerId) {
+        players.Remove(playerId);
+    }
 }
