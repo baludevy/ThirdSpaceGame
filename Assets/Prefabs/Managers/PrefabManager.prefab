@@ -46,3 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrefabManager
   ServerGameManagerPrefab: {fileID: 1219030463780747270, guid: 99dfce4763a05e8448f009788f2ba96d, type: 3}
   ClientGameManagerPrefab: {fileID: 7424124409357883989, guid: 159a29f5f3d1a0b408884a17e7a7c301, type: 3}
+  LocalPlayerPrefab: {fileID: 1306046363765431536, guid: 600a8d685dee5154ca8973ca1ca88fa9, type: 3}
+  PlayerPrefab: {fileID: 1349700374114528054, guid: 21eb58778b4bbf049b55817d008f071b, type: 3}
+  ServerPlayerPrefab: {fileID: 1349700374114528054, guid: bf67e5d2cd518ea48883cea7641597e6, type: 3}

@@ -17,11 +17,16 @@ public static class ServerHandle {
 
         foreach (Player player in ServerGameManager.Instance.players.Values) {
             ServerSend.PlayerJoined(player, joinedPlayer.id);
+
+            if (player.gameObject != null) {
+                ServerSend.SpawnPlayer(player);
+            }
         }
         
-        ServerGameManager.Instance.AddPlayer(joinedPlayer);
-        
         ServerSend.PlayerJoined(joinedPlayer);
+        
+        ServerGameManager.Instance.AddPlayer(joinedPlayer);
+        ServerGameManager.Instance.SpawnPlayer(joinedPlayer);
 
         Debug.Log($"Peer{peer.RemoteId}'s username is {username}");
     }
