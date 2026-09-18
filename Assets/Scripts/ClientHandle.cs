@@ -42,4 +42,16 @@ public static class ClientHandle {
         
         ClientGameManager.Instance.SpawnPlayer(id);
     }
+
+    public static void PlayerMove(NetDataReader reader) {
+        int id = reader.GetInt();
+        Vector2 position = reader.GetVector2();
+
+        if(ClientGameManager.Instance == null) return;
+        
+        if (id != ClientGameManager.Instance.myId && ClientGameManager.Instance.players[id].gameObject != null) {
+            ClientGameManager.Instance.players[id].gameObject.transform.position = position;
+        }
+    }
+    
 }

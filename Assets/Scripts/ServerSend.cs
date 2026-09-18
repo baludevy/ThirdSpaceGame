@@ -11,7 +11,6 @@ public static class ServerSend {
         NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.PlayerJoined, toPlayer, writer => {
             writer.Put(player.id);
             writer.Put(player.username);
-            writer.Put(Vector3.zero);
         });
     }
     
@@ -19,7 +18,6 @@ public static class ServerSend {
         NetworkManager.Instance.Server.SendPacketToAllExcept(ServerPacketId.PlayerJoined, player.id, writer => {
             writer.Put(player.id);
             writer.Put(player.username);
-            writer.Put(Vector3.zero);
         });
     }
     
@@ -32,6 +30,13 @@ public static class ServerSend {
     public static void SpawnPlayer(Player player) {
         NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.SpawnPlayer, writer => {
             writer.Put(player.id);
+        });
+    }
+    
+    public static void PlayerMove(Player player) {
+        NetworkManager.Instance.Server.SendPacketToAllExcept(ServerPacketId.PlayerMove, player.id, writer => {
+            writer.Put(player.id);
+            writer.Put(player.gameObject.transform.position);
         });
     }
 }

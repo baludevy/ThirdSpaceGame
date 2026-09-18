@@ -30,4 +30,18 @@ public static class ServerHandle {
 
         Debug.Log($"Peer{peer.RemoteId}'s username is {username}");
     }
+
+    public static void PlayerMove(NetPeer peer, NetDataReader reader) {
+        Vector2 position = reader.GetVector2();
+
+        if (ServerGameManager.Instance.players.ContainsKey(peer.Id)) {
+            if (ServerGameManager.Instance.players[peer.Id].gameObject != null) {
+                GameObject player = ServerGameManager.Instance.players[peer.Id].gameObject;
+                
+                player.transform.position = position;
+                
+                ServerSend.PlayerMove(ServerGameManager.Instance.players[peer.Id]);
+            }
+        }
+    }
 }

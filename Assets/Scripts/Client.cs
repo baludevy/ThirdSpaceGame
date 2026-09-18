@@ -27,6 +27,7 @@ public class Client {
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerJoined, ClientHandle.PlayerJoined);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerLeft, ClientHandle.PlayerLeft);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnPlayer, ClientHandle.SpawnPlayer);
+        PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerMove, ClientHandle.PlayerMove);
     }
 
     public void Connect(string ip, int port) {

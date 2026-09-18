@@ -23,6 +23,7 @@ public class Server {
 
     private void RegisterPacketHandlers() {
         PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.Username, ServerHandle.Username);
+        PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.PlayerMove, ServerHandle.PlayerMove);
     }
 
     public void Start(int port = 2067) {

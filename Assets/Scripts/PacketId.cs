@@ -1,6 +1,7 @@
 ﻿public enum ClientPacketId : ushort
 {
     Username = 1,
+    PlayerMove,
 }
 
 public enum ServerPacketId : ushort
@@ -9,4 +10,5 @@ public enum ServerPacketId : ushort
     PlayerJoined,
     PlayerLeft,
     SpawnPlayer,
+    PlayerMove,
 }
