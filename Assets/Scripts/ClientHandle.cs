@@ -39,8 +39,10 @@ public static class ClientHandle {
     public static void SpawnPlayer(NetDataReader reader) {
         int id = reader.GetInt();
         Debug.Log($"Spawning player {id}");
+        
+        Player player = ClientGameManager.Instance.players[id];
 
-        ClientGameManager.Instance.SpawnPlayer(id);
+        ClientGameManager.Instance.SpawnPlayer(player);
     }
 
     public static void PlayerMove(NetDataReader reader)

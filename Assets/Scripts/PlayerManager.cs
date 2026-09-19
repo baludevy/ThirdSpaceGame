@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
     public int id;
+    
+    [SerializeField] private TMP_Text usernameText;
     
     private float snapshotInterval = 0.02f; // 50 Hz
 
@@ -14,9 +17,11 @@ public class PlayerManager : MonoBehaviour
     private float interpolationTimer;
     private bool interpolating;
 
-    public void Initialize(int _id)
+    public void Initialize(int _id, string _username)
     {
         id = _id;
+        if(usernameText != null)
+            usernameText.text = _username;
     }
 
     public void AddSnapshot(Vector3 position)
