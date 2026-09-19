@@ -62,7 +62,6 @@ public class PlayerMovement : MonoBehaviour {
         if(inputVector.x >= 0.1f)
         {
             anim.SetBool("Side", true);
-            SpriteRenderer.
             anim.SetBool("Back", false);
             anim.SetBool("Forward", false);
         }
