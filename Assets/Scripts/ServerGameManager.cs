@@ -12,6 +12,7 @@ public class Player {
 public class ServerGameManager : MonoBehaviour {
     public static ServerGameManager Instance;
 
+    [NonSerialized]
     public Dictionary<int, Player> players = new();
 
     private Scene serverPlayerScene;
