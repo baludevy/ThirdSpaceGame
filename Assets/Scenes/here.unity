@@ -487,33 +487,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304832675}
   m_CullTransparentMesh: 1
---- !u!1 &1352350024 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1306046363765431536, guid: 600a8d685dee5154ca8973ca1ca88fa9, type: 3}
-  m_PrefabInstance: {fileID: 1795981592}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1352350025
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352350024}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7c9565b1f7553f42b2e07af8b752b08, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1795981592
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -522,6 +495,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 752989020962955112, guid: 600a8d685dee5154ca8973ca1ca88fa9, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 752989020962955112, guid: 600a8d685dee5154ca8973ca1ca88fa9, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1306046363765431536, guid: 600a8d685dee5154ca8973ca1ca88fa9, type: 3}
       propertyPath: m_Name
       value: LocalPlayer
@@ -569,10 +550,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1306046363765431536, guid: 600a8d685dee5154ca8973ca1ca88fa9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1352350025}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 600a8d685dee5154ca8973ca1ca88fa9, type: 3}
 --- !u!1 &1930810843
 GameObject:

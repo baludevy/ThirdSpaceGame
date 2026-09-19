@@ -58,19 +58,23 @@ public class PlayerMovement : MonoBehaviour {
     public void OnMove(InputAction.CallbackContext context) {
         inputVector = context.ReadValue<Vector2>();
         Animator anim = gameObject.GetComponent<Animator>();
-        var here = gameObject.transform.localScale;
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+
         if(inputVector.x >= 0.1f)
         {
             anim.SetBool("Side", true);
             anim.SetBool("Back", false);
             anim.SetBool("Forward", false);
+            
+            sprite.flipX = true;
         }
         else if(inputVector.x < 0)
         {
             anim.SetBool("Side", true);
-            here.x = -1;
             anim.SetBool("Back", false);
             anim.SetBool("Forward", false);
+            
+            sprite.flipX = false;
         }
         else if(inputVector.y < 0f)
         {
