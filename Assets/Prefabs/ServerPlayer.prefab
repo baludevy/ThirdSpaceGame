@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7722874592871503249}
   - component: {fileID: 6413142731136071292}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ServerPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4007683000504037195}
   - component: {fileID: 2568824857421025216}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

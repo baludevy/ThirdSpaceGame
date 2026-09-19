@@ -35,12 +35,14 @@ public static class ServerHandle {
         Vector2 position = reader.GetVector2();
 
         if (ServerGameManager.Instance.players.ContainsKey(peer.Id)) {
-            if (ServerGameManager.Instance.players[peer.Id].gameObject != null) {
-                GameObject player = ServerGameManager.Instance.players[peer.Id].gameObject;
+            Player player = ServerGameManager.Instance.players[peer.Id];
+            
+            if (player.gameObject != null) {
+                GameObject playerObject = player.gameObject;
                 
-                player.transform.position = position;
+                playerObject.transform.position = position;
                 
-                ServerSend.PlayerMove(ServerGameManager.Instance.players[peer.Id]);
+                ServerSend.PlayerMove(player);
             }
         }
     }

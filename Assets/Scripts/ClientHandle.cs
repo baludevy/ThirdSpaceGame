@@ -39,19 +39,28 @@ public static class ClientHandle {
     public static void SpawnPlayer(NetDataReader reader) {
         int id = reader.GetInt();
         Debug.Log($"Spawning player {id}");
-        
+
         ClientGameManager.Instance.SpawnPlayer(id);
     }
 
-    public static void PlayerMove(NetDataReader reader) {
+    public static void PlayerMove(NetDataReader reader)
+    {
         int id = reader.GetInt();
         Vector2 position = reader.GetVector2();
 
-        if(ClientGameManager.Instance == null) return;
-        
-        if (id != ClientGameManager.Instance.myId && ClientGameManager.Instance.players[id].gameObject != null) {
-            ClientGameManager.Instance.players[id].gameObject.transform.position = position;
-        }
+        ClientGameManager manager = ClientGameManager.Instance;
+        if (manager == null)
+            return;
+
+        if (id == manager.myId)
+            return;
+
+        if (!manager.players.TryGetValue(id, out Player player))
+            return;
+
+        if (player == null || player.gameObject == null)
+            return;
+
+        player.gameObject.GetComponent<PlayerManager>().AddSnapshot(position);
     }
-    
 }
