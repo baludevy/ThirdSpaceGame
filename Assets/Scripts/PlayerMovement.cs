@@ -51,10 +51,49 @@ public class PlayerMovement : MonoBehaviour {
 
         if (StaminaText != null)
             StaminaText.text = stamina.ToString("0") + "%";
-    }
+        
 
+    }
+    //asked
     public void OnMove(InputAction.CallbackContext context) {
         inputVector = context.ReadValue<Vector2>();
+        Animator anim = gameObject.GetComponent<Animator>();
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+
+        if(inputVector.x >= 0.1f)
+        {
+            anim.SetBool("Side", true);
+            anim.SetBool("Back", false);
+            anim.SetBool("Forward", false);
+            
+            sprite.flipX = true;
+        }
+        else if(inputVector.x < 0)
+        {
+            anim.SetBool("Side", true);
+            anim.SetBool("Back", false);
+            anim.SetBool("Forward", false);
+            
+            sprite.flipX = false;
+        }
+        else if(inputVector.y < 0f)
+        {
+            anim.SetBool("Forward", true);
+            anim.SetBool("Side", false);
+            anim.SetBool("Back", false);
+        }
+        else if(inputVector.y >= 0.1f)
+        {
+            anim.SetBool("Back", true);
+            anim.SetBool("Side", false);
+            anim.SetBool("Forward", false);
+        }
+        else
+        {
+            anim.SetBool("Back", false);
+            anim.SetBool("Side", false);
+            anim.SetBool("Forward", false);
+        }
     }
 
     public void OnSprinting(InputAction.CallbackContext context) {

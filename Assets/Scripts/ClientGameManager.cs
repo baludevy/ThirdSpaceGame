@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class ClientGameManager : MonoBehaviour {
     public static ClientGameManager Instance;
 
+    [NonSerialized]
     public Dictionary<int, Player> players = new Dictionary<int, Player>();
 
     public int myId;
