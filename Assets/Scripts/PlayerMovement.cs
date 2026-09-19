@@ -130,20 +130,24 @@ public class PlayerMovement : MonoBehaviour {
         switch (lastDirection) {
             case FacingDirection.Right:
                 anim.SetBool("Side", true);
+                lastAnimState = AnimationState.right;
                 sprite.flipX = true;
                 break;
 
             case FacingDirection.Left:
                 anim.SetBool("Side", true);
+                lastAnimState = AnimationState.left;
                 sprite.flipX = false;
                 break;
 
             case FacingDirection.Back:
                 anim.SetBool("Back", true);
+                lastAnimState = AnimationState.back;
                 break;
 
             case FacingDirection.Forward:
                 anim.SetBool("Forward", true);
+                lastAnimState = AnimationState.forward;
                 break;
         }
     }
