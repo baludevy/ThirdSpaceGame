@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour {
 
         rb.linearVelocity = inputVector * currentSpeed * Time.deltaTime;
         
-        ClientSend.PlayerMove(rb.position);
+        // ClientSend.PlayerMove(rb.position);
     }
 
     IEnumerator SprintReload() {
