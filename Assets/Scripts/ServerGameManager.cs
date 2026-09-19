@@ -46,6 +46,8 @@ public class ServerGameManager : MonoBehaviour {
         );
 
         player.gameObject = serverPlayer;
+        
+        player.gameObject.GetComponent<PlayerManager>().Initialize(player.id, player.username);
 
         ServerSend.SpawnPlayer(player);
     }
