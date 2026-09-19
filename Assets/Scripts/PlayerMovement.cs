@@ -124,6 +124,8 @@ public class PlayerMovement : MonoBehaviour {
         anim.SetBool("Back", false);
         anim.SetBool("Forward", false);
 
+        lastAnimState = AnimationState.idle;
+
         if (!leftHeld && !rightHeld && !upHeld && !downHeld)
             return;
 

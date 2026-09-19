@@ -43,7 +43,7 @@ public static class ServerHandle {
                 
                 playerObject.transform.position = position;
                 
-                ServerSend.PlayerMove(player);
+                ServerSend.PlayerMove(player, animationState);
             }
         }
     }

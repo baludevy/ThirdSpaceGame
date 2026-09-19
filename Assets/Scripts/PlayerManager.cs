@@ -87,8 +87,6 @@ public class PlayerManager : MonoBehaviour
 
     private void ApplyAnimationState(AnimationState state)
     {
-        Debug.Log($"applying animation: {state}");
-        
         animator.SetBool("Side", false);
         animator.SetBool("Back", false);
         animator.SetBool("Forward", false);
