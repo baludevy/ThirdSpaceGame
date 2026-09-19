@@ -4,6 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+public enum AnimationState {
+    idle,
+    left,
+    right,
+    back,
+    forward,
+}
+
 public class PlayerMovement : MonoBehaviour {
     public float MovingSpeed = 300f;
     public float sprintMultiplier = 1.8f;
@@ -17,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
     private SpriteRenderer sprite;
 
     private FacingDirection lastDirection = FacingDirection.Forward;
+    private AnimationState lastAnimState;
 
     [SerializeField] private float Stamina;
 
@@ -204,6 +213,8 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         rb.linearVelocity = movement * currentSpeed * Time.deltaTime;
+
+        ClientSend.PlayerMove(rb.position, lastAnimState);
     }
 
     IEnumerator SprintReload() {

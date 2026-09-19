@@ -36,6 +36,7 @@ public static class ServerSend {
     public static void PlayerMove(Player player) {
         NetworkManager.Instance.Server.SendPacketToAllExcept(ServerPacketId.PlayerMove, player.id, writer => {
             writer.Put(player.id);
+            writer.Put((Vector2)player.gameObject.transform.position);
             writer.Put(player.gameObject.transform.position);
         });
     }
