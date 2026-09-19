@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using LiteNetLib.Utils;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 [Serializable]
@@ -22,6 +18,8 @@ public class InventorySaveData
 
 public class InventoryController : MonoBehaviour
 {
+    public static InventoryController Instance { get; private set; }
+
     public GameObject invPanel;
     public GameObject slotPrefab;
     public int slotCount;
@@ -29,6 +27,14 @@ public class InventoryController : MonoBehaviour
 
     List<Slot> slots = new List<Slot>();
     List<InventorySaveData> savedInventoryData = new List<InventorySaveData>();
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -123,24 +129,36 @@ public class InventoryController : MonoBehaviour
 
                 if (prefabToSpawn != null)
                 {
-                    CreateItemInSlot(prefabToSpawn, slots[i]);
+                    CreateItemInSlot(prefabToSpawn, slots[i], itemCount);
                 }
             }
         }
     }
 
-    void CreateItemInSlot(GameObject prefab, Slot slot, int quantity = 1)
+    public GameObject CreateItemInSlot(GameObject prefab, Slot slot, int quantity = 1)
     {
         GameObject item = Instantiate(prefab, slot.transform);
         item.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         slot.currentItem = item;
 
         Item itemScript = item.GetComponent<Item>();
-        if(itemScript != null)
+        if (itemScript != null)
         {
             itemScript.Quantity = quantity;
             itemScript.UpdateQuantityDisplay();
         }
+
+        return item;
+    }
+
+    public GameObject CreateItemInSlotByName(string itemName, Slot slot, int quantity)
+    {
+        GameObject prefab = FindPrefabByName(itemName);
+        if (prefab != null)
+        {
+            return CreateItemInSlot(prefab, slot, quantity);
+        }
+        return null;
     }
 
     GameObject FindPrefabByName(string name)
@@ -175,5 +193,46 @@ public class InventoryController : MonoBehaviour
             invPanel.SetActive(true);
             LoadInventoryFromList(savedInventoryData);
         }
+    }
+
+    public bool SplitItemInSlot(Slot sourceSlot)
+    {
+        if (sourceSlot == null || sourceSlot.currentItem == null)
+            return false;
+
+        Item sourceItemScript = sourceSlot.currentItem.GetComponent<Item>();
+        if (sourceItemScript == null || sourceItemScript.Quantity <= 1)
+            return false;
+
+        Slot targetSlot = GetFirstEmptySlot();
+        if (targetSlot == null) return false;
+
+        int splitAmount = sourceItemScript.Quantity / 2;
+        int remainingAmount = sourceItemScript.Quantity - splitAmount;
+
+        sourceItemScript.Quantity = remainingAmount;
+        sourceItemScript.UpdateQuantityDisplay();
+
+        string cleanName = sourceSlot.currentItem.name.Replace("(Clone)", "").Trim();
+        GameObject prefabToSpawn = FindPrefabByName(cleanName);
+
+        if (prefabToSpawn != null)
+        {
+            CreateItemInSlot(prefabToSpawn, targetSlot, splitAmount);
+            return true;
+        }
+
+        return false;
+    }
+
+    private Slot GetFirstEmptySlot()
+    {
+        foreach (Slot slot in slots)
+        {
+            if (slot.currentItem == null)
+                return slot;
+        }
+
+        return null;
     }
 }
