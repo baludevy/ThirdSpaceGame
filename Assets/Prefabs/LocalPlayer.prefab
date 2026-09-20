@@ -786,8 +786,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   invPanel: {fileID: 1249543974701118647}
+  hotbarPanel: {fileID: 5420008619807192102}
   slotPrefab: {fileID: 265905069554681194, guid: 75bb4c82c1785bc49a4863b133838aae, type: 3}
   slotCount: 27
+  columns: 9
   itemPrefabs:
   - {fileID: 2461281754673410040, guid: 6d5a7b0b53c578c4a8e83bd5eed918c8, type: 3}
   - {fileID: 2461281754673410040, guid: 6d5a7b0b53c578c4a8e83bd5eed918c8, type: 3}
@@ -876,7 +878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2035642929500907908
 Transform:
   m_ObjectHideFlags: 0
@@ -886,8 +888,8 @@ Transform:
   m_GameObject: {fileID: 8550873078204674992}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 1.15, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2290870822743455498}
@@ -941,7 +943,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 11
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 362658669513660713, guid: 592a8b9e68e6ebe4ba198fd66ddf4404, type: 3}
+  m_Sprite: {fileID: -8050835570102825802, guid: 14a915bf3987009448bd3b2980fdca70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

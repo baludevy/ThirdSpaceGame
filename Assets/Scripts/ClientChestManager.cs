@@ -23,8 +23,8 @@ public class ClientChestManager : MonoBehaviour {
         }
     }
     
-    public void SpawnDroppedItem(GameObject itemPrefab, Vector3 position) {
-        GameObject droppeditem = Instantiate(itemPrefab, position, Quaternion.identity);
+    public void SpawnDroppedItem(ItemType itemType, Vector3 position) {
+        GameObject droppeditem = Instantiate(ClientChestManager.Instance.itemTypePrefabs[itemType], position, Quaternion.identity);
         droppeditem.GetComponent<BounceEffect>().Startbounce();
     }
 

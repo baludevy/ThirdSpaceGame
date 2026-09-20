@@ -16284,6 +16284,10 @@ PrefabInstance:
       propertyPath: chestId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4342816641464834981, guid: d6a98f74d14ae0842aa0d80a09d4a631, type: 3}
+      propertyPath: itemType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8792098881851314575, guid: d6a98f74d14ae0842aa0d80a09d4a631, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.75

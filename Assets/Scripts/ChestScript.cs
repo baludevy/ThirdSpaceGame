@@ -5,7 +5,7 @@ public class ChestScript : MonoBehaviour, Interactable {
     public bool isOpened { get; private set; }
     public int chestId;
 
-    public GameObject itemPrefab;
+    public ItemType itemType;
     public Sprite openedSprite;
 
     void Start() {
@@ -17,22 +17,19 @@ public class ChestScript : MonoBehaviour, Interactable {
     }
 
     public void Interact() {
-        if(isOpened) return;
-        
-        ClientSend.OpenChest(chestId, itemPrefab.GetComponent<DroppedItem>().itemType);
+        if (isOpened) return;
+
+        ClientSend.OpenChest(chestId, itemType);
         OpenChest();
     }
 
     public void OpenChest() {
         SetOpened(true);
 
-        if (itemPrefab) {
-            ClientChestManager.Instance.SpawnDroppedItem(itemPrefab, transform.position - new Vector3(0, 1, 0));
-        }
+        ClientChestManager.Instance.SpawnDroppedItem(itemType, transform.position - new Vector3(0, 1, 0));
     }
 
     public void SetOpened(bool opened) {
-        
         GetComponent<SpriteRenderer>().sprite = openedSprite;
         isOpened = true;
     }

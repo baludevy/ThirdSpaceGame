@@ -77,7 +77,7 @@ public static class ClientHandle {
         Vector2 position = reader.GetVector2();
         ItemType itemType = (ItemType)reader.GetByte();
         
-        ClientChestManager.Instance.SpawnDroppedItem(ClientChestManager.Instance.itemTypePrefabs[itemType], position);
+        ClientChestManager.Instance.SpawnDroppedItem(itemType, position);
     }
 
     public static void InitializeWorld(NetDataReader reader) {
@@ -88,7 +88,7 @@ public static class ClientHandle {
             Vector2 position = reader.GetVector2();
             ItemType itemType = (ItemType)reader.GetByte();
             
-            ClientChestManager.Instance.SpawnDroppedItem(ClientChestManager.Instance.itemTypePrefabs[itemType], position);
+            ClientChestManager.Instance.SpawnDroppedItem(itemType, position);
             Debug.Log($"Dropped item: {id} ({itemType})");
         }
         
