@@ -72,4 +72,23 @@ public static class ClientHandle {
         
         ChestManager.Instance.chests[chestId].OpenChest();
     }
+
+    public static void InitializeWorld(NetDataReader reader) {
+        int droppedItemEntityCount = reader.GetInt();
+
+        for (int i = 0; i < droppedItemEntityCount; i++) {
+            int id = reader.GetInt();
+            ItemType itemType = (ItemType)reader.GetByte();
+            
+            Debug.Log($"Dropped item: {id} ({itemType})");
+        }
+        
+        int openedChestCount = reader.GetInt();
+
+        for (int i = 0; i < openedChestCount; i++) {
+            int chestId = reader.GetInt();
+            
+            ChestManager.Instance.chests[chestId].OpenChest();
+        }
+    }
 }

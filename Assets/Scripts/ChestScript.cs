@@ -19,7 +19,7 @@ public class ChestScript : MonoBehaviour, Interactable {
     public void Interact() {
         if(isOpened) return;
         
-        ClientSend.OpenChest(chestId);
+        ClientSend.OpenChest(chestId, itemPrefab.GetComponent<DroppedItem>().itemType);
         OpenChest();
     }
 

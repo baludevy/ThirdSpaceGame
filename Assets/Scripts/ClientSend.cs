@@ -19,10 +19,13 @@ public static class ClientSend {
         );
     }
 
-    public static void OpenChest(int chestId) {
+    public static void OpenChest(int chestId, ItemType itemType) {
         NetworkManager.Instance.Client.SendPacket(
             ClientPacketId.OpenChest,
-            writer => { writer.Put(chestId); }
+            writer => {
+                writer.Put(chestId);
+                writer.Put((byte)itemType);
+            }
         );
     }
 }

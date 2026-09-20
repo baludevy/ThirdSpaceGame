@@ -9,11 +9,27 @@ public class Player {
     public GameObject gameObject;
 }
 
+public struct OpenedChest {
+    public int id;
+}
+
+public struct DroppedItemEntity {
+    public int id;
+    public ItemType itemType;
+    public Vector3 position;
+}
+
+public enum ItemType {
+    potato,
+}
+
 public class ServerGameManager : MonoBehaviour {
     public static ServerGameManager Instance;
 
-    [NonSerialized]
-    public Dictionary<int, Player> players = new();
+    [NonSerialized] public Dictionary<int, Player> players = new();
+
+    public List<OpenedChest> openedChests = new();
+    public List<DroppedItemEntity> droppedItems = new();
 
     private Scene serverPlayerScene;
 
@@ -47,10 +63,11 @@ public class ServerGameManager : MonoBehaviour {
         );
 
         player.gameObject = serverPlayer;
-        
+
         player.gameObject.GetComponent<ServerPlayer>().Initialize(player.id, player.username);
 
         ServerSend.SpawnPlayer(player);
+        ServerSend.InitializeWorld(droppedItems, openedChests, player.id);
     }
 
     public void AddPlayer(Player player) {
@@ -71,5 +88,14 @@ public class ServerGameManager : MonoBehaviour {
 
             players.Remove(playerId);
         }
+    }
+
+    public void OpenChest(int byPlayer, int chestId, ItemType itemType) {
+        OpenedChest chest = new OpenedChest {
+            id = chestId
+        };
+
+        openedChests.Add(chest);
+        ServerSend.ChestOpened(byPlayer, chestId, itemType);
     }
 }

@@ -13,4 +13,5 @@ public enum ServerPacketId : ushort
     SpawnPlayer,
     PlayerMove,
     ChestOpened,
+    InitializeWorld
 }

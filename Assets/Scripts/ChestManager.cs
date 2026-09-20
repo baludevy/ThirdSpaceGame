@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChestManager : MonoBehaviour {
+    [NonSerialized]
     public Dictionary<int, ChestScript> chests = new Dictionary<int, ChestScript>();
     
     public static ChestManager Instance;
