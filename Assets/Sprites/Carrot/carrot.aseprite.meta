@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: carrot
     originalName: 
-    pivot: {x: 0.61538464, y: 0}
+    pivot: {x: 0.53846157, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -167,7 +167,7 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 0
+        x: 1
         y: 0
         width: 13
         height: 15

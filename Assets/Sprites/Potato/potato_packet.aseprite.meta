@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: potato_packet
     originalName: 
-    pivot: {x: 0.5, y: -0.071428575}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,8 +137,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 12
-      height: 14
+      width: 14
+      height: 16
     spriteID: 53c35dc6c2f18054aaa83457935cbf90
     spriteBone: []
     spriteOutline: []
@@ -167,10 +167,10 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 2
-        y: 1
-        width: 12
-        height: 14
+        x: 1
+        y: 0
+        width: 14
+        height: 16
       spriteId: 53c35dc6c2f18054aaa83457935cbf90
     linkedCells: []
     tileCells: []
