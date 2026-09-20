@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 public class ChestScript : MonoBehaviour, Interactable {
     public bool isOpened { get; private set; }
-    public string ChestId { get; private set; }
+    public int chestId;
 
     public GameObject itemPrefab;
     public Sprite openedSprite;
 
     void Start() {
-        ChestId ??= GlobalHelper.GenerateUniqueId(gameObject);
+        ChestManager.Instance.RegisterChest(chestId, this);
     }
 
     public bool CanInteract() {
@@ -18,10 +19,11 @@ public class ChestScript : MonoBehaviour, Interactable {
     public void Interact() {
         if(isOpened) return;
         
+        ClientSend.OpenChest(chestId);
         OpenChest();
     }
 
-    private void OpenChest() {
+    public void OpenChest() {
         SetOpened(true);
 
         if (itemPrefab) {
@@ -31,6 +33,7 @@ public class ChestScript : MonoBehaviour, Interactable {
     }
 
     public void SetOpened(bool opened) {
+        
         GetComponent<SpriteRenderer>().sprite = openedSprite;
         isOpened = true;
     }

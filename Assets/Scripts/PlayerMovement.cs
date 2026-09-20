@@ -218,7 +218,7 @@ public class PlayerMovement : MonoBehaviour {
 
         rb.linearVelocity = movement * currentSpeed * Time.deltaTime;
 
-       // ClientSend.PlayerMove(rb.position, lastAnimState);
+       ClientSend.PlayerMove(rb.position, lastAnimState);
     }
 
     IEnumerator SprintReload() {

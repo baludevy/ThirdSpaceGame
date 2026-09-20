@@ -2,6 +2,7 @@
 {
     Username = 1,
     PlayerMove,
+    OpenChest,
 }
 
 public enum ServerPacketId : ushort
@@ -11,4 +12,5 @@ public enum ServerPacketId : ushort
     PlayerLeft,
     SpawnPlayer,
     PlayerMove,
+    ChestOpened,
 }

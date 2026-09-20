@@ -47,4 +47,10 @@ public static class ServerHandle {
             }
         }
     }
+
+    public static void OpenChest(NetPeer peer, NetDataReader reader) {
+        int chestId = reader.GetInt();
+        
+        ServerSend.ChestOpened(peer.Id, chestId);
+    }
 }

@@ -66,4 +66,10 @@ public static class ClientHandle {
 
         player.gameObject.GetComponent<ClientPlayer>().AddSnapshot(position, animationState);
     }
+
+    public static void ChestOpened(NetDataReader reader) {
+        int chestId = reader.GetInt();
+        
+        ChestManager.Instance.chests[chestId].OpenChest();
+    }
 }

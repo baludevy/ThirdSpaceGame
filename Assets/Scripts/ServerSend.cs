@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteNetLib;
+using UnityEngine;
 
 public static class ServerSend {
     public static void Welcome(int id) {
@@ -38,6 +39,12 @@ public static class ServerSend {
             writer.Put(player.id);
             writer.Put((Vector2)player.gameObject.transform.position);
             writer.Put((byte)animationState);
+        }, DeliveryMethod.ReliableUnordered);
+    }
+
+    public static void ChestOpened(int fromId, int chestId) {
+        NetworkManager.Instance.Server.SendPacketToAllExcept(ServerPacketId.ChestOpened, fromId, writer => {
+            writer.Put(chestId);
         });
     }
 }
