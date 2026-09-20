@@ -17,7 +17,7 @@ public struct MoveSnapshot
     }
 }
 
-public class PlayerManager : MonoBehaviour
+public class ClientPlayer : MonoBehaviour
 {
     public int id;
 

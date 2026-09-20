@@ -47,6 +47,8 @@ public class InventoryController : MonoBehaviour
                 CreateItemInSlot(itemPrefabs[i], slot);
             }
         }
+        
+        ToggleInventory(false);
     }
 
     public bool AddItem(GameObject itemPrefab)
@@ -177,11 +179,11 @@ public class InventoryController : MonoBehaviour
     {
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
-            ToogleInventory();
+            ToggleInventory();
         }
     }
 
-    public void ToogleInventory()
+    public void ToggleInventory()
     {
         if (invPanel.activeSelf)
         {
@@ -192,6 +194,20 @@ public class InventoryController : MonoBehaviour
         {
             invPanel.SetActive(true);
             LoadInventoryFromList(savedInventoryData);
+        }
+    }
+    
+    public void ToggleInventory(bool active)
+    {
+        if (active)
+        {
+            invPanel.SetActive(true);
+            LoadInventoryFromList(savedInventoryData);
+        }
+        else
+        {
+            savedInventoryData = SaveInventoryToList();
+            invPanel.SetActive(false);
         }
     }
 

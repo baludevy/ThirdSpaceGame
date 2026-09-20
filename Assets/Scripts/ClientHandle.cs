@@ -64,6 +64,6 @@ public static class ClientHandle {
         if (player == null || player.gameObject == null)
             return;
 
-        player.gameObject.GetComponent<PlayerManager>().AddSnapshot(position, animationState);
+        player.gameObject.GetComponent<ClientPlayer>().AddSnapshot(position, animationState);
     }
 }

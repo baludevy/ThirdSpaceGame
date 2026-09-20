@@ -24,22 +24,22 @@ public class ClientGameManager : MonoBehaviour {
     public void SpawnPlayer(Player player) {
         if (player.gameObject == null) {
             if (player.id == myId) {
-                PlayerManager localPlayer =
+                ClientPlayer localClientPlayer =
                     Instantiate(PrefabManager.Instance.LocalPlayerPrefab, Vector3.zero, Quaternion.identity)
-                        .GetComponent<PlayerManager>();
+                        .GetComponent<ClientPlayer>();
 
-                localPlayer.gameObject.GetComponent<PlayerManager>().Initialize(player.id, player.username);
-                player.gameObject = localPlayer.gameObject;
+                localClientPlayer.gameObject.GetComponent<ClientPlayer>().Initialize(player.id, player.username);
+                player.gameObject = localClientPlayer.gameObject;
 
                 return;
             }
             
-            PlayerManager remotePlayer =
+            ClientPlayer remoteClientPlayer =
                 Instantiate(PrefabManager.Instance.PlayerPrefab, Vector3.zero, Quaternion.identity)
-                    .GetComponent<PlayerManager>();
+                    .GetComponent<ClientPlayer>();
 
-            remotePlayer.gameObject.GetComponent<PlayerManager>().Initialize(player.id, player.username);
-            player.gameObject = remotePlayer.gameObject;
+            remoteClientPlayer.gameObject.GetComponent<ClientPlayer>().Initialize(player.id, player.username);
+            player.gameObject = remoteClientPlayer.gameObject;
         }
     }
 

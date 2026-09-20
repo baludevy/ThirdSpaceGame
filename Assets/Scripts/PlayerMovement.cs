@@ -34,15 +34,13 @@ public class PlayerMovement : MonoBehaviour {
         set => Stamina = Mathf.Clamp(value, 0f, 100f);
     }
 
-
     private enum FacingDirection {
         Forward,
         Back,
         Left,
         Right
     }
-
-
+    
     bool staminareload;
     Coroutine reloadCoroutine;
     public Slider StaminaSlider;
