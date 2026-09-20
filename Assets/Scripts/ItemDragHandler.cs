@@ -39,7 +39,7 @@ public class ItemDragHandler : MonoBehaviour,
             dragParent = canvas.rootCanvas.transform;
     }
 
-    public void OnbeginDrag(PointerEventData eventData)
+    public void OnBeginDrag(PointerEventData eventData)
     {
         if(eventData.button != PointerEventData.InputButton.Left && eventData.button != PointerEventData.InputButton.Right)
         {
@@ -128,6 +128,13 @@ public class ItemDragHandler : MonoBehaviour,
         canvasGroup.blocksRaycasts = false;
         canvasGroup.alpha = 0.6f;
     }
+    public void OnDrag(PointerEventData eventData)
+{
+    if (!isDragging)
+        return;
+
+    transform.position = eventData.position;
+}
 
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -254,6 +261,9 @@ public class ItemDragHandler : MonoBehaviour,
         RectTransform rect = GetComponent<RectTransform>();
 
         if (rect != null)
+            rect.anchoredPosition = Vector2.zero;
+
+        if (originalSlot != null)
             originalSlot.currentItem = gameObject;
     }
 
