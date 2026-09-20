@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fe86351970c5eea47b7626fc607af5e7
+guid: 551c0597a6140a3419a3c6d8c0938abf
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,7 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: potato_packet
+  - name: pumpin_packet
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 14
       height: 16
-    spriteID: 53c35dc6c2f18054aaa83457935cbf90
+    spriteID: c2458a9db12c0e143afc0d99dd98c4df
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,17 +153,17 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1963864174
+      value0: 3413834952
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: potato_packet
+    name: pumpin_packet
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: potato_packet
+    - name: pumpin_packet
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -171,7 +171,7 @@ ScriptedImporter:
         y: 0
         width: 14
         height: 16
-      spriteId: 53c35dc6c2f18054aaa83457935cbf90
+      spriteId: c2458a9db12c0e143afc0d99dd98c4df
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
