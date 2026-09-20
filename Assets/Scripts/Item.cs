@@ -7,6 +7,8 @@ public class Item : MonoBehaviour
     public string Name;
     public int Quantity = 1;
 
+    public ItemType itemType;
+    
     TMP_Text quantityText;
 
     void Awake()

@@ -16135,11 +16135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da59c53fe5f44502a36b601ca64e37d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TilemapSelector
-  groundTilemap: {fileID: 642633447}
-  highlightTilemap: {fileID: 148911363}
-  highlightTile: {fileID: 11400000, guid: 52f382e87b20f6548b3a885266ffa015, type: 2}
-  mainCamera: {fileID: 0}
-  selectedCell: {x: 0, y: 0, z: 0}
 --- !u!1 &746995038
 GameObject:
   m_ObjectHideFlags: 0
@@ -16823,6 +16818,8 @@ MonoBehaviour:
   itemTypePrefabs:
   - key: 0
     value: {fileID: 4940681760996614280, guid: edb7c61bd206f544b815924a8a656f14, type: 3}
+  - key: 1
+    value: {fileID: 4940681760996614280, guid: 94bb8daf8bae9934caaa5a651d6ec2f5, type: 3}
 --- !u!114 &1627398975
 MonoBehaviour:
   m_ObjectHideFlags: 0

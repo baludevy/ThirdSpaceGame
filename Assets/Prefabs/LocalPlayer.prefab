@@ -745,10 +745,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -786,10 +786,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   invPanel: {fileID: 1249543974701118647}
-  hotbarPanel: {fileID: 5420008619807192102}
   slotPrefab: {fileID: 265905069554681194, guid: 75bb4c82c1785bc49a4863b133838aae, type: 3}
   slotCount: 27
-  columns: 9
   itemPrefabs:
   - {fileID: 2461281754673410040, guid: 6d5a7b0b53c578c4a8e83bd5eed918c8, type: 3}
   - {fileID: 2461281754673410040, guid: 6d5a7b0b53c578c4a8e83bd5eed918c8, type: 3}

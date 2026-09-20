@@ -2,6 +2,7 @@
 {
     Username = 1,
     PlayerMove,
+    DropItem,
     OpenChest,
 }
 
@@ -13,5 +14,6 @@ public enum ServerPacketId : ushort
     SpawnPlayer,
     PlayerMove,
     ChestOpened,
+    ItemDropped,
     InitializeWorld
 }

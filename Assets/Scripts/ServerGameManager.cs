@@ -17,6 +17,7 @@ public struct DroppedItemEntity {
 
 public enum ItemType {
     potato,
+    carrot,
 }
 
 public class ServerGameManager : MonoBehaviour {

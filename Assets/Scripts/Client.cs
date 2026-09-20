@@ -29,6 +29,7 @@ public class Client {
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnPlayer, ClientHandle.SpawnPlayer);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerMove, ClientHandle.PlayerMove);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.ChestOpened, ClientHandle.ChestOpened);
+        PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.ItemDropped, ClientHandle.ItemDropped);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.InitializeWorld, ClientHandle.InitializeWorld);
     }
 

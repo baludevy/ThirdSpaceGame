@@ -50,6 +50,13 @@ public static class ServerSend {
         });
     }
 
+    public static void ItemDropped(int exceptId, DroppedItemEntity droppedItemEntity) {
+        NetworkManager.Instance.Server.SendPacketToAllExcept(ServerPacketId.ItemDropped, exceptId, writer => {
+            writer.Put(droppedItemEntity.position);
+            writer.Put((byte)droppedItemEntity.itemType);
+        });
+    }
+
     public static void InitializeWorld(List<DroppedItemEntity> droppedItemEntities, List<int> openedChests, int targetId) {
         NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.InitializeWorld, targetId, writer => {
             writer.Put(droppedItemEntities.Count);

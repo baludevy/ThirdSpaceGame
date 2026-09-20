@@ -73,6 +73,13 @@ public static class ClientHandle {
         ClientChestManager.Instance.chests[chestId].OpenChest();
     }
 
+    public static void ItemDropped(NetDataReader reader) {
+        Vector2 position = reader.GetVector2();
+        ItemType itemType = (ItemType)reader.GetByte();
+        
+        ClientChestManager.Instance.SpawnDroppedItem(ClientChestManager.Instance.itemTypePrefabs[itemType], position);
+    }
+
     public static void InitializeWorld(NetDataReader reader) {
         int droppedItemEntityCount = reader.GetInt();
 

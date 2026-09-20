@@ -5,9 +5,8 @@ public class ItemDragHandler : MonoBehaviour,
     IBeginDragHandler,
     IDragHandler,
     IEndDragHandler,
-    IPointerClickHandler
-{
-    [SerializeField] private RectTransform inventoryPanel;
+    IPointerClickHandler {
+    public RectTransform inventoryPanel;
 
     private Transform originalParent;
     private Slot originalSlot;
@@ -15,7 +14,7 @@ public class ItemDragHandler : MonoBehaviour,
 
     private CanvasGroup canvasGroup;
     private Item itemScript;
-    
+
     private bool isDragging;
     private bool isSplitDrag;
 
@@ -24,32 +23,32 @@ public class ItemDragHandler : MonoBehaviour,
     private int originalQuantity;
     private int splitAmount;
 
-    private void Awake()
-    {
+    private void Awake() {
+        inventoryPanel = GameObject.Find("Inventory").GetComponent<RectTransform>();
+        
         canvasGroup = GetComponent<CanvasGroup>();
 
-        if(canvasGroup == null)
+        if (canvasGroup == null)
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
         itemScript = GetComponent<Item>();
 
         Canvas canvas = GetComponentInParent<Canvas>();
 
-        if(canvas != null)
+        if (canvas != null)
             dragParent = canvas.rootCanvas.transform;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if(eventData.button != PointerEventData.InputButton.Left && eventData.button != PointerEventData.InputButton.Right)
-        {
+    public void OnBeginDrag(PointerEventData eventData) {
+        if (eventData.button != PointerEventData.InputButton.Left &&
+            eventData.button != PointerEventData.InputButton.Right) {
             return;
         }
 
-        if(itemScript == null)
+        if (itemScript == null)
             itemScript = GetComponent<Item>();
 
-        if(itemScript == null)
+        if (itemScript == null)
             return;
 
         originalParent = transform.parent;
@@ -61,21 +60,20 @@ public class ItemDragHandler : MonoBehaviour,
         isDragging = true;
         isSplitDrag = false;
 
-        if(dragButton == PointerEventData.InputButton.Right && itemScript.Quantity > 1)
-        {
-            if(originalSlot == null)
-            {
+        if (dragButton == PointerEventData.InputButton.Right && itemScript.Quantity > 1) {
+            if (originalSlot == null) {
                 CancelDragSetup();
                 return;
             }
 
-            InventoryController controller = InventoryController.Instance ?? originalSlot.GetComponentInParent<InventoryController>();
+            InventoryController controller = InventoryController.Instance ??
+                                             originalSlot.GetComponentInParent<InventoryController>();
 
-            if(controller == null)
-            {
+            if (controller == null) {
                 CancelDragSetup();
                 return;
             }
+
             isSplitDrag = true;
             originalQuantity = itemScript.Quantity;
             splitAmount = originalQuantity / 2;
@@ -97,8 +95,7 @@ public class ItemDragHandler : MonoBehaviour,
                 remainingAmount
             );
 
-            if(originalSlot.currentItem == null || originalSlot.currentItem == gameObject)
-            {
+            if (originalSlot.currentItem == null || originalSlot.currentItem == gameObject) {
                 itemScript.Quantity = originalQuantity;
                 itemScript.UpdateQuantityDisplay();
 
@@ -115,8 +112,7 @@ public class ItemDragHandler : MonoBehaviour,
                 return;
             }
         }
-        else
-        {
+        else {
             isSplitDrag = false;
 
             if (originalSlot != null)
@@ -128,16 +124,15 @@ public class ItemDragHandler : MonoBehaviour,
         canvasGroup.blocksRaycasts = false;
         canvasGroup.alpha = 0.6f;
     }
-    public void OnDrag(PointerEventData eventData)
-{
-    if (!isDragging)
-        return;
 
-    transform.position = eventData.position;
-}
+    public void OnDrag(PointerEventData eventData) {
+        if (!isDragging)
+            return;
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
+        transform.position = eventData.position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData) {
         if (!isDragging)
             return;
         isDragging = false;
@@ -145,23 +140,21 @@ public class ItemDragHandler : MonoBehaviour,
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
 
-        if (IsOutSideInventory(eventData))
-        {
+        if (IsOutSideInventory(eventData)) {
             DropItem();
 
-            if(isSplitDrag)
+            if (isSplitDrag)
                 CancelSplitDrag();
             else
                 ReturnToOriginalSlot();
-            
+
             return;
         }
 
         Slot dropSlot = GetSlotUnderPointer(eventData);
 
-        if(dropSlot == null || dropSlot == originalSlot)
-        {
-            if(isSplitDrag)
+        if (dropSlot == null || dropSlot == originalSlot) {
+            if (isSplitDrag)
                 CancelSplitDrag();
             else
                 ReturnToOriginalSlot();
@@ -169,16 +162,14 @@ public class ItemDragHandler : MonoBehaviour,
             return;
         }
 
-        if(dropSlot.currentItem == null)
-        {
+        if (dropSlot.currentItem == null) {
             PlaceInSlot(dropSlot);
             return;
         }
 
         Item targetItem = dropSlot.currentItem.GetComponent<Item>();
 
-        if(IsSameItem(itemScript, targetItem))
-        {
+        if (IsSameItem(itemScript, targetItem)) {
             targetItem.Quantity += itemScript.Quantity;
             targetItem.UpdateQuantityDisplay();
 
@@ -186,8 +177,7 @@ public class ItemDragHandler : MonoBehaviour,
             return;
         }
 
-        if (isSplitDrag)
-        {
+        if (isSplitDrag) {
             CancelSplitDrag();
             return;
         }
@@ -197,38 +187,59 @@ public class ItemDragHandler : MonoBehaviour,
 
     private bool IsOutSideInventory(PointerEventData eventData)
     {
-        if(inventoryPanel == null)
+        if (inventoryPanel == null)
+        {
             return false;
+        }
 
-        return !RectTransformUtility.RectangleContainsScreenPoint(
+        Canvas canvas = inventoryPanel.GetComponentInParent<Canvas>();
+
+        Camera uiCamera = null;
+
+        if (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            uiCamera = canvas.worldCamera;
+
+        bool inside = RectTransformUtility.RectangleContainsScreenPoint(
             inventoryPanel,
             eventData.position,
-            eventData.pressEventCamera
+            uiCamera
         );
+
+
+        return !inside;
     }
 
     private void DropItem()
-    {    
+    {
+        ClientPlayer player = ClientGameManager.Instance
+            .players[ClientGameManager.Instance.myId]
+            .gameObject
+            .GetComponent<ClientPlayer>();
+
+        player.DropItem(itemScript.itemType);
+
+        if (originalSlot != null)
+            originalSlot.currentItem = null;
+
+        Destroy(gameObject);
     }
 
-    private void SwapItems(Slot dropSlot)
-    {
-        if(dropSlot == null || dropSlot.currentItem == null)
-        {
+    private void SwapItems(Slot dropSlot) {
+        if (dropSlot == null || dropSlot.currentItem == null) {
             ReturnToOriginalSlot();
             return;
         }
-    
+
         GameObject targetObject = dropSlot.currentItem;
 
         targetObject.transform.SetParent(originalParent);
 
         RectTransform targetRect = targetObject.GetComponent<RectTransform>();
 
-        if(targetRect != null)
+        if (targetRect != null)
             targetRect.anchoredPosition = Vector2.zero;
 
-        if(originalSlot != null)
+        if (originalSlot != null)
             originalSlot.currentItem = targetObject;
 
         transform.SetParent(dropSlot.transform);
@@ -241,23 +252,21 @@ public class ItemDragHandler : MonoBehaviour,
         dropSlot.currentItem = gameObject;
     }
 
-    private void PlaceInSlot(Slot slot)
-    {
+    private void PlaceInSlot(Slot slot) {
         transform.SetParent(slot.transform);
 
         RectTransform rect = GetComponent<RectTransform>();
 
-        if(rect != null)
+        if (rect != null)
             rect.anchoredPosition = Vector2.zero;
 
         slot.currentItem = gameObject;
     }
 
-    private void ReturnToOriginalSlot()
-    {
-        if(originalParent != null)
+    private void ReturnToOriginalSlot() {
+        if (originalParent != null)
             transform.SetParent(originalParent);
-        
+
         RectTransform rect = GetComponent<RectTransform>();
 
         if (rect != null)
@@ -267,14 +276,11 @@ public class ItemDragHandler : MonoBehaviour,
             originalSlot.currentItem = gameObject;
     }
 
-    private void CancelSplitDrag()
-    {
-        if(originalSlot != null && originalSlot.currentItem != null)
-        {
+    private void CancelSplitDrag() {
+        if (originalSlot != null && originalSlot.currentItem != null) {
             Item remainingItem = originalSlot.currentItem.GetComponent<Item>();
 
-            if(remainingItem != null)
-            {
+            if (remainingItem != null) {
                 remainingItem.Quantity += itemScript.Quantity;
                 remainingItem.UpdateQuantityDisplay();
 
@@ -282,7 +288,7 @@ public class ItemDragHandler : MonoBehaviour,
                 return;
             }
         }
-        
+
         itemScript.Quantity = originalQuantity;
         itemScript.UpdateQuantityDisplay();
 
@@ -291,9 +297,8 @@ public class ItemDragHandler : MonoBehaviour,
         isSplitDrag = false;
     }
 
-    private void MoveToDragLayer()
-    {
-        if(dragParent != null)
+    private void MoveToDragLayer() {
+        if (dragParent != null)
             transform.SetParent(dragParent);
         else
             transform.SetParent(transform.root);
@@ -301,25 +306,23 @@ public class ItemDragHandler : MonoBehaviour,
         transform.SetAsLastSibling();
     }
 
-    private Slot GetSlotUnderPointer(PointerEventData eventData)
-    {
-        if(eventData.pointerEnter == null)
+    private Slot GetSlotUnderPointer(PointerEventData eventData) {
+        if (eventData.pointerEnter == null)
             return null;
 
         Slot slot = eventData.pointerEnter.GetComponent<Slot>();
 
-        if(slot == null)
+        if (slot == null)
             slot = eventData.pointerEnter.GetComponentInParent<Slot>();
 
         return slot;
     }
 
-    private bool IsSameItem(Item a, Item b)
-    {
-        if(a == null || b == null)
+    private bool IsSameItem(Item a, Item b) {
+        if (a == null || b == null)
             return false;
 
-        if(a.ID == b.ID)
+        if (a.ID == b.ID)
             return true;
 
         string aName = GetCleanItemName(a.gameObject.name);
@@ -328,13 +331,11 @@ public class ItemDragHandler : MonoBehaviour,
         return aName == bName;
     }
 
-    private string GetCleanItemName(string itemName)
-    {
+    private string GetCleanItemName(string itemName) {
         return itemName.Replace("(Clone)", "").Trim();
     }
 
-    private void CancelDragSetup()
-    {
+    private void CancelDragSetup() {
         isDragging = false;
         isSplitDrag = false;
 
@@ -342,22 +343,22 @@ public class ItemDragHandler : MonoBehaviour,
         canvasGroup.alpha = 1f;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if(eventData.button != PointerEventData.InputButton.Right)
+    public void OnPointerClick(PointerEventData eventData) {
+        if (eventData.button != PointerEventData.InputButton.Right)
             return;
 
-        if(eventData.dragging)
+        if (eventData.dragging)
             return;
 
         Slot currentSlot = GetComponentInParent<Slot>();
-        
-        if(currentSlot == null)
+
+        if (currentSlot == null)
             return;
 
-        InventoryController controller = InventoryController.Instance ?? currentSlot.GetComponentInParent<InventoryController>();
+        InventoryController controller =
+            InventoryController.Instance ?? currentSlot.GetComponentInParent<InventoryController>();
 
-        if(controller != null)
+        if (controller != null)
             controller.SplitItemInSlot(currentSlot);
     }
 }

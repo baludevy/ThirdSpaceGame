@@ -8,4 +8,15 @@ public class ServerPlayer : MonoBehaviour {
         id = _id;
         username = _username;
     }
+
+    public void DropItem(ItemType itemType) {
+        DroppedItemEntity droppedItem = new DroppedItemEntity {
+            id = 0,
+            position = transform.position - Vector3.up,
+            itemType = itemType,
+        };
+
+        ServerGameManager.Instance.droppedItems.Add(droppedItem);
+        ServerSend.ItemDropped(id, droppedItem);
+    }
 }
