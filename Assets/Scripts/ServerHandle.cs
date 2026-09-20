@@ -50,8 +50,7 @@ public static class ServerHandle {
 
     public static void OpenChest(NetPeer peer, NetDataReader reader) {
         int chestId = reader.GetInt();
-        ItemType itemType = (ItemType)reader.GetByte();
         
-        ServerGameManager.Instance.OpenChest(peer.Id, chestId, itemType);
+        ServerChestManager.Instance.OpenChest(peer.Id, chestId);
     }
 }

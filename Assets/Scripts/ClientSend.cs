@@ -24,7 +24,6 @@ public static class ClientSend {
             ClientPacketId.OpenChest,
             writer => {
                 writer.Put(chestId);
-                writer.Put((byte)itemType);
             }
         );
     }

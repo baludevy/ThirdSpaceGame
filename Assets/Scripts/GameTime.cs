@@ -1,13 +1,12 @@
 using System;
 using UnityEngine;
 
-public class GameTime : MonoBehaviour
-{
+public class GameTime : MonoBehaviour {
     public static GameTime Instance { get; private set; }
 
     public event Action<long> OnTick;
     public event Action<int> OnNewDay;
-    
+
     [SerializeField] private float secondsPerDay = 600f;
     private float secondsPerTick = 1f;
 
@@ -20,10 +19,10 @@ public class GameTime : MonoBehaviour
 
     public float DayProgress => dayTimer / secondsPerDay;
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
+    private void Awake() {
+        dayTimer = 300;
+        
+        if (Instance != null && Instance != this) {
             Destroy(gameObject);
             return;
         }
@@ -36,50 +35,40 @@ public class GameTime : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update()
-    {
-            if (paused)
-        {
+    private void Update() {
+        if (paused) {
             return;
         }
 
         dayTimer += Time.deltaTime;
         tickTimer += Time.deltaTime;
 
-        while (dayTimer >= secondsPerDay)
-        {
+        while (dayTimer >= secondsPerDay) {
             dayTimer -= secondsPerDay;
             day++;
 
-            if(OnNewDay != null)
-            {
+            if (OnNewDay != null) {
                 OnNewDay(day);
             }
         }
 
-        while (tickTimer >= secondsPerTick)
-        {
+        while (tickTimer >= secondsPerTick) {
             tickTimer -= secondsPerTick;
             AdvanceTick();
         }
     }
 
-    public void AdvanceTick()
-    {
+    public void AdvanceTick() {
         tick++;
 
-        if (OnTick != null)
-        {
+        if (OnTick != null) {
             OnTick(tick);
         }
     }
 
-    private void OnDestroy()
-    {
-        if(Instance == this)
-        {
+    private void OnDestroy() {
+        if (Instance == this) {
             Instance = null;
         }
     }
-
 }

@@ -70,7 +70,7 @@ public static class ClientHandle {
     public static void ChestOpened(NetDataReader reader) {
         int chestId = reader.GetInt();
         
-        ChestManager.Instance.chests[chestId].OpenChest();
+        ClientChestManager.Instance.chests[chestId].OpenChest();
     }
 
     public static void InitializeWorld(NetDataReader reader) {
@@ -78,8 +78,10 @@ public static class ClientHandle {
 
         for (int i = 0; i < droppedItemEntityCount; i++) {
             int id = reader.GetInt();
+            Vector2 position = reader.GetVector2();
             ItemType itemType = (ItemType)reader.GetByte();
             
+            ClientChestManager.Instance.SpawnDroppedItem(ClientChestManager.Instance.itemTypePrefabs[itemType], position);
             Debug.Log($"Dropped item: {id} ({itemType})");
         }
         
@@ -88,7 +90,7 @@ public static class ClientHandle {
         for (int i = 0; i < openedChestCount; i++) {
             int chestId = reader.GetInt();
             
-            ChestManager.Instance.chests[chestId].OpenChest();
+            ClientChestManager.Instance.chests[chestId].SetOpened(true);
         }
     }
 }

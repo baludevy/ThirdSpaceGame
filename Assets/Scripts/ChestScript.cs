@@ -9,7 +9,7 @@ public class ChestScript : MonoBehaviour, Interactable {
     public Sprite openedSprite;
 
     void Start() {
-        ChestManager.Instance.RegisterChest(chestId, this);
+        ClientChestManager.Instance.RegisterChest(chestId, this);
     }
 
     public bool CanInteract() {
@@ -27,8 +27,7 @@ public class ChestScript : MonoBehaviour, Interactable {
         SetOpened(true);
 
         if (itemPrefab) {
-            GameObject droppeditem = Instantiate(itemPrefab, transform.position + Vector3.down, Quaternion.identity);
-            droppeditem.GetComponent<BounceEffect>().Startbounce();
+            ClientChestManager.Instance.SpawnDroppedItem(itemPrefab, transform.position - new Vector3(0, 1, 0));
         }
     }
 

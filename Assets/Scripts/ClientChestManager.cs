@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestManager : MonoBehaviour {
+public class ClientChestManager : MonoBehaviour {
     [NonSerialized]
     public Dictionary<int, ChestScript> chests = new Dictionary<int, ChestScript>();
     
-    public static ChestManager Instance;
+    [SerializeField] public Dictionary<ItemType, GameObject> itemTypePrefabs = new Dictionary<ItemType, GameObject>();
+    
+    public static ClientChestManager Instance;
     
     private void Awake()
     {
@@ -19,6 +21,11 @@ public class ChestManager : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+    }
+    
+    public void SpawnDroppedItem(GameObject itemPrefab, Vector3 position) {
+        GameObject droppeditem = Instantiate(itemPrefab, position, Quaternion.identity);
+        droppeditem.GetComponent<BounceEffect>().Startbounce();
     }
 
     public void RegisterChest(int chestId, ChestScript chest) {
