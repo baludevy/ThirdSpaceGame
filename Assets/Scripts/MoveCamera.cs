@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MoveCamera : MonoBehaviour {
     public Transform target;
-    public float smoothTime = 0.12f;
 
     Vector3 velocity = Vector3.zero;
     float cameraZ;
