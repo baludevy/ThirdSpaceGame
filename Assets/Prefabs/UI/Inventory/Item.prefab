@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -49.99999, y: 3.7999992}
-  m_SizeDelta: {x: 100, y: 40}
+  m_AnchoredPosition: {x: -30, y: 3.8}
+  m_SizeDelta: {x: 60, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7928174627588944691
 CanvasRenderer:
@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c706f46073ce384390380e8cdff649d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemDragHandler
+  inventoryPanel: {fileID: 0}
 --- !u!114 &1294135779453782832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,3 +243,4 @@ MonoBehaviour:
   ID: 1
   Name: Carrot
   Quantity: 1
+  itemType: 1

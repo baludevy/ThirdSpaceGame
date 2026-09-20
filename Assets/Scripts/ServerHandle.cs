@@ -48,9 +48,16 @@ public static class ServerHandle {
         }
     }
 
+    public static void DroppedItem(NetPeer peer, NetDataReader reader) {
+        ItemType itemType = (ItemType)reader.GetByte();
+        ServerPlayer player = ServerGameManager.Instance.players[peer.Id].gameObject.GetComponent<ServerPlayer>();
+
+        player.DropItem(itemType);
+    }
+
     public static void OpenChest(NetPeer peer, NetDataReader reader) {
         int chestId = reader.GetInt();
         
-        ServerSend.ChestOpened(peer.Id, chestId);
+        ServerChestManager.Instance.OpenChest(peer.Id, chestId);
     }
 }

@@ -159,4 +159,9 @@ public class ClientPlayer : MonoBehaviour
             t
         );
     }
+
+    public void DropItem(ItemType itemType) {
+        ClientChestManager.Instance.SpawnDroppedItem(ClientChestManager.Instance.itemTypePrefabs[itemType], transform.GetChild(1).position - Vector3.up);
+        ClientSend.DropItem(itemType);
+    }
 }

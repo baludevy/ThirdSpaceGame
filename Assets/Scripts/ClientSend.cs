@@ -1,4 +1,5 @@
 ﻿using LiteNetLib;
+using Unity.Collections;
 using UnityEngine;
 
 public static class ClientSend {
@@ -19,7 +20,12 @@ public static class ClientSend {
         );
     }
 
-    public static void OpenChest(int chestId) {
+    public static void DropItem(ItemType itemType) {
+        NetworkManager.Instance.Client.SendPacket(
+            ClientPacketId.DropItem, writer => { writer.Put((byte)itemType); });
+    }
+
+    public static void OpenChest(int chestId, ItemType itemType) {
         NetworkManager.Instance.Client.SendPacket(
             ClientPacketId.OpenChest,
             writer => { writer.Put(chestId); }

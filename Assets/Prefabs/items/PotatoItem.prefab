@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5695495333035553569}
   - component: {fileID: 1384704255975499745}
   - component: {fileID: 3189757926627804925}
+  - component: {fileID: -2181986261460901086}
   m_Layer: 0
   m_Name: PotatoItem
   m_TagString: Untagged
@@ -108,3 +109,16 @@ MonoBehaviour:
   bounceHeight: 0.3
   bounceDuration: 0.4
   bounceCount: 2
+--- !u!114 &-2181986261460901086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940681760996614280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3e661be772c45dcb1a71d9496f92028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DroppedItem
+  itemType: 0

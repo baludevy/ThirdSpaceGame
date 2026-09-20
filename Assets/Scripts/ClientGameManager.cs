@@ -42,7 +42,7 @@ public class ClientGameManager : MonoBehaviour {
             player.gameObject = remoteClientPlayer.gameObject;
         }
     }
-
+    
     public void AddPlayer(Player player) {
         players.Add(player.id, player);
     }

@@ -25,6 +25,7 @@ public class Server {
         PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.Username, ServerHandle.Username);
         PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.PlayerMove, ServerHandle.PlayerMove);
         PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.OpenChest, ServerHandle.OpenChest);
+        PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.DropItem, ServerHandle.DroppedItem);
     }
 
     public void Start(int port = 2067) {
