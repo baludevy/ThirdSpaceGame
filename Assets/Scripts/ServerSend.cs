@@ -33,10 +33,11 @@ public static class ServerSend {
         });
     }
     
-    public static void PlayerMove(Player player) {
+    public static void PlayerMove(Player player, AnimationState animationState) {
         NetworkManager.Instance.Server.SendPacketToAllExcept(ServerPacketId.PlayerMove, player.id, writer => {
             writer.Put(player.id);
-            writer.Put(player.gameObject.transform.position);
+            writer.Put((Vector2)player.gameObject.transform.position);
+            writer.Put((byte)animationState);
         });
     }
 }

@@ -33,6 +33,7 @@ public static class ServerHandle {
 
     public static void PlayerMove(NetPeer peer, NetDataReader reader) {
         Vector2 position = reader.GetVector2();
+        AnimationState animationState = (AnimationState)reader.GetByte();
 
         if (ServerGameManager.Instance.players.ContainsKey(peer.Id)) {
             Player player = ServerGameManager.Instance.players[peer.Id];
@@ -42,7 +43,7 @@ public static class ServerHandle {
                 
                 playerObject.transform.position = position;
                 
-                ServerSend.PlayerMove(player);
+                ServerSend.PlayerMove(player, animationState);
             }
         }
     }

@@ -48,7 +48,8 @@ public static class ClientHandle {
     public static void PlayerMove(NetDataReader reader)
     {
         int id = reader.GetInt();
-        Vector2 position = reader.GetVector2();
+        Vector2 position = reader.GetVector2(); 
+        AnimationState animationState = (AnimationState)reader.GetByte();
 
         ClientGameManager manager = ClientGameManager.Instance;
         if (manager == null)
@@ -63,6 +64,6 @@ public static class ClientHandle {
         if (player == null || player.gameObject == null)
             return;
 
-        player.gameObject.GetComponent<PlayerManager>().AddSnapshot(position);
+        player.gameObject.GetComponent<PlayerManager>().AddSnapshot(position, animationState);
     }
 }

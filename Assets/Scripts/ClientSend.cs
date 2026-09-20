@@ -8,10 +8,13 @@ public static class ClientSend {
         );
     }
 
-    public static void PlayerMove(Vector2 position) {
+    public static void PlayerMove(Vector2 position, AnimationState animationState) {
         NetworkManager.Instance.Client.SendPacket(
             ClientPacketId.PlayerMove,
-            writer => { writer.Put(position); }
+            writer => {
+                writer.Put(position);
+                writer.Put((byte)animationState);
+            }
         );
     }
 }
