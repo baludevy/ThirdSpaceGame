@@ -6,13 +6,10 @@ public class chestscript : MonoBehaviour, Interactable
     public string Chestid {get; private set;}
     public GameObject itemPrefab;
     public Sprite openedsprite;
+    
     void Start()
     {
         Chestid ??= GlobalHelper.generateuniqueid(gameObject);
-    }
-    void Update()
-    {
-        
     }
     
     public bool CanInteract()
@@ -35,7 +32,7 @@ public class chestscript : MonoBehaviour, Interactable
     }
     public void SetOpened(bool opened)
     {
-       if (isOpened = opened)
+       if (isOpened == opened)
        {
             GetComponent<SpriteRenderer>().sprite = openedsprite;
        }
