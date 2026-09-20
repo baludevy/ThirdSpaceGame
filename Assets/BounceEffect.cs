@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BounceEffect : Monobehaviour
+public class BounceEffect : MonoBehaviour
 {
     public float bounceHeight = 0.3f;  
     public float bounceDuration = 0.4f;
@@ -10,12 +10,38 @@ public class BounceEffect : Monobehaviour
     
     public void Startbounce()
     {
-     
+      StartCoroutine(BounceHandler());
     }
-    private IEnumerator BounceHandler(Transform objectTransform)
+    private IEnumerator BounceHandler()
     {
-        Vector3 originalPosition = objectTransform.position;
+        Vector3 originalPosition = transform.position;
         float localHeight = bounceHeight;
         float localDuration = bounceDuration;
+
+        for(int i = 0; i < bounceCount; i++)
+        {
+            yield return Bounce(transform, originalPosition, localHeight, localDuration / 2);
+            localHeight *= 0.5f;
+            localDuration *= 0.8f;
+        }
+        transform.position = originalPosition;
+    }
+    private IEnumerator Bounce(Transform objectTransform, Vector3 start, float height, float duration)
+    {
+        Vector3 peak = start + Vector3.up * height;
+        float elapsedTime = 0f;
+    while (elapsedTime < duration)
+        {
+            objectTransform.position = Vector3.Lerp(start, peak, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            objectTransform.position = Vector3.Lerp(peak, start, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }

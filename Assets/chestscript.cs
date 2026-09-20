@@ -30,7 +30,7 @@ public class chestscript : MonoBehaviour, Interactable
         if (itemPrefab)
         {
             GameObject droppeditem  = Instantiate(itemPrefab, transform.position + Vector3.down, Quaternion.identity);
-            droppeditem.GetComponent<BounceEffect>().StartBounce();
+            droppeditem.GetComponent<BounceEffect>().Startbounce();
         }
     }
     public void SetOpened(bool opened)
