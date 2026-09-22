@@ -12,6 +12,8 @@ namespace Client
         private readonly EventBasedNetListener _listener;
         private NetPeer _serverPeer;
 
+        public int myId;
+
         public Client()
         {
             _listener = new EventBasedNetListener();
@@ -30,6 +32,7 @@ namespace Client
         private void RegisterPacketHandlers()
         {
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.Welcome, ClientHandle.Welcome);
+            PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.InitializeWorld, ClientHandle.InitializeWorld);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnEntity, ClientHandle.SpawnEntity);
         }
 

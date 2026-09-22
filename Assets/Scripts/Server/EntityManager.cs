@@ -7,10 +7,10 @@ namespace Server
     public class EntityManager : MonoBehaviour
     {
         public static EntityManager Instance;
-        
-        private ushort nextEntityID;
+
+        public ushort nextEntityID { get; private set; }
         private List<Entity> entities = new List<Entity>();
-        
+
         [SerializeField] public Dictionary<EntityType, GameObject> entityPrefabs = new Dictionary<EntityType, GameObject>();
 
         private void Awake()
@@ -20,7 +20,7 @@ namespace Server
             else
                 Destroy(this);
         }
-        
+
         public void SpawnEntity(EntityType type, Vector3 position, Quaternion rotation)
         {
             if (entityPrefabs[type].GetComponent<Entity>() == null)
@@ -35,8 +35,11 @@ namespace Server
             entity.Initialize(nextEntityID);
 
             ServerSend.SpawnEntity(entity);
+            entities.Add(entity);
 
             nextEntityID++;
         }
+
+        public List<Entity> GetEntities() => entities;
     }
 }

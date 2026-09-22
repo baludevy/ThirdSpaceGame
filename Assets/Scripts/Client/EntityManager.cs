@@ -20,9 +20,10 @@ namespace Client
                 Destroy(this);
         }
 
-        public void ReplicateEntity(ushort id, EntityType entityType, Vector3 position, Quaternion rotation)
+        public void ReplicateEntity(ushort id, EntityType type, Vector3 position, Quaternion rotation)
         {
-            GameObject prefab = entityPrefabs[entityType];
+            GameObject prefab = entityPrefabs[type];
+            
             Entity entity = Instantiate(prefab, position, rotation).GetComponent<Entity>();
             
             entity.Initialize(id);

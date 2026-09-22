@@ -16,4 +16,5 @@ public class Entity : MonoBehaviour
     }
     
     public EntityType GetEntityType => type;
+    public void SetEntityType(EntityType type) => this.type = type;
 }
