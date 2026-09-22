@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -9,7 +8,7 @@ public class DayNightLighting : MonoBehaviour
     [SerializeField] private float dayIntensity = 1f;
     [SerializeField] private float nightIntensivity = 0.2f;
 
-    private Light2D  globalLight;
+    private Light2D globalLight;
 
     private void Awake()
     {

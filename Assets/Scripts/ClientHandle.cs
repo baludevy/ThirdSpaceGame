@@ -1,10 +1,13 @@
 ﻿using LiteNetLib.Utils;
 using UnityEngine;
 
-public static class ClientHandle {
-    public static void Welcome(NetDataReader reader) {
-        Player localPlayer = new Player {
-            id = reader.GetInt(),
+public static class ClientHandle
+{
+    public static void Welcome(NetDataReader reader)
+    {
+        var localPlayer = new Player
+        {
+            id = reader.GetInt()
         };
 
         ClientGameManager.Instance.AddPlayer(localPlayer);
@@ -15,10 +18,12 @@ public static class ClientHandle {
         ClientSend.Username(NetworkUIManager.Instance.username);
     }
 
-    public static void PlayerJoined(NetDataReader reader) {
-        Player joinedPlayer = new Player {
+    public static void PlayerJoined(NetDataReader reader)
+    {
+        var joinedPlayer = new Player
+        {
             id = reader.GetInt(),
-            username = reader.GetString(),
+            username = reader.GetString()
         };
 
         ClientGameManager.Instance.AddPlayer(joinedPlayer);
@@ -26,21 +31,24 @@ public static class ClientHandle {
         Debug.Log($"{joinedPlayer.username} joined the game");
     }
 
-    public static void PlayerLeft(NetDataReader reader) {
+    public static void PlayerLeft(NetDataReader reader)
+    {
         int id = reader.GetInt();
 
-        if (ClientGameManager.Instance.players[id].gameObject != null) {
+        if (ClientGameManager.Instance.players[id].gameObject != null)
+        {
             Object.Destroy(ClientGameManager.Instance.players[id].gameObject);
         }
 
         ClientGameManager.Instance.RemovePlayer(id);
     }
 
-    public static void SpawnPlayer(NetDataReader reader) {
+    public static void SpawnPlayer(NetDataReader reader)
+    {
         int id = reader.GetInt();
         Debug.Log($"Spawning player {id}");
-        
-        Player player = ClientGameManager.Instance.players[id];
+
+        var player = ClientGameManager.Instance.players[id];
 
         ClientGameManager.Instance.SpawnPlayer(player);
     }
@@ -48,17 +56,17 @@ public static class ClientHandle {
     public static void PlayerMove(NetDataReader reader)
     {
         int id = reader.GetInt();
-        Vector2 position = reader.GetVector2(); 
-        AnimationState animationState = (AnimationState)reader.GetByte();
+        var position = reader.GetVector2();
+        var animationState = (AnimationState)reader.GetByte();
 
-        ClientGameManager manager = ClientGameManager.Instance;
+        var manager = ClientGameManager.Instance;
         if (manager == null)
             return;
 
         if (id == manager.myId)
             return;
 
-        if (!manager.players.TryGetValue(id, out Player player))
+        if (!manager.players.TryGetValue(id, out var player))
             return;
 
         if (player == null || player.gameObject == null)
@@ -67,36 +75,41 @@ public static class ClientHandle {
         player.gameObject.GetComponent<ClientPlayer>().AddSnapshot(position, animationState);
     }
 
-    public static void ChestOpened(NetDataReader reader) {
+    public static void ChestOpened(NetDataReader reader)
+    {
         int chestId = reader.GetInt();
-        
+
         ClientChestManager.Instance.chests[chestId].OpenChest();
     }
 
-    public static void ItemDropped(NetDataReader reader) {
-        Vector2 position = reader.GetVector2();
-        ItemType itemType = (ItemType)reader.GetByte();
-        
+    public static void ItemDropped(NetDataReader reader)
+    {
+        var position = reader.GetVector2();
+        var itemType = (ItemType)reader.GetByte();
+
         ClientChestManager.Instance.SpawnDroppedItem(itemType, position);
     }
 
-    public static void InitializeWorld(NetDataReader reader) {
+    public static void InitializeWorld(NetDataReader reader)
+    {
         int droppedItemEntityCount = reader.GetInt();
 
-        for (int i = 0; i < droppedItemEntityCount; i++) {
+        for (int i = 0; i < droppedItemEntityCount; i++)
+        {
             int id = reader.GetInt();
-            Vector2 position = reader.GetVector2();
-            ItemType itemType = (ItemType)reader.GetByte();
-            
+            var position = reader.GetVector2();
+            var itemType = (ItemType)reader.GetByte();
+
             ClientChestManager.Instance.SpawnDroppedItem(itemType, position);
             Debug.Log($"Dropped item: {id} ({itemType})");
         }
-        
+
         int openedChestCount = reader.GetInt();
 
-        for (int i = 0; i < openedChestCount; i++) {
+        for (int i = 0; i < openedChestCount; i++)
+        {
             int chestId = reader.GetInt();
-            
+
             ClientChestManager.Instance.chests[chestId].SetOpened(true);
         }
     }

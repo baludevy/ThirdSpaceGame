@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -23,20 +22,58 @@ public class ClientPlayer : MonoBehaviour
 
     [SerializeField] private TMP_Text usernameText;
 
-    private float snapshotInterval = 0.02f; // 50 Hz
-
-    private readonly Queue<MoveSnapshot> snapshots = new Queue<MoveSnapshot>();
-
-    private Vector3 fromPosition;
-    private Vector3 toPosition;
-
-    private float interpolationTimer;
-    private bool interpolating;
-
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer sprite;
 
+    private readonly float snapshotInterval = 0.02f; // 50 Hz
+
+    private readonly Queue<MoveSnapshot> snapshots = new Queue<MoveSnapshot>();
+
     private AnimationState currentAnimationState;
+
+    private Vector3 fromPosition;
+    private bool interpolating;
+
+    private float interpolationTimer;
+    private Vector3 toPosition;
+
+    private void Update()
+    {
+        if (!interpolating)
+            return;
+
+        float duration = Mathf.Max(
+            snapshotInterval,
+            0.001f
+        );
+
+        interpolationTimer += Time.deltaTime;
+
+        if (interpolationTimer >= duration)
+        {
+            transform.position = toPosition;
+
+            if (snapshots.Count > 0)
+            {
+                StartNextInterpolation();
+            }
+            else
+            {
+                interpolating = false;
+                interpolationTimer = 0f;
+            }
+
+            return;
+        }
+
+        float t = interpolationTimer / duration;
+
+        transform.position = Vector3.Lerp(
+            fromPosition,
+            toPosition,
+            t
+        );
+    }
 
     public void Initialize(int _id, string _username)
     {
@@ -49,7 +86,7 @@ public class ClientPlayer : MonoBehaviour
     public void AddSnapshot(Vector3 position, AnimationState animationState)
     {
         position.z = transform.position.z;
-        
+
         snapshots.Enqueue(
             new MoveSnapshot(position, animationState)
         );
@@ -74,7 +111,7 @@ public class ClientPlayer : MonoBehaviour
 
         fromPosition = transform.position;
 
-        MoveSnapshot snapshot = snapshots.Dequeue();
+        var snapshot = snapshots.Dequeue();
 
         toPosition = snapshot.position;
         currentAnimationState = snapshot.animationState;
@@ -122,45 +159,8 @@ public class ClientPlayer : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void DropItem(ItemType itemType)
     {
-        if (!interpolating)
-            return;
-
-        float duration = Mathf.Max(
-            snapshotInterval,
-            0.001f
-        );
-
-        interpolationTimer += Time.deltaTime;
-
-        if (interpolationTimer >= duration)
-        {
-            transform.position = toPosition;
-
-            if (snapshots.Count > 0)
-            {
-                StartNextInterpolation();
-            }
-            else
-            {
-                interpolating = false;
-                interpolationTimer = 0f;
-            }
-
-            return;
-        }
-
-        float t = interpolationTimer / duration;
-
-        transform.position = Vector3.Lerp(
-            fromPosition,
-            toPosition,
-            t
-        );
-    }
-
-    public void DropItem(ItemType itemType) {
         ClientChestManager.Instance.SpawnDroppedItem(itemType, transform.GetChild(1).position - Vector3.up);
         ClientSend.DropItem(itemType);
     }

@@ -3,7 +3,7 @@
     Username = 1,
     PlayerMove,
     DropItem,
-    OpenChest,
+    OpenChest
 }
 
 public enum ServerPacketId : ushort

@@ -5,27 +5,29 @@ public class ItemDragHandler : MonoBehaviour,
     IBeginDragHandler,
     IDragHandler,
     IEndDragHandler,
-    IPointerClickHandler {
+    IPointerClickHandler
+{
     public RectTransform inventoryPanel;
 
-    private Transform originalParent;
-    private Slot originalSlot;
-    private Transform dragParent;
-
     private CanvasGroup canvasGroup;
-    private Item itemScript;
+
+    private PointerEventData.InputButton dragButton;
+    private Transform dragParent;
 
     private bool isDragging;
     private bool isSplitDrag;
+    private Item itemScript;
 
-    private PointerEventData.InputButton dragButton;
+    private Transform originalParent;
 
     private int originalQuantity;
+    private Slot originalSlot;
     private int splitAmount;
 
-    private void Awake() {
+    private void Awake()
+    {
         inventoryPanel = GameObject.Find("Inventory").GetComponent<RectTransform>();
-        
+
         canvasGroup = GetComponent<CanvasGroup>();
 
         if (canvasGroup == null)
@@ -33,15 +35,17 @@ public class ItemDragHandler : MonoBehaviour,
 
         itemScript = GetComponent<Item>();
 
-        Canvas canvas = GetComponentInParent<Canvas>();
+        var canvas = GetComponentInParent<Canvas>();
 
         if (canvas != null)
             dragParent = canvas.rootCanvas.transform;
     }
 
-    public void OnBeginDrag(PointerEventData eventData) {
+    public void OnBeginDrag(PointerEventData eventData)
+    {
         if (eventData.button != PointerEventData.InputButton.Left &&
-            eventData.button != PointerEventData.InputButton.Right) {
+            eventData.button != PointerEventData.InputButton.Right)
+        {
             return;
         }
 
@@ -60,16 +64,19 @@ public class ItemDragHandler : MonoBehaviour,
         isDragging = true;
         isSplitDrag = false;
 
-        if (dragButton == PointerEventData.InputButton.Right && itemScript.Quantity > 1) {
-            if (originalSlot == null) {
+        if (dragButton == PointerEventData.InputButton.Right && itemScript.Quantity > 1)
+        {
+            if (originalSlot == null)
+            {
                 CancelDragSetup();
                 return;
             }
 
-            InventoryController controller = InventoryController.Instance ??
-                                             originalSlot.GetComponentInParent<InventoryController>();
+            var controller = InventoryController.Instance ??
+                             originalSlot.GetComponentInParent<InventoryController>();
 
-            if (controller == null) {
+            if (controller == null)
+            {
                 CancelDragSetup();
                 return;
             }
@@ -95,13 +102,14 @@ public class ItemDragHandler : MonoBehaviour,
                 remainingAmount
             );
 
-            if (originalSlot.currentItem == null || originalSlot.currentItem == gameObject) {
+            if (originalSlot.currentItem == null || originalSlot.currentItem == gameObject)
+            {
                 itemScript.Quantity = originalQuantity;
                 itemScript.UpdateQuantityDisplay();
 
                 transform.SetParent(originalParent);
 
-                RectTransform rect = GetComponent<RectTransform>();
+                var rect = GetComponent<RectTransform>();
 
                 if (rect != null)
                     rect.anchoredPosition = Vector2.zero;
@@ -112,7 +120,8 @@ public class ItemDragHandler : MonoBehaviour,
                 return;
             }
         }
-        else {
+        else
+        {
             isSplitDrag = false;
 
             if (originalSlot != null)
@@ -125,14 +134,16 @@ public class ItemDragHandler : MonoBehaviour,
         canvasGroup.alpha = 0.6f;
     }
 
-    public void OnDrag(PointerEventData eventData) {
+    public void OnDrag(PointerEventData eventData)
+    {
         if (!isDragging)
             return;
 
         transform.position = eventData.position;
     }
 
-    public void OnEndDrag(PointerEventData eventData) {
+    public void OnEndDrag(PointerEventData eventData)
+    {
         if (!isDragging)
             return;
         isDragging = false;
@@ -140,7 +151,8 @@ public class ItemDragHandler : MonoBehaviour,
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
 
-        if (IsOutSideInventory(eventData)) {
+        if (IsOutSideInventory(eventData))
+        {
             DropItem();
 
             if (isSplitDrag)
@@ -151,9 +163,10 @@ public class ItemDragHandler : MonoBehaviour,
             return;
         }
 
-        Slot dropSlot = GetSlotUnderPointer(eventData);
+        var dropSlot = GetSlotUnderPointer(eventData);
 
-        if (dropSlot == null || dropSlot == originalSlot) {
+        if (dropSlot == null || dropSlot == originalSlot)
+        {
             if (isSplitDrag)
                 CancelSplitDrag();
             else
@@ -162,14 +175,16 @@ public class ItemDragHandler : MonoBehaviour,
             return;
         }
 
-        if (dropSlot.currentItem == null) {
+        if (dropSlot.currentItem == null)
+        {
             PlaceInSlot(dropSlot);
             return;
         }
 
-        Item targetItem = dropSlot.currentItem.GetComponent<Item>();
+        var targetItem = dropSlot.currentItem.GetComponent<Item>();
 
-        if (IsSameItem(itemScript, targetItem)) {
+        if (IsSameItem(itemScript, targetItem))
+        {
             targetItem.Quantity += itemScript.Quantity;
             targetItem.UpdateQuantityDisplay();
 
@@ -177,12 +192,33 @@ public class ItemDragHandler : MonoBehaviour,
             return;
         }
 
-        if (isSplitDrag) {
+        if (isSplitDrag)
+        {
             CancelSplitDrag();
             return;
         }
 
         SwapItems(dropSlot);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Right)
+            return;
+
+        if (eventData.dragging)
+            return;
+
+        var currentSlot = GetComponentInParent<Slot>();
+
+        if (currentSlot == null)
+            return;
+
+        var controller =
+            InventoryController.Instance ?? currentSlot.GetComponentInParent<InventoryController>();
+
+        if (controller != null)
+            controller.SplitItemInSlot(currentSlot);
     }
 
     private bool IsOutSideInventory(PointerEventData eventData)
@@ -192,7 +228,7 @@ public class ItemDragHandler : MonoBehaviour,
             return false;
         }
 
-        Canvas canvas = inventoryPanel.GetComponentInParent<Canvas>();
+        var canvas = inventoryPanel.GetComponentInParent<Canvas>();
 
         Camera uiCamera = null;
 
@@ -211,7 +247,7 @@ public class ItemDragHandler : MonoBehaviour,
 
     private void DropItem()
     {
-        ClientPlayer player = ClientGameManager.Instance
+        var player = ClientGameManager.Instance
             .players[ClientGameManager.Instance.myId]
             .gameObject
             .GetComponent<ClientPlayer>();
@@ -224,17 +260,19 @@ public class ItemDragHandler : MonoBehaviour,
         Destroy(gameObject);
     }
 
-    private void SwapItems(Slot dropSlot) {
-        if (dropSlot == null || dropSlot.currentItem == null) {
+    private void SwapItems(Slot dropSlot)
+    {
+        if (dropSlot == null || dropSlot.currentItem == null)
+        {
             ReturnToOriginalSlot();
             return;
         }
 
-        GameObject targetObject = dropSlot.currentItem;
+        var targetObject = dropSlot.currentItem;
 
         targetObject.transform.SetParent(originalParent);
 
-        RectTransform targetRect = targetObject.GetComponent<RectTransform>();
+        var targetRect = targetObject.GetComponent<RectTransform>();
 
         if (targetRect != null)
             targetRect.anchoredPosition = Vector2.zero;
@@ -244,7 +282,7 @@ public class ItemDragHandler : MonoBehaviour,
 
         transform.SetParent(dropSlot.transform);
 
-        RectTransform rect = GetComponent<RectTransform>();
+        var rect = GetComponent<RectTransform>();
 
         if (rect != null)
             rect.anchoredPosition = Vector2.zero;
@@ -252,10 +290,11 @@ public class ItemDragHandler : MonoBehaviour,
         dropSlot.currentItem = gameObject;
     }
 
-    private void PlaceInSlot(Slot slot) {
+    private void PlaceInSlot(Slot slot)
+    {
         transform.SetParent(slot.transform);
 
-        RectTransform rect = GetComponent<RectTransform>();
+        var rect = GetComponent<RectTransform>();
 
         if (rect != null)
             rect.anchoredPosition = Vector2.zero;
@@ -263,11 +302,12 @@ public class ItemDragHandler : MonoBehaviour,
         slot.currentItem = gameObject;
     }
 
-    private void ReturnToOriginalSlot() {
+    private void ReturnToOriginalSlot()
+    {
         if (originalParent != null)
             transform.SetParent(originalParent);
 
-        RectTransform rect = GetComponent<RectTransform>();
+        var rect = GetComponent<RectTransform>();
 
         if (rect != null)
             rect.anchoredPosition = Vector2.zero;
@@ -276,11 +316,14 @@ public class ItemDragHandler : MonoBehaviour,
             originalSlot.currentItem = gameObject;
     }
 
-    private void CancelSplitDrag() {
-        if (originalSlot != null && originalSlot.currentItem != null) {
-            Item remainingItem = originalSlot.currentItem.GetComponent<Item>();
+    private void CancelSplitDrag()
+    {
+        if (originalSlot != null && originalSlot.currentItem != null)
+        {
+            var remainingItem = originalSlot.currentItem.GetComponent<Item>();
 
-            if (remainingItem != null) {
+            if (remainingItem != null)
+            {
                 remainingItem.Quantity += itemScript.Quantity;
                 remainingItem.UpdateQuantityDisplay();
 
@@ -297,7 +340,8 @@ public class ItemDragHandler : MonoBehaviour,
         isSplitDrag = false;
     }
 
-    private void MoveToDragLayer() {
+    private void MoveToDragLayer()
+    {
         if (dragParent != null)
             transform.SetParent(dragParent);
         else
@@ -306,11 +350,12 @@ public class ItemDragHandler : MonoBehaviour,
         transform.SetAsLastSibling();
     }
 
-    private Slot GetSlotUnderPointer(PointerEventData eventData) {
+    private Slot GetSlotUnderPointer(PointerEventData eventData)
+    {
         if (eventData.pointerEnter == null)
             return null;
 
-        Slot slot = eventData.pointerEnter.GetComponent<Slot>();
+        var slot = eventData.pointerEnter.GetComponent<Slot>();
 
         if (slot == null)
             slot = eventData.pointerEnter.GetComponentInParent<Slot>();
@@ -318,7 +363,8 @@ public class ItemDragHandler : MonoBehaviour,
         return slot;
     }
 
-    private bool IsSameItem(Item a, Item b) {
+    private bool IsSameItem(Item a, Item b)
+    {
         if (a == null || b == null)
             return false;
 
@@ -331,34 +377,14 @@ public class ItemDragHandler : MonoBehaviour,
         return aName == bName;
     }
 
-    private string GetCleanItemName(string itemName) {
-        return itemName.Replace("(Clone)", "").Trim();
-    }
+    private string GetCleanItemName(string itemName) => itemName.Replace("(Clone)", "").Trim();
 
-    private void CancelDragSetup() {
+    private void CancelDragSetup()
+    {
         isDragging = false;
         isSplitDrag = false;
 
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
-    }
-
-    public void OnPointerClick(PointerEventData eventData) {
-        if (eventData.button != PointerEventData.InputButton.Right)
-            return;
-
-        if (eventData.dragging)
-            return;
-
-        Slot currentSlot = GetComponentInParent<Slot>();
-
-        if (currentSlot == null)
-            return;
-
-        InventoryController controller =
-            InventoryController.Instance ?? currentSlot.GetComponentInParent<InventoryController>();
-
-        if (controller != null)
-            controller.SplitItemInSlot(currentSlot);
     }
 }

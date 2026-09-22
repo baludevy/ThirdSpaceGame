@@ -3,34 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Player {
+public class Player
+{
+    public GameObject gameObject;
     public int id;
     public string username;
-    public GameObject gameObject;
-} 
+}
 
-public struct DroppedItemEntity {
+public struct DroppedItemEntity
+{
     public int id;
     public Vector2 position;
     public ItemType itemType;
 }
 
-public enum ItemType {
+public enum ItemType
+{
     potato,
-    carrot,
+    carrot
 }
 
-public class ServerGameManager : MonoBehaviour {
+public class ServerGameManager : MonoBehaviour
+{
     public static ServerGameManager Instance;
 
-    [NonSerialized] public Dictionary<int, Player> players = new();
-    
-    public List<DroppedItemEntity> droppedItems = new();
+    [NonSerialized]
+    public List<DroppedItemEntity> droppedItems = new List<DroppedItemEntity>();
+
+    [NonSerialized] public Dictionary<int, Player> players = new Dictionary<int, Player>();
 
     private Scene serverPlayerScene;
 
-    private void Awake() {
-        if (Instance == null) {
+    private void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
@@ -39,15 +46,17 @@ public class ServerGameManager : MonoBehaviour {
                 LoadSceneMode.Additive
             );
         }
-        else {
+        else
+        {
             Destroy(gameObject);
         }
     }
 
-    public void SpawnPlayer(Player player) {
+    public void SpawnPlayer(Player player)
+    {
         serverPlayerScene = SceneManager.GetSceneByName("ServerScene");
 
-        GameObject serverPlayer = Instantiate(
+        var serverPlayer = Instantiate(
             PrefabManager.Instance.ServerPlayerPrefab,
             Vector3.zero,
             Quaternion.identity
@@ -63,30 +72,35 @@ public class ServerGameManager : MonoBehaviour {
         player.gameObject.GetComponent<ServerPlayer>().Initialize(player.id, player.username);
 
         ServerSend.SpawnPlayer(player);
-        
-        List<int> openedChests = new List<int>();
 
-        foreach (ServerChest chest in ServerChestManager.Instance.chests) {
-            if(chest.opened)
+        var openedChests = new List<int>();
+
+        foreach (var chest in ServerChestManager.Instance.chests)
+        {
+            if (chest.opened)
                 openedChests.Add(chest.id);
         }
-        
+
         ServerSend.InitializeWorld(droppedItems, openedChests, player.id);
     }
 
-    public void AddPlayer(Player player) {
+    public void AddPlayer(Player player)
+    {
         players.Add(player.id, player);
     }
 
-    public void RemovePlayer(Player player) {
+    public void RemovePlayer(Player player)
+    {
         if (player.gameObject != null)
             Destroy(player.gameObject);
 
         players.Remove(player.id);
     }
 
-    public void RemovePlayer(int playerId) {
-        if (players.TryGetValue(playerId, out Player player)) {
+    public void RemovePlayer(int playerId)
+    {
+        if (players.TryGetValue(playerId, out var player))
+        {
             if (player.gameObject != null)
                 Destroy(player.gameObject);
 
@@ -94,7 +108,8 @@ public class ServerGameManager : MonoBehaviour {
         }
     }
 
-    public void DropItem(DroppedItemEntity item) {
+    public void DropItem(DroppedItemEntity item)
+    {
         droppedItems.Add(item);
     }
 }

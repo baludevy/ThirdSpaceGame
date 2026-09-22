@@ -8,7 +8,7 @@ public class Item : MonoBehaviour
     public int Quantity = 1;
 
     public ItemType itemType;
-    
+
     TMP_Text quantityText;
 
     void Awake()
@@ -32,8 +32,8 @@ public class Item : MonoBehaviour
 
     public GameObject CloneItem(int newQuantity)
     {
-        GameObject clone = Instantiate(gameObject);
-        Item cloneItem = clone.GetComponent<Item>();
+        var clone = Instantiate(gameObject);
+        var cloneItem = clone.GetComponent<Item>();
         cloneItem.Quantity = newQuantity;
         cloneItem.UpdateQuantityDisplay();
         return clone;
