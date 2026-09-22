@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Client;
+using TMPro;
 using UnityEngine;
 
 public class NetworkUIManager : MonoBehaviour
