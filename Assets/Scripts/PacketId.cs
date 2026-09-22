@@ -6,4 +6,5 @@
 public enum ServerPacketId : ushort
 {
     Welcome = 1,
+    SpawnEntity,
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Game;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine;
@@ -29,6 +30,7 @@ namespace Client
         private void RegisterPacketHandlers()
         {
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.Welcome, ClientHandle.Welcome);
+            PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnEntity, ClientHandle.SpawnEntity);
         }
 
         public void Connect(string ip, int port)
