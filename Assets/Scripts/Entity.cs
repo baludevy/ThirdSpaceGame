@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Client;
+using UnityEngine;
 
 public enum EntityType : byte
 {
@@ -7,14 +8,19 @@ public enum EntityType : byte
 
 public class Entity : MonoBehaviour
 {
-    public ushort id { get; private set; }
+    public ushort entityId { get; private set; }
     [SerializeField] private EntityType type;
 
     public void Initialize(ushort id)
     {
-        this.id = id;
+        this.entityId = id;
     }
-    
+
+    public virtual void ApplySnapshot(EntitySnapshot previous, EntitySnapshot current, float t)
+    {
+
+    }
+
     public EntityType GetEntityType => type;
     public void SetEntityType(EntityType type) => this.type = type;
 }

@@ -33,7 +33,7 @@ public class WorldManager : MonoBehaviour
     {
         foreach (Player player in PlayerManager.Instance.players)
         {
-            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
+            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.entityId));
         }
     }
 
@@ -41,7 +41,7 @@ public class WorldManager : MonoBehaviour
     {
         return new World
         {
-            entities = EntityManager.Instance.GetEntities()
+            entities = EntityManager.Instance.entities
         };
     }
 
@@ -56,7 +56,7 @@ public class WorldManager : MonoBehaviour
 
             PlayerUpdate update = new PlayerUpdate
             {
-                id = player.id,
+                entityId = player.entityId,
                 position = player.transform.position,
                 animState = player.animState,
             };

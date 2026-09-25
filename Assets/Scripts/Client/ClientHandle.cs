@@ -67,18 +67,16 @@ public static class ClientHandle
 
         for (int i = 0; i < playerUpdateCount; i++)
         {
-            int id = reader.GetInt();
+            ushort entityId = reader.GetUShort();
             Vector2 position = reader.GetVector2();
             AnimationState animState = (AnimationState)reader.GetByte();
             
-            Debug.Log(animState);
-            
-            Player player = PlayerManager.Instance.GetPlayer(id);
-
-            player.UpdateAnimationState(animState);
-            
-            if (player != null)
-                player.transform.position = position;
+            Entity entity = EntityManager.Instance.GetEntity(entityId);
+            EntityInterpolationManager.Instance.AddSnapshot(entity, new EntitySnapshot
+            {
+                time = Time.time,
+                position = position,
+            });
         }
     }
 }

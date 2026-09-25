@@ -27,9 +27,7 @@ namespace Client
 
             GameObject prefab = playerId == NetworkManager.Instance.Client.myId ? localPlayerPrefab : playerPrefab;
 
-            Entity entity = Instantiate(prefab, position, rotation).GetComponent<Entity>();
-            entity.Initialize(entityId);
-            entity.SetEntityType(EntityType.player);
+            Entity entity = EntityManager.Instance.ReplicateEntity(entityId, EntityType.player, position, rotation, prefab);
 
             Player player = entity.gameObject.GetComponent<Player>();
             player.Initialize(playerId, username);

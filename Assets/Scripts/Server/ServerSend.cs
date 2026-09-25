@@ -20,7 +20,7 @@ namespace Server
 
                 foreach (Entity entity in world.entities)
                 {
-                    writer.Put(entity.id);
+                    writer.Put(entity.entityId);
                     writer.Put((byte)entity.GetEntityType);
                     writer.Put(entity.transform.position);
                     writer.Put(entity.transform.rotation);
@@ -42,7 +42,7 @@ namespace Server
                 ServerPacketId.SpawnEntity,
                 writer =>
                 {
-                    writer.Put(entity.id);
+                    writer.Put(entity.entityId);
                     writer.Put((byte)entity.GetEntityType);
                     writer.Put(entity.transform.position);
                     writer.Put(entity.transform.rotation);
@@ -66,7 +66,7 @@ namespace Server
 
                 foreach (PlayerUpdate playerUpdate in update.playerUpdates)
                 {
-                    writer.Put(playerUpdate.id);
+                    writer.Put(playerUpdate.entityId);
                     writer.Put((Vector2)playerUpdate.position);
                     writer.Put((byte)playerUpdate.animState);
                 }

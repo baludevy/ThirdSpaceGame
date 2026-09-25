@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Server;
+using UnityEngine;
 using AnimationState = Game.AnimationState;
 
 namespace Client
 {
-    public class Player : MonoBehaviour
+    public class Player : Entity
     {
         public int id;
         public string username;
-
+        
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private Animator animator;
 
@@ -28,17 +30,28 @@ namespace Client
                 case AnimationState.forward:
                     animator.SetBool("Forward", true);
                     break;
+                
                 case AnimationState.left:
-                    sprite.flipX = false;
-                    animator.SetBool("Side", true);
+                    if(sprite != null)
+                        sprite.flipX = false;
+                    
+                    if(animator != null)
+                        animator.SetBool("Side", true);
+                    
                     break;
                 case AnimationState.right:
-                    sprite.flipX = true;
-                    animator.SetBool("Side", true);
+                    if(sprite != null)
+                        sprite.flipX = true;
+                    
+                    if(animator != null)
+                        animator.SetBool("Side", true);
+                    
                     break;
+                
                 case AnimationState.back:
                     animator.SetBool("Back", true);
                     break;
+                
                 case AnimationState.idle:
                     break;
             }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Server
 {
-    public class Player : MonoBehaviour
+    public class Player : Entity
     {
         public int id;
         public string username;

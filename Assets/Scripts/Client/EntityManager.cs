@@ -7,9 +7,9 @@ namespace Client
     public class EntityManager : MonoBehaviour
     {
         public static EntityManager Instance;
-        
-        private List<Entity> entities = new List<Entity>();
-        
+
+        public List<Entity> entities = new List<Entity>();
+
         [SerializeField] public Dictionary<EntityType, GameObject> entityPrefabs = new Dictionary<EntityType, GameObject>();
 
         private void Awake()
@@ -20,15 +20,35 @@ namespace Client
                 Destroy(this);
         }
 
-        public void ReplicateEntity(ushort id, EntityType type, Vector3 position, Quaternion rotation)
+        public Entity ReplicateEntity(ushort id, EntityType type, Vector3 position, Quaternion rotation, GameObject specialPrefab = null)
         {
-            GameObject prefab = entityPrefabs[type];
+            GameObject prefab;
+
+            if (specialPrefab != null)
+            {
+                prefab = specialPrefab;
+            }
+            else
+            {
+                prefab = entityPrefabs[type];
+            }
             
+
             Entity entity = Instantiate(prefab, position, rotation).GetComponent<Entity>();
-            
+
             entity.Initialize(id);
-            
+
             entities.Add(entity);
+
+            EntityInterpolationManager.Instance.AddSnapshot(entity, new EntitySnapshot
+            {
+                time = Time.time,
+                position = position,
+            });
+
+            return entity;
         }
+
+        public Entity GetEntity(ushort id) => entities.Find(x => x.entityId == id);
     }
 }

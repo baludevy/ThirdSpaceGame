@@ -27,7 +27,7 @@ namespace Server
 
             EntityManager.Instance.nextEntityID++;
             
-            EntityManager.Instance.GetEntities().Add(entity);
+            EntityManager.Instance.entities.Add(entity);
             
             Player player = entity.GetComponent<Player>();
             player.Initialize(id, username);

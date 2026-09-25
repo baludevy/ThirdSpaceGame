@@ -9,7 +9,7 @@ namespace Server
         public static EntityManager Instance;
 
         public ushort nextEntityID;
-        private List<Entity> entities = new List<Entity>();
+        public List<Entity> entities = new List<Entity>();
 
         [SerializeField] public Dictionary<EntityType, GameObject> entityPrefabs = new Dictionary<EntityType, GameObject>();
 
@@ -39,7 +39,5 @@ namespace Server
 
             nextEntityID++;
         }
-
-        public List<Entity> GetEntities() => entities;
     }
 }
