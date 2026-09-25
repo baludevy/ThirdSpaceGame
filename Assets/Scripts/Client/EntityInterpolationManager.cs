@@ -7,38 +7,49 @@ namespace Client
     {
         public static EntityInterpolationManager Instance;
 
-        private Dictionary<ushort, SnapshotBuffer> buffers = new();
+        private readonly Dictionary<ushort, SnapshotBuffer> buffers = new();
 
-        // updates are sent in fixedupdate
-        private static float interpolationDelay => Time.fixedDeltaTime;
+        private bool hasClock;
+        private uint firstTick;
+        private uint latestTick;
+        private float clockOffset;
 
-        void Awake()
+        private const float worldUpdateInterval = 0.02f;
+        private const int interpolationTicks = 1;
+        private const float interpolationSeconds = interpolationTicks * worldUpdateInterval;
+
+        private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
+
+            Instance = this;
         }
 
-        private void Update()
+        public void AddSnapshot(Entity entity, uint tick, EntitySnapshot snapshot)
         {
-            float renderTime = Time.time - interpolationDelay;
+            if (entity == null) return;
 
-            foreach (SnapshotBuffer buffer in buffers.Values)
+            if (!hasClock)
             {
-                if (!buffer.HasTwoSnapshots())
-                    continue;
-
-                buffer.Interpolate(renderTime);
+                hasClock = true;
+                firstTick = tick;
+                latestTick = tick;
+                clockOffset = Time.time;
             }
-        }
 
-        public void AddSnapshot(Entity entity, EntitySnapshot snapshot)
-        {
+            snapshot.tick = tick;
+            snapshot.time = (tick - firstTick) * worldUpdateInterval;
+
+            if (tick > latestTick)
+            {
+                latestTick = tick;
+                clockOffset = Mathf.Lerp(clockOffset, Time.time - snapshot.time, 0.1f);
+            }
+
             if (!buffers.TryGetValue(entity.entityId, out SnapshotBuffer buffer))
             {
                 buffer = new SnapshotBuffer(entity);
@@ -48,12 +59,25 @@ namespace Client
             buffer.Add(snapshot);
         }
 
+        private void Update()
+        {
+            if (!hasClock) return;
+
+            float renderTime = Time.time - clockOffset - interpolationSeconds;
+
+            foreach (SnapshotBuffer buffer in buffers.Values)
+                buffer.Interpolate(renderTime);
+        }
+
+        public void RemoveEntity(ushort entityId)
+        {
+            buffers.Remove(entityId);
+        }
+
         private class SnapshotBuffer
         {
-            public Entity entity;
-
-            public EntitySnapshot from;
-            public EntitySnapshot to;
+            private readonly Entity entity;
+            private readonly List<EntitySnapshot> samples = new();
 
             public SnapshotBuffer(Entity entity)
             {
@@ -62,33 +86,33 @@ namespace Client
 
             public void Add(EntitySnapshot snapshot)
             {
-                from = to;
-                to = snapshot;
+                if (samples.Count > 0 && snapshot.tick <= samples[samples.Count - 1].tick)
+                    return;
+
+                samples.Add(snapshot);
             }
 
             public void Interpolate(float renderTime)
             {
-                float duration = to.time - from.time;
+                if (entity == null || samples.Count < 2) return;
 
-                if (duration <= 0f)
-                    return;
+                while (samples.Count > 2 && samples[1].time <= renderTime)
+                    samples.RemoveAt(0);
 
+                EntitySnapshot from = samples[0];
+                EntitySnapshot to = samples[1];
                 float t = Mathf.InverseLerp(from.time, to.time, renderTime);
+                Vector2 position = Vector2.Lerp(from.position, to.position, t);
 
-                entity.transform.position = Vector3.Lerp(from.position, to.position, t);
-
+                entity.transform.position = new Vector3(position.x, position.y, entity.transform.position.z);
                 entity.ApplySnapshot(from, to, t);
-            }
-
-            public bool HasTwoSnapshots()
-            {
-                return from != null && to != null;
             }
         }
     }
 
     public class EntitySnapshot
     {
+        public uint tick;
         public float time;
         public Vector2 position;
     }

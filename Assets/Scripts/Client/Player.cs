@@ -56,5 +56,12 @@ namespace Client
                     break;
             }
         }
+
+        public override void ApplySnapshot(EntitySnapshot previous, EntitySnapshot current, float t)
+        {
+            PlayerSnapshot to = current as PlayerSnapshot;
+            
+            UpdateAnimationState(to.animationState);
+        }
     }
 }

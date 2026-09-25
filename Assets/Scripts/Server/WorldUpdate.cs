@@ -6,6 +6,7 @@ namespace Server
 {
     public class WorldUpdate
     {
+        public uint tick;
         public List<PlayerUpdate> playerUpdates = new List<PlayerUpdate>();
     }
 

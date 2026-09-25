@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7722874592871503249}
-  - component: {fileID: 6413142731136071292}
   - component: {fileID: 4798111212537513335}
   m_Layer: 0
   m_Name: Player
@@ -34,19 +33,6 @@ Transform:
   - {fileID: 4007683000504037195}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6413142731136071292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349700374114528054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abadbbe9a6b44bdf960de571416ccd72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
-  type: 0
 --- !u!114 &4798111212537513335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4c6b54a2f54871b317e475abb178db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Client.Player
+  type: 0
   id: 0
   username: 
   sprite: {fileID: 2568824857421025216}

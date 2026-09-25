@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7722874592871503249}
-  - component: {fileID: 2192354085888837744}
   - component: {fileID: 7227318226693842316}
   m_Layer: 6
   m_Name: ServerPlayer
@@ -33,19 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2192354085888837744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349700374114528054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abadbbe9a6b44bdf960de571416ccd72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ServerPlayer
-  type: 0
 --- !u!114 &7227318226693842316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb7f26ec6dc48e1963c0effeb3afc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Server.Player
+  type: 0
   id: 0
   username: 
+  animState: 0

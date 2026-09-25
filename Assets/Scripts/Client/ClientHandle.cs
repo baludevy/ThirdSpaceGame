@@ -63,6 +63,8 @@ public static class ClientHandle
 
     public static void UpdateWorld(NetDataReader reader)
     {
+        uint tick = reader.GetUInt();
+        
         int playerUpdateCount = reader.GetInt();
 
         for (int i = 0; i < playerUpdateCount; i++)
@@ -72,10 +74,11 @@ public static class ClientHandle
             AnimationState animState = (AnimationState)reader.GetByte();
             
             Entity entity = EntityManager.Instance.GetEntity(entityId);
-            EntityInterpolationManager.Instance.AddSnapshot(entity, new EntitySnapshot
+            EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new PlayerSnapshot
             {
                 time = Time.time,
                 position = position,
+                animationState = animState
             });
         }
     }

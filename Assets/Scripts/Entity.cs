@@ -16,7 +16,7 @@ public class Entity : MonoBehaviour
         this.entityId = id;
     }
 
-    public virtual void ApplySnapshot(EntitySnapshot previous, EntitySnapshot current, float t)
+    public virtual void ApplySnapshot(EntitySnapshot from, EntitySnapshot to, float t)
     {
 
     }

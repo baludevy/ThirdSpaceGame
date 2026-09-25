@@ -7,10 +7,8 @@ namespace Server
     public class PlayerManager : MonoBehaviour
     {
         public static PlayerManager Instance;
-        
+
         public List<Player> players = new List<Player>();
-        
-        public GameObject playerPrefab;
 
         void Awake()
         {
@@ -22,21 +20,16 @@ namespace Server
 
         public void SpawnPlayer(int id, string username, Vector3 position, Quaternion rotation)
         {
-            Entity entity = Instantiate(playerPrefab, position, rotation).GetComponent<Entity>();
-            entity.Initialize(EntityManager.Instance.nextEntityID);
+            Entity entity = EntityManager.Instance.SpawnEntity(EntityType.player, position, rotation, broadcast: false);
 
-            EntityManager.Instance.nextEntityID++;
-            
-            EntityManager.Instance.entities.Add(entity);
-            
             Player player = entity.GetComponent<Player>();
             player.Initialize(id, username);
-            
+
             players.Add(player);
-            
+
             ServerSend.SpawnEntity(entity);
         }
-        
+
         public Player GetPlayer(int id) => players.Find(x => x.id == id);
     }
 }

@@ -62,6 +62,7 @@ namespace Server
         {
             NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateWorld, targetId, writer =>
             {
+                writer.Put(update.tick);
                 writer.Put(update.playerUpdates.Count);
 
                 foreach (PlayerUpdate playerUpdate in update.playerUpdates)

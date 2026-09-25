@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Server;
 using UnityEngine;
-using AnimationState = Game.AnimationState;
 
 public class WorldManager : MonoBehaviour
 {
+    public uint tick;
+    
     public static WorldManager Instance;
 
     private void Awake()
@@ -19,6 +20,8 @@ public class WorldManager : MonoBehaviour
     {
         ProcessIncomingInputs();
         SendWorldUpdates();
+
+        tick++;
     }
 
     private void ProcessIncomingInputs()
@@ -66,6 +69,7 @@ public class WorldManager : MonoBehaviour
 
         return new WorldUpdate
         {
+            tick = tick,
             playerUpdates = playerUpdates,
         };
     }

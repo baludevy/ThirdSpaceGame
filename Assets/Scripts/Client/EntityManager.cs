@@ -40,7 +40,7 @@ namespace Client
 
             entities.Add(entity);
 
-            EntityInterpolationManager.Instance.AddSnapshot(entity, new EntitySnapshot
+            EntityInterpolationManager.Instance.AddSnapshot(entity, 0, new EntitySnapshot
             {
                 time = Time.time,
                 position = position,

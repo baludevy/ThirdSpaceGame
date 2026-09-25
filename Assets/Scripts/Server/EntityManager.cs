@@ -21,12 +21,12 @@ namespace Server
                 Destroy(this);
         }
 
-        public void SpawnEntity(EntityType type, Vector3 position, Quaternion rotation)
+        public Entity SpawnEntity(EntityType type, Vector3 position, Quaternion rotation, bool broadcast = false)
         {
             if (entityPrefabs[type].GetComponent<Entity>() == null)
             {
                 Debug.Log(entityPrefabs[type].name + " has no Entity script attached.");
-                return;
+                return null;
             }
 
             Entity entity = Instantiate(entityPrefabs[type], position, rotation).GetComponent<Entity>();
@@ -34,10 +34,14 @@ namespace Server
             // assign a unique identifier to the entity so that both the client and server can reference them later 
             entity.Initialize(nextEntityID);
 
-            ServerSend.SpawnEntity(entity);
+            if(broadcast)
+                ServerSend.SpawnEntity(entity);
+            
             entities.Add(entity);
-
+            
             nextEntityID++;
+
+            return entity;
         }
     }
 }
