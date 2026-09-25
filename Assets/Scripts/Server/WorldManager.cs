@@ -17,7 +17,16 @@ public class WorldManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ProcessIncomingInputs();
         SendWorldUpdates();
+    }
+
+    private void ProcessIncomingInputs()
+    {
+        foreach (Player player in PlayerManager.Instance.players)
+        {
+            player.inputManager.ProcessInputs();
+        }
     }
 
     private void SendWorldUpdates()
@@ -26,7 +35,7 @@ public class WorldManager : MonoBehaviour
         {
             ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
         }
-    } 
+    }
 
     public World GetInitialWorld()
     {
@@ -42,14 +51,14 @@ public class WorldManager : MonoBehaviour
 
         foreach (Player player in PlayerManager.Instance.players)
         {
-            if(player.id == excludePlayer)
+            if (player.id == excludePlayer)
                 continue;
-            
+
             PlayerUpdate update = new PlayerUpdate
             {
                 id = player.id,
                 position = player.transform.position,
-                animState = AnimationState.idle,
+                animState = player.animState,
             };
 
             playerUpdates.Add(update);

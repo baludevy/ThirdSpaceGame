@@ -38,14 +38,5 @@ namespace Server
         }
         
         public Player GetPlayer(int id) => players.Find(x => x.id == id);
-
-        public void UpdatePlayer(int id, Vector3 position, Game.AnimationState animState)
-        {
-            Player player = players.Find(x => x.id == id);
-            if (player == null)
-                return;
-            
-            player.gameObject.transform.position = position;
-        }
     }
 }

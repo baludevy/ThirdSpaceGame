@@ -71,8 +71,12 @@ public static class ClientHandle
             Vector2 position = reader.GetVector2();
             AnimationState animState = (AnimationState)reader.GetByte();
             
+            Debug.Log(animState);
+            
             Player player = PlayerManager.Instance.GetPlayer(id);
 
+            player.UpdateAnimationState(animState);
+            
             if (player != null)
                 player.transform.position = position;
         }

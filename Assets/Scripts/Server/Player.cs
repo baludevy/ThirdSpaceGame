@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Server
 {
@@ -6,11 +7,18 @@ namespace Server
     {
         public int id;
         public string username;
+        
+        [NonSerialized]
+        public InputManager inputManager;
+        
+        public Game.AnimationState animState;
 
         public void Initialize(int id, string username)
         {
             this.id = id;
             this.username = username;
+            
+            inputManager = new InputManager(this);
         }
     }
 }

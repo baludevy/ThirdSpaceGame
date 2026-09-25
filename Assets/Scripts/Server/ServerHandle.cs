@@ -22,7 +22,13 @@ namespace Server
             Vector3 position = reader.GetVector2();
             Game.AnimationState animState = (Game.AnimationState)reader.GetByte();
             
-            PlayerManager.Instance.UpdatePlayer(id, position, animState);
+            Debug.Log(animState);
+            
+            PlayerManager.Instance.GetPlayer(id).inputManager.AddMoveInput(new MoveInput
+            {
+                position = position,
+                animState = animState
+            });
         }
     }
 }

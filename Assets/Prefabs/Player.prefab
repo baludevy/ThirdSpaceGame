@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Client.Player
   id: 0
   username: 
+  sprite: {fileID: 2568824857421025216}
+  animator: {fileID: 3338666909522030718}
 --- !u!1 &1928956200355711044
 GameObject:
   m_ObjectHideFlags: 0

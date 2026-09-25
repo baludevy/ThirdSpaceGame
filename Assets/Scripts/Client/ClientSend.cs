@@ -18,7 +18,7 @@ namespace Client
             NetworkManager.Instance.Client.SendPacket(
                 ClientPacketId.PlayerMove, writer =>
                 {
-                    writer.Put(position);
+                    writer.Put((Vector2)position);
                     writer.Put((byte)animState);
                 });
         }
