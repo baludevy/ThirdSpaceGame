@@ -1,4 +1,5 @@
 using System.Collections;
+using Client;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -112,6 +113,9 @@ namespace Game
             }
 
             rb.linearVelocity = movement * currentSpeed * Time.deltaTime;
+            
+                        
+            ClientSend.PlayerMove(transform.position, lastAnimState);
         }
 
         //asked

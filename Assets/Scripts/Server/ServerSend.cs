@@ -1,4 +1,6 @@
-﻿namespace Server
+﻿using UnityEngine;
+
+namespace Server
 {
     public static class ServerSend
     {
@@ -15,7 +17,7 @@
             NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.InitializeWorld, id, writer =>
             {
                 writer.Put(world.entities.Count);
-                
+
                 foreach (Entity entity in world.entities)
                 {
                     writer.Put(entity.id);
@@ -26,7 +28,7 @@
                     if (entity.GetEntityType == EntityType.player)
                     {
                         Player player = entity.GetComponent<Player>();
-                        
+
                         writer.Put(player.id);
                         writer.Put(player.username);
                     }
@@ -53,6 +55,22 @@
                         writer.Put(player.username);
                     }
                 });
+        }
+
+
+        public static void UpdateWorld(int targetId, WorldUpdate update)
+        {
+            NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateWorld, targetId, writer =>
+            {
+                writer.Put(update.playerUpdates.Count);
+
+                foreach (PlayerUpdate playerUpdate in update.playerUpdates)
+                {
+                    writer.Put(playerUpdate.id);
+                    writer.Put((Vector2)playerUpdate.position);
+                    writer.Put((byte)playerUpdate.animState);
+                }
+            });
         }
     }
 }

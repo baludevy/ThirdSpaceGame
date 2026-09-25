@@ -2,6 +2,7 @@
 using Game;
 using LiteNetLib.Utils;
 using UnityEngine;
+using AnimationState = Game.AnimationState;
 
 public static class ClientHandle
 {
@@ -58,5 +59,22 @@ public static class ClientHandle
         }
         
         EntityManager.Instance.ReplicateEntity(entityId, type, position, rotation);
+    }
+
+    public static void UpdateWorld(NetDataReader reader)
+    {
+        int playerUpdateCount = reader.GetInt();
+
+        for (int i = 0; i < playerUpdateCount; i++)
+        {
+            int id = reader.GetInt();
+            Vector2 position = reader.GetVector2();
+            AnimationState animState = (AnimationState)reader.GetByte();
+            
+            Player player = PlayerManager.Instance.GetPlayer(id);
+
+            if (player != null)
+                player.transform.position = position;
+        }
     }
 }

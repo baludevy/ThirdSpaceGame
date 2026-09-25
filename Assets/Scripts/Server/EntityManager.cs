@@ -8,7 +8,7 @@ namespace Server
     {
         public static EntityManager Instance;
 
-        public ushort nextEntityID { get; private set; }
+        public ushort nextEntityID;
         private List<Entity> entities = new List<Entity>();
 
         [SerializeField] public Dictionary<EntityType, GameObject> entityPrefabs = new Dictionary<EntityType, GameObject>();

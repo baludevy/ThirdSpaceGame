@@ -10,10 +10,19 @@ namespace Server
         {
             string username = reader.GetString();
             
-            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.GetWorld());
+            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.GetInitialWorld());
             PlayerManager.Instance.SpawnPlayer(peer.Id, username, Vector3.zero, Quaternion.identity);
             
             Debug.Log($"Peer{peer.RemoteId}'s username is {username}");
+        }
+
+        public static void PlayerMove(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+            Vector3 position = reader.GetVector2();
+            Game.AnimationState animState = (Game.AnimationState)reader.GetByte();
+            
+            PlayerManager.Instance.UpdatePlayer(id, position, animState);
         }
     }
 }
