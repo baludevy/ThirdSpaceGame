@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Server;
+using TMPro;
 using UnityEngine;
 using AnimationState = Game.AnimationState;
 
@@ -12,11 +13,15 @@ namespace Client
         
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private Animator animator;
+        [SerializeField] private TMP_Text usernameText;
 
         public void Initialize(int id, string username)
         {
             this.id = id;
             this.username = username;
+           
+            if(usernameText)
+                usernameText.text = username;
         }
 
         public void UpdateAnimationState(AnimationState animState)
