@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteNetLib;
+using UnityEngine;
 
 namespace Server
 {
@@ -71,7 +72,7 @@ namespace Server
                     writer.Put((Vector2)playerUpdate.position);
                     writer.Put((byte)playerUpdate.animState);
                 }
-            });
+            }, DeliveryMethod.Unreliable);
         }
     }
 }

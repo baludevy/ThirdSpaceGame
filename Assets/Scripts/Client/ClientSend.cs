@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteNetLib;
+using UnityEngine;
 using AnimationState = Game.AnimationState;
 
 namespace Client
@@ -20,7 +21,7 @@ namespace Client
                 {
                     writer.Put((Vector2)position);
                     writer.Put((byte)animState);
-                });
+                }, DeliveryMethod.Unreliable);
         }
     }
 }
