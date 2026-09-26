@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 97
       width: 16
       height: 13
-    spriteID: c222da5571130254b932e9313321c2a3
+    spriteID: 4b028b4b7361e2c419b0cec0c917937b
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -160,7 +160,7 @@ ScriptedImporter:
       y: 75
       width: 16
       height: 14
-    spriteID: a8394aec228c15445b6428d0c5147fac
+    spriteID: bff02e6fe8e4f7d48a7980a7a316e218
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -181,7 +181,7 @@ ScriptedImporter:
       y: 52
       width: 16
       height: 15
-    spriteID: b0a2c4998dd3efc4ab4f17ac0308d7b1
+    spriteID: 8a11d9a606f07e54faf58e98dfbe0b85
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -202,7 +202,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 806fa3b5780b54c4b9b765d6123bc151
+    spriteID: 978509a67d33141449991504b488cf61
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -223,11 +223,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-<<<<<<< Updated upstream
-    spriteID: d0632bc4b44aa8e489197b1f558089bd
-=======
-    spriteID: e53c166747304e34fa6d44ef282b40b6
->>>>>>> Stashed changes
+    spriteID: a02edef0360f8b440a9732312e52e6b3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -259,7 +255,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 13
-      spriteId: c222da5571130254b932e9313321c2a3
+      spriteId: 4b028b4b7361e2c419b0cec0c917937b
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -268,7 +264,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 14
-      spriteId: a8394aec228c15445b6428d0c5147fac
+      spriteId: bff02e6fe8e4f7d48a7980a7a316e218
     - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
@@ -277,7 +273,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 15
-      spriteId: b0a2c4998dd3efc4ab4f17ac0308d7b1
+      spriteId: 8a11d9a606f07e54faf58e98dfbe0b85
     - name: Frame_3
       frameIndex: 3
       additiveSortOrder: 0
@@ -286,7 +282,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 16
-      spriteId: 806fa3b5780b54c4b9b765d6123bc151
+      spriteId: 978509a67d33141449991504b488cf61
     - name: Frame_4
       frameIndex: 4
       additiveSortOrder: 0
@@ -295,41 +291,13 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 16
-<<<<<<< Updated upstream
-      spriteId: d0632bc4b44aa8e489197b1f558089bd
-=======
-      spriteId: e53c166747304e34fa6d44ef282b40b6
->>>>>>> Stashed changes
+      spriteId: a02edef0360f8b440a9732312e52e6b3
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: DefaultTexturePlatform
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   previousTextureSize: {x: 64, y: 128}
