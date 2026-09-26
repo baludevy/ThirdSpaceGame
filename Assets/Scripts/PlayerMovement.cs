@@ -4,58 +4,58 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public enum AnimationState {
+public enum AnimationState
+{
     idle,
     left,
     right,
     back,
-    forward,
+    forward
 }
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
     public float MovingSpeed = 300f;
     public float sprintMultiplier = 1.8f;
-    Vector2 inputVector;
-    private Vector2 previousInput;
-    Rigidbody2D rb;
-    bool isSprinting;
+
+    [SerializeField] private float Stamina;
+    public Slider StaminaSlider;
+    public TMP_Text StaminaText;
 
 
     private Animator anim;
-    private SpriteRenderer sprite;
-
-    private FacingDirection lastDirection = FacingDirection.Forward;
+    Vector2 inputVector;
+    bool isSprinting;
     private AnimationState lastAnimState;
 
-    [SerializeField] private float Stamina;
+    private FacingDirection lastDirection = FacingDirection.Forward;
+    private Vector2 previousInput;
+    Rigidbody2D rb;
+    Coroutine reloadCoroutine;
+    private SpriteRenderer sprite;
 
-    public float stamina {
+    bool staminareload;
+
+    public float stamina
+    {
         get => Stamina;
         set => Stamina = Mathf.Clamp(value, 0f, 100f);
     }
 
-    private enum FacingDirection {
-        Forward,
-        Back,
-        Left,
-        Right
-    }
-    
-    bool staminareload;
-    Coroutine reloadCoroutine;
-    public Slider StaminaSlider;
-    public TMP_Text StaminaText;
-
-    private void Awake() {
+    private void Awake()
+    {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
     }
 
-    void Update() {
-        if (isSprinting) {
+    void Update()
+    {
+        if (isSprinting)
+        {
             stamina -= 15f * Time.deltaTime;
-            if (stamina <= 0) {
+            if (stamina <= 0)
+            {
                 isSprinting = false;
                 if (reloadCoroutine != null)
                     StopCoroutine(reloadCoroutine);
@@ -63,10 +63,12 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
 
-        if (Stamina < 100f && staminareload) {
+        if (Stamina < 100f && staminareload)
+        {
             Stamina += 15f * Time.deltaTime;
         }
-        else {
+        else
+        {
             staminareload = false;
         }
 
@@ -78,8 +80,43 @@ public class PlayerMovement : MonoBehaviour {
             StaminaText.text = stamina.ToString("0") + "%";
     }
 
+    void FixedUpdate()
+    {
+        float currentSpeed = isSprinting ? MovingSpeed * sprintMultiplier : MovingSpeed;
+
+        var movement = Vector2.zero;
+
+        switch (lastDirection)
+        {
+            case FacingDirection.Right:
+                if (inputVector.x > 0.1f)
+                    movement = Vector2.right;
+                break;
+
+            case FacingDirection.Left:
+                if (inputVector.x < -0.1f)
+                    movement = Vector2.left;
+                break;
+
+            case FacingDirection.Back:
+                if (inputVector.y > 0.1f)
+                    movement = Vector2.up;
+                break;
+
+            case FacingDirection.Forward:
+                if (inputVector.y < -0.1f)
+                    movement = Vector2.down;
+                break;
+        }
+
+        rb.linearVelocity = movement * currentSpeed * Time.deltaTime;
+
+        ClientSend.PlayerMove(rb.position, lastAnimState);
+    }
+
     //asked
-    public void OnMove(InputAction.CallbackContext context) {
+    public void OnMove(InputAction.CallbackContext context)
+    {
         const float deadzone = 0.1f;
 
         previousInput = inputVector;
@@ -107,7 +144,8 @@ public class PlayerMovement : MonoBehaviour {
         if (upHeld && !upWasHeld)
             lastDirection = FacingDirection.Back;
 
-        if (!IsDirectionHeld(lastDirection, leftHeld, rightHeld, downHeld, upHeld)) {
+        if (!IsDirectionHeld(lastDirection, leftHeld, rightHeld, downHeld, upHeld))
+        {
             if (rightHeld)
                 lastDirection = FacingDirection.Right;
             else if (leftHeld)
@@ -127,7 +165,8 @@ public class PlayerMovement : MonoBehaviour {
         if (!leftHeld && !rightHeld && !upHeld && !downHeld)
             return;
 
-        switch (lastDirection) {
+        switch (lastDirection)
+        {
             case FacingDirection.Right:
                 anim.SetBool("Side", true);
                 lastAnimState = AnimationState.right;
@@ -152,8 +191,10 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private bool IsDirectionHeld(FacingDirection direction, bool leftHeld, bool rightHeld, bool downHeld, bool upHeld) {
-        switch (direction) {
+    private bool IsDirectionHeld(FacingDirection direction, bool leftHeld, bool rightHeld, bool downHeld, bool upHeld)
+    {
+        switch (direction)
+        {
             case FacingDirection.Left:
                 return leftHeld;
 
@@ -171,17 +212,22 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    public void OnSprinting(InputAction.CallbackContext context) {
-        if (context.performed && Stamina > 0) {
+    public void OnSprinting(InputAction.CallbackContext context)
+    {
+        if (context.performed && Stamina > 0)
+        {
             isSprinting = true;
             staminareload = false;
-            if (reloadCoroutine != null) {
+            if (reloadCoroutine != null)
+            {
                 StopCoroutine(reloadCoroutine);
             }
         }
-        else if (context.canceled) {
+        else if (context.canceled)
+        {
             isSprinting = false;
-            if (reloadCoroutine != null) {
+            if (reloadCoroutine != null)
+            {
                 StartCoroutine(SprintReload());
             }
 
@@ -189,41 +235,18 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    void FixedUpdate() {
-        float currentSpeed = isSprinting ? MovingSpeed * sprintMultiplier : MovingSpeed;
-
-        Vector2 movement = Vector2.zero;
-
-        switch (lastDirection) {
-            case FacingDirection.Right:
-                if (inputVector.x > 0.1f)
-                    movement = Vector2.right;
-                break;
-
-            case FacingDirection.Left:
-                if (inputVector.x < -0.1f)
-                    movement = Vector2.left;
-                break;
-
-            case FacingDirection.Back:
-                if (inputVector.y > 0.1f)
-                    movement = Vector2.up;
-                break;
-
-            case FacingDirection.Forward:
-                if (inputVector.y < -0.1f)
-                    movement = Vector2.down;
-                break;
-        }
-
-        rb.linearVelocity = movement * currentSpeed * Time.deltaTime;
-
-       ClientSend.PlayerMove(rb.position, lastAnimState);
-    }
-
-    IEnumerator SprintReload() {
+    IEnumerator SprintReload()
+    {
         yield return new WaitForSeconds(4f);
         staminareload = true;
         reloadCoroutine = null;
+    }
+
+    private enum FacingDirection
+    {
+        Forward,
+        Back,
+        Left,
+        Right
     }
 }

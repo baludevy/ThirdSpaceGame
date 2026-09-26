@@ -2,16 +2,16 @@
 using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-public class Client {
-    private EventBasedNetListener _listener;
-    private NetManager _client;
+public class Client
+{
+    private readonly NetManager _client;
+    private readonly EventBasedNetListener _listener;
     private NetPeer _serverPeer;
 
-    public bool connected { get; private set; }
-    public bool running { get; private set; }
-
-    public Client() {
+    public Client()
+    {
         _listener = new EventBasedNetListener();
         _client = new NetManager(_listener);
 
@@ -22,7 +22,11 @@ public class Client {
         RegisterPacketHandlers();
     }
 
-    private void RegisterPacketHandlers() {
+    public bool connected { get; private set; }
+    public bool running { get; private set; }
+
+    private void RegisterPacketHandlers()
+    {
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.Welcome, ClientHandle.Welcome);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerJoined, ClientHandle.PlayerJoined);
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.PlayerLeft, ClientHandle.PlayerLeft);
@@ -33,10 +37,12 @@ public class Client {
         PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.InitializeWorld, ClientHandle.InitializeWorld);
     }
 
-    public void Connect(string ip, int port) {
+    public void Connect(string ip, int port)
+    {
         running = _client.Start();
 
-        if (running) {
+        if (running)
+        {
             _client.Connect(
                 ip,
                 port,
@@ -45,7 +51,8 @@ public class Client {
         }
     }
 
-    public void Disconnect() {
+    public void Disconnect()
+    {
         _client.Stop();
 
         _serverPeer = null;
@@ -53,49 +60,56 @@ public class Client {
         running = false;
     }
 
-    private void OnClientConnected(NetPeer peer) {
+    private void OnClientConnected(NetPeer peer)
+    {
         Debug.Log("Client connected, sending username to server");
-        
+
         _serverPeer = peer;
         connected = true;
 
-        UnityEngine.Object.Instantiate(PrefabManager.Instance.ClientGameManagerPrefab);
-        
+        Object.Instantiate(PrefabManager.Instance.ClientGameManagerPrefab);
+
         NetworkUIManager.Instance.SetConnectionPanel(false);
     }
 
-    private void OnClientDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) {
+    private void OnClientDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
+    {
         Debug.Log($"Client disconnected: {disconnectInfo.Reason}");
-        
+
         _serverPeer = null;
         connected = false;
         running = false;
 
-        foreach (Player player in ClientGameManager.Instance.players.Values) {
-            if (player.gameObject != null) {
-                UnityEngine.Object.Destroy(player.gameObject);
+        foreach (var player in ClientGameManager.Instance.players.Values)
+        {
+            if (player.gameObject != null)
+            {
+                Object.Destroy(player.gameObject);
             }
         }
-        
+
         ClientGameManager.Instance.players.Clear();
-        
-        UnityEngine.Object.Destroy(ClientGameManager.Instance.gameObject);
-        
+
+        Object.Destroy(ClientGameManager.Instance.gameObject);
+
         NetworkUIManager.Instance.SetConnectionPanel(true);
     }
 
-    private void OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod) {
+    private void OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod)
+    {
         PacketDispatch.HandleClientPacket(reader);
     }
 
     public void SendPacket(ClientPacketId packetId, Action<NetDataWriter> writeData = null,
-        DeliveryMethod deliveryMethod = DeliveryMethod.ReliableOrdered) {
-        if (_serverPeer == null || _serverPeer.ConnectionState != ConnectionState.Connected) {
+        DeliveryMethod deliveryMethod = DeliveryMethod.ReliableOrdered)
+    {
+        if (_serverPeer == null || _serverPeer.ConnectionState != ConnectionState.Connected)
+        {
             Debug.LogWarning("Cannot send packet: client is not connected");
             return;
         }
 
-        NetDataWriter writer = new NetDataWriter();
+        var writer = new NetDataWriter();
 
         writer.Put((ushort)packetId);
 
@@ -104,7 +118,8 @@ public class Client {
         _serverPeer.Send(writer, deliveryMethod);
     }
 
-    public void Update() {
+    public void Update()
+    {
         _client.PollEvents();
     }
 }

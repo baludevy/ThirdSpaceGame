@@ -4,38 +4,43 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine;
 
-public static class PacketDispatch {
+public static class PacketDispatch
+{
+
+    public delegate void ClientPacketHandler(
+        NetDataReader reader
+    );
     public delegate void ServerPacketHandler(
         NetPeer peer,
         NetDataReader reader
     );
-    
-    public delegate void ClientPacketHandler(
-        NetDataReader reader
-    );
 
     private static readonly Dictionary<ushort, ServerPacketHandler>
-        ServerHandlers = new();
+        ServerHandlers = new Dictionary<ushort, ServerPacketHandler>();
 
     private static readonly Dictionary<ushort, ClientPacketHandler>
-        ClientHandlers = new();
+        ClientHandlers = new Dictionary<ushort, ClientPacketHandler>();
 
     public static void RegisterServerHandler(
         ushort packetId,
-        ServerPacketHandler handler) {
+        ServerPacketHandler handler)
+    {
         ServerHandlers[packetId] = handler;
     }
 
     public static void RegisterClientHandler(
         ushort packetId,
-        ClientPacketHandler handler) {
+        ClientPacketHandler handler)
+    {
         ClientHandlers[packetId] = handler;
     }
 
     public static void HandleServerPacket(
         NetPeer peer,
-        NetPacketReader reader) {
-        if (reader.AvailableBytes < sizeof(ushort)) {
+        NetPacketReader reader)
+    {
+        if (reader.AvailableBytes < sizeof(ushort))
+        {
             Debug.LogWarning(
                 $"Received invalid packet from {peer.Address}: no packet ID"
             );
@@ -46,17 +51,21 @@ public static class PacketDispatch {
 
         ushort packetId = reader.GetUShort();
 
-        if (ServerHandlers.TryGetValue(packetId, out var handler)) {
-            try {
+        if (ServerHandlers.TryGetValue(packetId, out var handler))
+        {
+            try
+            {
                 handler(peer, reader);
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 Debug.LogError(
                     $"Error handling server packet {packetId}:\n{exception}"
                 );
             }
         }
-        else {
+        else
+        {
             Debug.LogWarning(
                 $"Server received unknown packet ID: {packetId}"
             );
@@ -66,8 +75,10 @@ public static class PacketDispatch {
     }
 
     public static void HandleClientPacket(
-        NetPacketReader reader) {
-        if (reader.AvailableBytes < sizeof(ushort)) {
+        NetPacketReader reader)
+    {
+        if (reader.AvailableBytes < sizeof(ushort))
+        {
             Debug.LogWarning(
                 "Received invalid packet from server: no packet ID"
             );
@@ -78,17 +89,21 @@ public static class PacketDispatch {
 
         ushort packetId = reader.GetUShort();
 
-        if (ClientHandlers.TryGetValue(packetId, out var handler)) {
-            try {
+        if (ClientHandlers.TryGetValue(packetId, out var handler))
+        {
+            try
+            {
                 handler(reader);
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 Debug.LogError(
                     $"Error handling client packet {packetId}:\n{exception}"
                 );
             }
         }
-        else {
+        else
+        {
             Debug.LogWarning(
                 $"Client received unknown packet ID: {packetId}"
             );
@@ -97,15 +112,18 @@ public static class PacketDispatch {
         reader.Recycle();
     }
 
-    public static void RemoveServerHandler(ushort packetId) {
+    public static void RemoveServerHandler(ushort packetId)
+    {
         ServerHandlers.Remove(packetId);
     }
 
-    public static void RemoveClientHandler(ushort packetId) {
+    public static void RemoveClientHandler(ushort packetId)
+    {
         ClientHandlers.Remove(packetId);
     }
 
-    public static void Clear() {
+    public static void Clear()
+    {
         ServerHandlers.Clear();
         ClientHandlers.Clear();
     }

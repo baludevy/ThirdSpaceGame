@@ -288,7 +288,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_MaskInteraction: 0
   m_Sprite: {fileID: 5313626477408525208, guid: a30c57bfedc196546a1a1a2e5bf1150b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -362,7 +362,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0, y: 0.19}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -372,7 +372,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.4}
   m_EdgeRadius: 0
 --- !u!114 &4184807097231833534
 MonoBehaviour:
@@ -786,8 +786,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   invPanel: {fileID: 1249543974701118647}
+  hotbarPanel: {fileID: 5420008619807192102}
   slotPrefab: {fileID: 265905069554681194, guid: 75bb4c82c1785bc49a4863b133838aae, type: 3}
   slotCount: 27
+  columns: 9
   itemPrefabs:
   - {fileID: 2461281754673410040, guid: 6d5a7b0b53c578c4a8e83bd5eed918c8, type: 3}
   - {fileID: 2461281754673410040, guid: 6d5a7b0b53c578c4a8e83bd5eed918c8, type: 3}
@@ -886,8 +888,8 @@ Transform:
   m_GameObject: {fileID: 8550873078204674992}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 1.15, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2290870822743455498}
@@ -941,7 +943,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 11
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 362658669513660713, guid: 592a8b9e68e6ebe4ba198fd66ddf4404, type: 3}
+  m_Sprite: {fileID: -8050835570102825802, guid: 14a915bf3987009448bd3b2980fdca70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

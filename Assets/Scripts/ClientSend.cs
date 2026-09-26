@@ -1,16 +1,18 @@
 ﻿using LiteNetLib;
-using Unity.Collections;
 using UnityEngine;
 
-public static class ClientSend {
-    public static void Username(string username) {
+public static class ClientSend
+{
+    public static void Username(string username)
+    {
         NetworkManager.Instance.Client.SendPacket(
             ClientPacketId.Username,
             writer => { writer.Put(username); }
         );
     }
 
-    public static void PlayerMove(Vector2 position, AnimationState animationState) {
+    public static void PlayerMove(Vector2 position, AnimationState animationState)
+    {
         NetworkManager.Instance.Client.SendPacket(
             ClientPacketId.PlayerMove,
             writer => {
@@ -20,12 +22,14 @@ public static class ClientSend {
         );
     }
 
-    public static void DropItem(ItemType itemType) {
+    public static void DropItem(ItemType itemType)
+    {
         NetworkManager.Instance.Client.SendPacket(
             ClientPacketId.DropItem, writer => { writer.Put((byte)itemType); });
     }
 
-    public static void OpenChest(int chestId, ItemType itemType) {
+    public static void OpenChest(int chestId, ItemType itemType)
+    {
         NetworkManager.Instance.Client.SendPacket(
             ClientPacketId.OpenChest,
             writer => { writer.Put(chestId); }

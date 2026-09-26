@@ -16,20 +16,16 @@ public static class TypeExtensions
         writer.Put(vector.y);
     }
 
-    public static Vector3 GetVector3(this NetDataReader reader)
-    {
-        return new Vector3(
+    public static Vector3 GetVector3(this NetDataReader reader) =>
+        new Vector3(
             reader.GetFloat(),
             reader.GetFloat(),
             reader.GetFloat()
         );
-    }
 
-    public static Vector2 GetVector2(this NetDataReader reader)
-    {
-        return new Vector2(
+    public static Vector2 GetVector2(this NetDataReader reader) =>
+        new Vector2(
             reader.GetFloat(),
             reader.GetFloat()
         );
-    }
 }
