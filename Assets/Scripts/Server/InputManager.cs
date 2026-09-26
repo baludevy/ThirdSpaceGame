@@ -47,8 +47,7 @@ public class InputManager
 
         inputsToConsume = Mathf.Min(inputsToConsume, bufferSize - 1);
 
-        Debug.Log(inputsToConsume);
-
+        
         for (int i = 0; i < inputsToConsume; i++)
         {
             MoveInput input = incomingMoveInputs.Dequeue();
