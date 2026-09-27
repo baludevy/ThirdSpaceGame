@@ -16,7 +16,7 @@ namespace Server
             
             Debug.Log("Chest opened");
 
-            // WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, position);
+            WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, (Vector3)position - Vector3.up * 0.75f);
         }
 
         public bool CanInteract() => !opened;

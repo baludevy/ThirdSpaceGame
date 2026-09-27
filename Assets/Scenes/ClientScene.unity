@@ -337,7 +337,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Client.EntityManager
   entities: []
-  entityPrefabs: []
+  entityPrefabs:
+  - key: 1
+    value: {fileID: 4940681760996614280, guid: 94bb8daf8bae9934caaa5a651d6ec2f5, type: 3}
 --- !u!114 &251547645
 MonoBehaviour:
   m_ObjectHideFlags: 0

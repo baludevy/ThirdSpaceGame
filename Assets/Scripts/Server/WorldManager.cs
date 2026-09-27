@@ -47,7 +47,7 @@ public class WorldManager : MonoBehaviour
     {
         foreach (Player player in playerManager.players)
         {
-            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.entityId));
+            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
         }
     }
     

@@ -8,14 +8,18 @@ namespace Server
         public ushort nextEntityID;
         public List<Entity> entities = new List<Entity>();
 
-        public Entity SpawnEntity(EntityType type, Vector3 position, bool broadcast = true)
+        public Entity SpawnEntity(EntityType type, Vector2 position, bool broadcast = true)
         {
             Entity entity = type == EntityType.player ? new Player() : new Entity();
 
             entity.entityId = nextEntityID++;
+            entity.entityType = type;
             entity.position = position;
 
             entities.Add(entity);
+            
+            if(broadcast)
+                ServerSend.SpawnEntity(entity);
             
             return entity;
         }
