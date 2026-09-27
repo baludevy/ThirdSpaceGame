@@ -2,7 +2,8 @@
 {
     Username = 1,
     PlayerMove,
-    Interact
+    Interact,
+    InventoryMove,
 }
 
 public enum ServerPacketId : ushort

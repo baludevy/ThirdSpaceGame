@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Client
 {
@@ -27,6 +28,12 @@ namespace Client
 
         public int activeHotbarSlotIndex;
         public ItemType activeItemType;
+
+        [SerializeField]
+        private Canvas uiCanvas;
+
+        private InventorySlot draggedSlot;
+        private Image dragPreview;
 
         private void Awake()
         {
@@ -112,5 +119,52 @@ namespace Client
             if (Instance == this)
                 Instance = null;
         }
+
+        public void BeginDrag(InventorySlot draggedSlot, Sprite sprite, Vector2 screenPos)
+        {
+            this.draggedSlot = draggedSlot;
+            
+            dragPreview = new GameObject("a", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            
+            dragPreview.transform.SetParent(uiCanvas.transform, false);
+            dragPreview.sprite = sprite;
+            // so its on top omg
+            dragPreview.transform.SetAsLastSibling();
+            dragPreview.sprite = sprite;
+            dragPreview.raycastTarget = false;
+            dragPreview.rectTransform.sizeDelta = new Vector2(72, 72);
+            
+            MoveDragPreview(screenPos);            
+        }
+
+        public void MoveDragPreview(Vector2 screenPos)
+        {
+            if(dragPreview == null)
+                return;
+            
+            RectTransform canvasRect = (RectTransform)uiCanvas.transform;
+            Camera camera = uiCanvas.worldCamera;
+
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, camera, out Vector2 screenPoint))
+            {
+                dragPreview.rectTransform.anchoredPosition = screenPoint;
+            }
+        }
+
+        public void DropOn(InventorySlot toSlot)
+        {
+            SendMove(draggedSlot.slotIndex, toSlot.slotIndex);
+        }
+
+        public void EndDrag()
+        {
+            draggedSlot = null;
+            Destroy(dragPreview);
+        }
+
+        private void SendMove(int fromIndex, int toIndex)
+        {
+            ClientSend.InventoryMove(fromIndex, toIndex);
+        } 
     }
 }

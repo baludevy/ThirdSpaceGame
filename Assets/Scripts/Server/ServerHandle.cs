@@ -30,7 +30,7 @@ namespace Server
         public static void Interact(NetPeer peer, NetDataReader reader)
         {
             int playerId = peer.Id;
-            
+
             InteractionKind interactionKind = (InteractionKind)reader.GetByte();
             ushort id = reader.GetUShort();
 
@@ -50,6 +50,19 @@ namespace Server
                     if (interactable.CanInteract())
                         interactable.Interact(player);
             }
+        }
+
+        public static void InventoryMove(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+
+            int fromIndex = reader.GetByte();
+            int toIndex = reader.GetByte();
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
+            player.inventory.Move(fromIndex, toIndex);
+
+            ServerSend.UpdateInventory(player);
         }
     }
 }

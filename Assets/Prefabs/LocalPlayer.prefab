@@ -886,3 +886,4 @@ MonoBehaviour:
     value: {fileID: -3945622613385178370, guid: fe86351970c5eea47b7626fc607af5e7, type: 3}
   activeHotbarSlotIndex: 0
   activeItemType: 0
+  uiCanvas: {fileID: 6397180600206460569}

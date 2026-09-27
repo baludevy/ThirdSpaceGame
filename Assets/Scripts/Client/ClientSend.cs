@@ -22,13 +22,22 @@ namespace Client
                     writer.Put((byte)animState);
                 }, DeliveryMethod.Unreliable);
         }
-        
+
         public static void Interact(InteractionKind interactionKind, ushort id)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.Interact, writer =>
             {
                 writer.Put((byte)interactionKind);
                 writer.Put(id);
+            });
+        }
+
+        public static void InventoryMove(int fromIndex, int toIndex)
+        {
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryMove, writer =>
+            {
+                writer.Put((byte)fromIndex);
+                writer.Put((byte)toIndex);
             });
         }
     }
