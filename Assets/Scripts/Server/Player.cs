@@ -8,11 +8,14 @@ namespace Server
         public int id;
         public string username;
 
-        [NonSerialized]
         public InputManager inputManager;
 
         public AnimationState animState;
 
+        public override void Tick(float deltaTime)
+        {
+            inputManager.ProcessInputs();
+        }
         public void Initialize(int id, string username)
         {
             this.id = id;

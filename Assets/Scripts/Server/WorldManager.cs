@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Server;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class WorldManager : MonoBehaviour
 {
@@ -27,19 +28,24 @@ public class WorldManager : MonoBehaviour
         playerManager = new PlayerManager();
     }
 
+    void Start()
+    {
+        entityManager.SpawnEntity(EntityType.pet, Vector2.zero);
+    }
+
     private void FixedUpdate()
     {
-        ProcessIncomingInputs();
+        TickEntities();
         SendWorldUpdates();
 
         tick++;
     }
 
-    private void ProcessIncomingInputs()
+    private void TickEntities()
     {
-        foreach (Player player in playerManager.players)
+        foreach (Entity entity in entityManager.entities)
         {
-            player.inputManager.ProcessInputs();
+            entity.Tick(Time.fixedDeltaTime);
         }
     }
 
@@ -53,27 +59,57 @@ public class WorldManager : MonoBehaviour
     
     public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
     {
-        List<PlayerUpdate> playerUpdates = new List<PlayerUpdate>();
+        List<EntityUpdate> entityUpdates = new List<EntityUpdate>();
         
-        foreach (Player player in playerManager.players)
+        foreach (Entity entity in entityManager.entities)
         {
-            if (player.id == excludePlayer)
-                continue;
-
-            PlayerUpdate update = new PlayerUpdate
+            if (entity is Player player)
             {
-                entityId = player.entityId,
-                position = player.position,
-                animState = player.animState,
+                if (player.id == excludePlayer)
+                    continue;
+
+                PlayerUpdate playerUpdate = new PlayerUpdate
+                {
+                    entityId = player.entityId,
+                    entityType = player.entityType,
+                    position = player.position,
+                    animationState = player.animState,
+                };   
+
+                entityUpdates.Add(playerUpdate);
+
+                continue;
+            }
+
+            if(entity is Pet pet)
+            {
+                PetUpdate petUpdate = new PetUpdate
+                {
+                    entityId = pet.entityId,
+                    entityType = pet.entityType,
+                    position = pet.position,
+                    animationState = pet.animationState,
+                };
+
+                entityUpdates.Add(petUpdate);
+
+                continue;
+            }
+
+            EntityUpdate update = new EntityUpdate
+            {
+                entityId = entity.entityId,
+                entityType = entity.entityType,
+                position = entity.position,
             };
-            
-            playerUpdates.Add(update);
+
+            entityUpdates.Add(update);
         }
-        
+
         return new WorldUpdate
         {
             tick = tick,
-            playerUpdates = playerUpdates,
+            entityUpdates = entityUpdates,
         };
     }
 }

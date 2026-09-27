@@ -6,20 +6,23 @@ namespace Server
     public class WorldUpdate
     {
         public uint tick;
-        public List<PlayerUpdate> playerUpdates = new List<PlayerUpdate>();
+        public List<EntityUpdate> entityUpdates = new List<EntityUpdate>();
     }
 
-    public struct PlayerUpdate
+    public class EntityUpdate
     {
         public ushort entityId;
+        public EntityType entityType;
         public Vector2 position;
-        public AnimationState animState;
+    }
 
-        public PlayerUpdate(Vector2 position, AnimationState animState, ushort id)
-        {
-            this.entityId = id;
-            this.position = position;
-            this.animState = animState;
-        }
+    public class PlayerUpdate : EntityUpdate
+    {
+        public AnimationState animationState;
+    }
+
+    public class PetUpdate : EntityUpdate
+    {
+        public PetAnimationState animationState;
     }
 }

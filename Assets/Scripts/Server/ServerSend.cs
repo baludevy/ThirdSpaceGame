@@ -84,13 +84,33 @@ namespace Server
             {
                 writer.Put(update.tick);
 
-                writer.Put(update.playerUpdates.Count);
+                writer.Put(update.entityUpdates.Count);
 
-                foreach (PlayerUpdate playerUpdate in update.playerUpdates)
+                foreach (EntityUpdate entityUpdate in update.entityUpdates)
                 {
-                    writer.Put(playerUpdate.entityId);
-                    writer.Put(playerUpdate.position);
-                    writer.Put((byte)playerUpdate.animState);
+                    if (entityUpdate is PlayerUpdate playerUpdate)
+                    {
+                        writer.Put(playerUpdate.entityId);
+                        writer.Put((byte)playerUpdate.entityType);
+                        writer.Put(playerUpdate.position);
+                        writer.Put((byte)playerUpdate.animationState);
+
+                        continue;
+                    }
+
+                    if (entityUpdate is PetUpdate petUpdate)
+                    {
+                        writer.Put(petUpdate.entityId);
+                        writer.Put((byte)petUpdate.entityType);
+                        writer.Put(petUpdate.position);
+                        writer.Put((byte)petUpdate.animationState);
+
+                        continue;
+                    }
+
+                    writer.Put(entityUpdate.entityId);
+                    writer.Put((byte)entityUpdate.entityType);
+                    writer.Put(entityUpdate.position);
                 }
 
             }, DeliveryMethod.Unreliable);

@@ -84,20 +84,49 @@ public static class ClientHandle
     {
         uint tick = reader.GetUInt();
 
-        int playerUpdateCount = reader.GetInt();
+        int entityUpdateCount = reader.GetInt();
 
-        for (int i = 0; i < playerUpdateCount; i++)
+        for (int i = 0; i < entityUpdateCount; i++)
         {
             ushort entityId = reader.GetUShort();
+            EntityType entityType = (EntityType)reader.GetByte();
             Vector2 position = reader.GetVector2();
-            AnimationState animState = (AnimationState)reader.GetByte();
+
+            if (entityType == EntityType.player)
+            {
+                AnimationState animState = (AnimationState)reader.GetByte();
+                Entity player = EntityManager.Instance.GetEntity(entityId);
+
+                EntityInterpolationManager.Instance.AddSnapshot(player, tick, new PlayerSnapshot
+                {
+                    time = Time.time,
+                    position = position,
+                    animationState = animState
+                });
+
+                continue;
+            }
+
+            if (entityType == EntityType.pet)
+            {
+                PetAnimationState animState = (PetAnimationState)reader.GetByte();
+                Entity pet = EntityManager.Instance.GetEntity(entityId);
+
+                EntityInterpolationManager.Instance.AddSnapshot(pet, tick, new PetSnapshot
+                {
+                    time = Time.time,
+                    position = position,
+                    animationState = animState
+                });
+
+                continue;
+            }
 
             Entity entity = EntityManager.Instance.GetEntity(entityId);
-            EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new PlayerSnapshot
+            EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new EntitySnapshot
             {
                 time = Time.time,
                 position = position,
-                animationState = animState
             });
         }
     }
