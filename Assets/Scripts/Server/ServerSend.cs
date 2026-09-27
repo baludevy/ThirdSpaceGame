@@ -75,6 +75,27 @@ namespace Server
                         writer.Put(player.username);
                     }
                 }
+                if (entity.entityType == EntityType.item)
+                {
+                    if (entity is DroppedItem item)
+                    {
+                        writer.Put((byte)item.itemType);
+                    }
+                }
+            });
+        }
+        public static void UpdateInventory(Player player)
+        {
+            NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateInventory, player.id, writer =>
+            {
+                foreach (Slot slot in player.inventory.slots)
+                {
+                    writer.Put((byte)slot.slotIndex);
+                    writer.Put((byte)slot.count);
+
+                    if(slot.count > 0)
+                        writer.Put((byte)slot.itemType);
+                }
             });
         }
 

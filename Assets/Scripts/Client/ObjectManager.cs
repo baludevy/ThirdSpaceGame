@@ -26,11 +26,9 @@ namespace Client
         {
             GameObject go = Instantiate(objectPrefabs[type], position, Quaternion.identity);
             Object obj = go.GetComponent<Object>();
-
-            if (type == ObjectType.chest)
-            {
-                Chest chest = go.GetComponent<Chest>();
-            }
+            
+            obj.id = id;
+            obj.type = type;
 
             objects.Add(obj);
         }

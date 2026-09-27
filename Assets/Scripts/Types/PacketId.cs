@@ -12,5 +12,6 @@ public enum ServerPacketId : ushort
     SpawnEntity,
     UpdateWorld,
     DestroyEntity,
+    UpdateInventory,
     ChestOpened,
 }

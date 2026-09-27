@@ -1,0 +1,20 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PrefabManager : MonoBehaviour
+{
+    public static PrefabManager Instance;
+
+
+    [SerializeField]
+    public Dictionary<ItemType, GameObject> itemPrefabs = new Dictionary<ItemType, GameObject>();
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+            else   
+                Destroy(gameObject);
+    }
+}
