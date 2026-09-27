@@ -3,13 +3,12 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
 {
-
     public static NetworkManager Instance;
 
     [NonSerialized]
-    public Client Client = new Client();
+    public Client.Client Client = new Client.Client();
     [NonSerialized]
-    public Server Server = new Server();
+    public Server.Server Server = new Server.Server();
 
     public bool IsHost => Client.connected && Server.running;
 

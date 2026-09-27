@@ -1,0 +1,27 @@
+﻿using System;
+using UnityEngine;
+
+namespace Server
+{
+    public class Player : Entity
+    {
+        public int id;
+        public string username;
+
+        public InputManager inputManager;
+
+        public AnimationState animState;
+
+        public override void Tick(float deltaTime)
+        {
+            inputManager.ProcessInputs();
+        }
+        public void Initialize(int id, string username)
+        {
+            this.id = id;
+            this.username = username;
+
+            inputManager = new InputManager(this);
+        }
+    }
+}

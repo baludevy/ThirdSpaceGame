@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7722874592871503249}
-  - component: {fileID: 6413142731136071292}
+  - component: {fileID: 4798111212537513335}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 4007683000504037195}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6413142731136071292
+--- !u!114 &4798111212537513335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,13 +42,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1349700374114528054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62ceb782b5b433ea1ea9e8d0b562d57, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c4c6b54a2f54871b317e475abb178db, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  m_EditorClassIdentifier: Assembly-CSharp::Client.Player
+  type: 0
   id: 0
-  usernameText: {fileID: 8285231381670585632}
-  animator: {fileID: 3338666909522030718}
+  username: 
   sprite: {fileID: 2568824857421025216}
+  animator: {fileID: 3338666909522030718}
+  usernameText: {fileID: 8285231381670585632}
 --- !u!1 &1928956200355711044
 GameObject:
   m_ObjectHideFlags: 0
