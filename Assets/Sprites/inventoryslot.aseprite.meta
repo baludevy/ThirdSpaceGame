@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5e26b40d417fc424e8d83c62b1cc331d
+guid: 9d96221747c2c1a428715421ee9f66a3
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,7 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: dirt
+  - name: inventoryslot
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 32
-    spriteID: 74b57937f45a38c43accbe43fc4995f1
+    spriteID: 60ac3c1ed26bf9b4a99bfbfca8517fdb
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,17 +153,17 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1178973867
+      value0: 3906897022
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: dirt
+    name: inventoryslot
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Dirt
+    - name: inventoryslot
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -171,7 +171,7 @@ ScriptedImporter:
         y: 0
         width: 32
         height: 32
-      spriteId: 74b57937f45a38c43accbe43fc4995f1
+      spriteId: 60ac3c1ed26bf9b4a99bfbfca8517fdb
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
