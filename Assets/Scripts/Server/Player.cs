@@ -37,12 +37,14 @@ namespace Server
                 interactableInRange = null;
             }
         }
+        
         public void Interact()
         {
             Debug.Log("Interact");
             if(interactableInRange == null)
-            return;
-            interactableInRange.Interact();
+                return;
+            
+            interactableInRange.Interact(this);
         }
   }
 }

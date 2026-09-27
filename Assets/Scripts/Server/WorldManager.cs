@@ -34,25 +34,26 @@ public class WorldManager : MonoBehaviour
     {
         foreach (Player player in PlayerManager.Instance.players)
         {
-            ServerSend.UpdateWorld(player.id,GetWorldUpdate(player.entityId));
+            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.entityId));
         }
     }
 
-    public World GetIntialWorld()
+    public World GetInitialWorld()
     {
         Debug.Log($"Server entity count:{EntityManager.Instance.entities.Count}");
-            return new World
-            {
-                objects = Server.ObjectManager.Instance.objects, entities = EntityManager.Instance.entities
-            };
+        return new World
+        {
+            objects = Server.ObjectManager.Instance.objects, entities = EntityManager.Instance.entities
+        };
     }
-    public WorldUpdate GetWorldUpdate (int excludePlayer = -1)
+
+    public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
     {
         List<PlayerUpdate> playerUpdates = new List<PlayerUpdate>();
         foreach (Player player in PlayerManager.Instance.players)
         {
             if (player.id == excludePlayer)
-            continue;
+                continue;
 
             PlayerUpdate update = new PlayerUpdate
             {
@@ -69,4 +70,3 @@ public class WorldManager : MonoBehaviour
         };
     }
 }
-

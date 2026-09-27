@@ -9,10 +9,10 @@ namespace Server
 
         public override ObjectType Type => ObjectType.chest;
 
-        public void Interact()
+        public void Interact(Player player)
         {
             if(opened)
-            return;
+                return;
 
             opened = true;
             ServerSend.ChestOpened(objectInstance.id, opened);
