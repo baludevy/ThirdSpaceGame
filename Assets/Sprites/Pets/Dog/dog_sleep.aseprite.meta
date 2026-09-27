@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 25
       width: 16
       height: 12
-    spriteID: 2b5b382c2cd7a034da246b547aab6e08
+    spriteID: 781d1a8810db0cf438c6c2744e7f6f3f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -150,7 +150,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 25}
   - name: Frame_1
     originalName: 
-    pivot: {x: 0.53333336, y: -0.071428575}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -158,15 +158,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-<<<<<<< Updated upstream:Assets/Sprites/Pets/Dog/dog_sleep.aseprite.meta
       width: 16
       height: 13
-    spriteID: 149e91e00381a794ead6df451851bf9b
-=======
-      width: 15
-      height: 14
-    spriteID: e78174b8099a01540a0c4a43b37f3ffb
->>>>>>> Stashed changes:Assets/Sprites/farmer tipfeju.aseprite.meta
+    spriteID: 6a635a45ce05e3145903f9e5d2420093
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -195,11 +189,10 @@ ScriptedImporter:
       additiveSortOrder: 0
       cellRect:
         x: 0
-<<<<<<< Updated upstream:Assets/Sprites/Pets/Dog/dog_sleep.aseprite.meta
         y: 0
         width: 16
         height: 12
-      spriteId: 2b5b382c2cd7a034da246b547aab6e08
+      spriteId: 781d1a8810db0cf438c6c2744e7f6f3f
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -208,43 +201,13 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 13
-      spriteId: 149e91e00381a794ead6df451851bf9b
-=======
-        y: 1
-        width: 15
-        height: 14
-      spriteId: e78174b8099a01540a0c4a43b37f3ffb
->>>>>>> Stashed changes:Assets/Sprites/farmer tipfeju.aseprite.meta
+      spriteId: 6a635a45ce05e3145903f9e5d2420093
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: DefaultTexturePlatform
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   previousTextureSize: {x: 32, y: 64}

@@ -74,7 +74,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -89,7 +89,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   asepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639254477180483255
+  platformSettingsDirtyTick: 639261323113847270
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 321047b8445bbea41a7ab90376298755
+    spriteID: 30851110bfdaa66409220398746e7a51
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -184,7 +184,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Layer 1
+    - name: Grass
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:

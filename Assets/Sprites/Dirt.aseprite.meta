@@ -74,7 +74,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -89,7 +89,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   asepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639255181999710533
+  platformSettingsDirtyTick: 639261323089142564
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 9369dc3c649e7bd43bdb842d22597775
+    spriteID: fc18446388e2e9a4e89784bac35b4741
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -184,7 +184,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Layer 1
+    - name: Dirt
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
