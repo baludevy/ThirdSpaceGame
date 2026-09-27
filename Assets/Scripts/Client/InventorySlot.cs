@@ -24,11 +24,15 @@ namespace Client
                 this.itemType = itemType;
                 this.itemCount = itemCount;
 
+                image.gameObject.SetActive(true);
+                
                 itemCountText.text = itemCount.ToString();
                 image.sprite = Inventory.Instance.itemSprites[itemType];
             }
             else
             {
+                image.gameObject.SetActive(false);
+                
                 image.sprite = null;
                 itemCountText.text = "";
             }

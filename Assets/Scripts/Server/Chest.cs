@@ -20,7 +20,7 @@ namespace Server
             if(WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is DroppedItem droppedItem)
             {
                 droppedItem.itemType = itemType;
-                droppedItem.itemAmount = 50;
+                droppedItem.itemAmount = Random.Range(1, 5);
 
                 ServerSend.SpawnEntity(droppedItem);
 

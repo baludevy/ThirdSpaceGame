@@ -1,11 +1,5 @@
 using UnityEngine;
 
-public enum ItemType
-{
-    empty,
-    carrot,
-    potato
-}
 
 namespace Server
 {
