@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Server;
+using Types;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,7 +31,17 @@ public class WorldManager : MonoBehaviour
 
     void Start()
     {
-        entityManager.SpawnEntity(EntityType.pet, Vector2.zero);
+        if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
+        {
+            cat.petType = PetType.Cat;
+            ServerSend.SpawnEntity(cat);
+        }
+        
+        if(entityManager.SpawnEntity(EntityType.pet, Vector2.left, broadcast: false) is Pet dog)
+        {
+            dog.petType = PetType.Dog;
+            ServerSend.SpawnEntity(dog);
+        }
     }
 
     private void FixedUpdate()

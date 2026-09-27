@@ -54,7 +54,20 @@ namespace Server
                             writer.Put(player.username);
                         }
                     }
-
+                    if (entity.entityType == EntityType.pet)
+                    {
+                        if (entity is Pet pet)
+                        {
+                            writer.Put((byte)pet.petType);   
+                        }
+                    }
+                    if (entity.entityType == EntityType.item)
+                    {
+                        if (entity is DroppedItem item)
+                        {
+                            writer.Put((byte)item.itemType);
+                        }
+                    }
                     wrotePlayer++;
                 }
             });
@@ -73,6 +86,13 @@ namespace Server
                     {
                         writer.Put(player.id);
                         writer.Put(player.username);
+                    }
+                }
+                if (entity.entityType == EntityType.pet)
+                {
+                    if (entity is Pet pet)
+                    {
+                        writer.Put((byte)pet.petType);   
                     }
                 }
                 if (entity.entityType == EntityType.item)

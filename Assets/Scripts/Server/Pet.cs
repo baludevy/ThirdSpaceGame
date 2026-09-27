@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Types;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,6 +8,8 @@ namespace Server
 {
     public class Pet : Entity
     {
+        public PetType petType = PetType.Dog;
+        
         private Entity target;
         private float stateTimeRemaining;
 

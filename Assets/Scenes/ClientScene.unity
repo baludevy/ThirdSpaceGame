@@ -2524,6 +2524,11 @@ MonoBehaviour:
     value: {fileID: 4940681760996614280, guid: 94bb8daf8bae9934caaa5a651d6ec2f5, type: 3}
   - key: 1
     value: {fileID: 4940681760996614280, guid: edb7c61bd206f544b815924a8a656f14, type: 3}
+  petPrefabs:
+  - key: 1
+    value: {fileID: 5274964229881561273, guid: d7658dbac8de0634291aeb183e7db647, type: 3}
+  - key: 0
+    value: {fileID: 5274964229881561273, guid: f3f6058db64d957419f1bec241662e75, type: 3}
 --- !u!1 &2006630956
 GameObject:
   m_ObjectHideFlags: 0

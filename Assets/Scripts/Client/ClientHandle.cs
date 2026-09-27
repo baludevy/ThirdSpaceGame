@@ -1,6 +1,7 @@
 ﻿using Client;
 using Game;
 using LiteNetLib.Utils;
+using Types;
 using UnityEngine;
 
 public static class ClientHandle
@@ -50,6 +51,13 @@ public static class ClientHandle
                 continue;
             }
 
+            if (type == EntityType.pet)
+            {
+                PetType petType = (PetType)reader.GetByte();
+                EntityManager.Instance.ReplicateEntity(entityId, type, position, PrefabManager.Instance.petPrefabs[petType]);
+                continue;
+            }
+            
             EntityManager.Instance.ReplicateEntity(entityId, type, position);
         }
     }
@@ -68,6 +76,13 @@ public static class ClientHandle
             PlayerManager.Instance.SpawnPlayer(entityId, playerId, username, position);
             return;
         }
+        
+        if (type == EntityType.pet)
+        {
+            PetType petType = (PetType)reader.GetByte();
+            EntityManager.Instance.ReplicateEntity(entityId, type, position, PrefabManager.Instance.petPrefabs[petType]);
+            return;
+        }
 
         if (type == EntityType.item)
         {
@@ -83,6 +98,7 @@ public static class ClientHandle
 
             return;
         }
+        
         Entity entity = EntityManager.Instance.ReplicateEntity(entityId, type, position);
     }
     
