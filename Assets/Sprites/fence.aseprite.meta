@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639255102396720532
+  platformSettingsDirtyTick: 639261307335160587
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -163,7 +163,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: fence
+    - name: Fence
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:

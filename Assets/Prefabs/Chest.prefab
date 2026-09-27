@@ -157,4 +157,4 @@ MonoBehaviour:
   opened: 0
   renderer: {fileID: 118071965294810398}
   chestClosedSprite: {fileID: -5151623643824583424, guid: 7e00daa8acb016d43939f590c03cc277, type: 3}
-  chestOpenedSprite: {fileID: -3729485245255860766, guid: 28a981c7058f7ce44a585b395933eef5, type: 3}
+  chestOpenedSprite: {fileID: -783856621154249060, guid: 28a981c7058f7ce44a585b395933eef5, type: 3}

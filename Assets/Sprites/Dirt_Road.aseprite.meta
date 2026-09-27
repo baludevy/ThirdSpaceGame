@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5e26b40d417fc424e8d83c62b1cc331d
+guid: 34b12fb91789f0a4580934062568f571
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -74,7 +74,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -89,7 +89,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   asepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639255181999710533
+  platformSettingsDirtyTick: 639261307335150579
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -127,7 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: ground-dirt
+  - name: dirtroad
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 9369dc3c649e7bd43bdb842d22597775
+    spriteID: 3e4ea85ad5e02f44fb8b89bdba5401a5
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -149,42 +149,21 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData: []
-  tileSetImportData:
-  - name: Layer 1
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 4
-      width: 16
-      height: 16
-    spriteID: fc18446388e2e9a4e89784bac35b4741
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+  tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 4287466680
+      value0: 689063551
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Layer 1
-    layerFlags: 3
+    name: dirtroad
+    layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Layer 1
+    - name: Dirt_Road
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -192,7 +171,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 16
-      spriteId: fc18446388e2e9a4e89784bac35b4741
+      spriteId: 3e4ea85ad5e02f44fb8b89bdba5401a5
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

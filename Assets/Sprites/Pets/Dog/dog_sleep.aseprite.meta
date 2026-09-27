@@ -36,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 100
+    spritePixelsToUnits: 16
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 0
+  platformSettingsDirtyTick: 639261307430772530
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 25
       width: 16
       height: 12
-    spriteID: 2b5b382c2cd7a034da246b547aab6e08
+    spriteID: 781d1a8810db0cf438c6c2744e7f6f3f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -160,7 +160,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 13
-    spriteID: 149e91e00381a794ead6df451851bf9b
+    spriteID: 6a635a45ce05e3145903f9e5d2420093
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -192,7 +192,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 12
-      spriteId: 2b5b382c2cd7a034da246b547aab6e08
+      spriteId: 781d1a8810db0cf438c6c2744e7f6f3f
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -201,7 +201,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 13
-      spriteId: 149e91e00381a794ead6df451851bf9b
+      spriteId: 6a635a45ce05e3145903f9e5d2420093
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

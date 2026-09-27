@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449230e19535433db8cd0c5ac7996ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Client.DroppedItem
-  type: 1
+  type: 2
 --- !u!61 &3833463391148112200
 BoxCollider2D:
   m_ObjectHideFlags: 0

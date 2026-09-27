@@ -9,8 +9,8 @@ namespace Server
         public string username;
 
         public InputManager inputManager;
-
         public AnimationState animState;
+        public Inventory inventory;
 
         public override void Tick(float deltaTime)
         {
@@ -22,6 +22,7 @@ namespace Server
             this.username = username;
 
             inputManager = new InputManager(this);
+            inventory = new Inventory(27);
         }
     }
 }
