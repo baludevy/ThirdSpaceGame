@@ -101,6 +101,7 @@ namespace Client
 
                 EntitySnapshot from = samples[0];
                 EntitySnapshot to = samples[1];
+                
                 float t = Mathf.InverseLerp(from.time, to.time, renderTime);
                 Vector2 position = Vector2.Lerp(from.position, to.position, t);
 

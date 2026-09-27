@@ -27,14 +27,16 @@ namespace Server
                     writer.Put((byte)obj.type);
 
                     writer.Put(obj.position);
-                    
-                    /* if (obj.type == ObjectType.chest)
+
+                    if (obj.type == ObjectType.chest)
                     {
-                        ChestObject chestObj = obj as ChestObject;
-                        writer.Put(chestObj != null && chestObj.opened);
-                    } */
+                        Chest chest = obj as Chest;
+                        writer.Put(chest != null && chest.opened);
+                    }
                 }
 
+                int wrotePlayer = 0;
+                
                 // === ENTITIES === ///
                 writer.Put(entities.Count);
 
@@ -52,6 +54,8 @@ namespace Server
                             writer.Put(player.username);
                         }
                     }
+
+                    wrotePlayer++;
                 }
             });
         }
@@ -62,7 +66,7 @@ namespace Server
                 writer.Put(entity.entityId);
                 writer.Put((byte)entity.entityType);
                 writer.Put(entity.position);
-                
+
                 if (entity.entityType == EntityType.player)
                 {
                     if (entity is Player player)
@@ -91,15 +95,21 @@ namespace Server
 
             }, DeliveryMethod.Unreliable);
         }
+
+        public static void DestroyEntity(ushort entityId)
+        {
+            NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.DestroyEntity, writer =>
+            {
+                writer.Put(entityId);
+            });
+        }
+
         public static void ChestOpened(ushort objId, bool opened)
         {
             NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.ChestOpened, writer =>
             {
-                NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.ChestOpened, writer =>
-                {
-                    writer.Put(objId);
-                    writer.Put(opened);
-                });
+                writer.Put(objId);
+                writer.Put(opened);
             });
         }
     }

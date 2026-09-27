@@ -1,8 +1,9 @@
-namespace Server
+﻿namespace Client
 {
     public interface Interactable
     {
-        void Interact(Player player);
+        void Interact();
+        ushort GetId();
         bool CanInteract();
     }
 }

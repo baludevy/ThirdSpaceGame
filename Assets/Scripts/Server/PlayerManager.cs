@@ -9,9 +9,7 @@ namespace Server
 
         public void SpawnPlayer(int id, string username, Vector3 position)
         {
-            Player player = WorldManager.Instance.entityManager.SpawnEntity(EntityType.player, position, broadcast: false) as Player;
-
-            if (player != null)
+            if (WorldManager.Instance.entityManager.SpawnEntity(EntityType.player, position, broadcast: false) is Player player)
             {
                 player.Initialize(id, username);
 
@@ -19,6 +17,15 @@ namespace Server
 
                 ServerSend.SpawnEntity(player);
             }
+        }
+
+        public void DestroyPlayer(int id)
+        {
+            Player targetPlayer = GetPlayer(id);
+            Entity targetEntity = WorldManager.Instance.entityManager.GetEntity(targetPlayer.entityId);
+            
+            WorldManager.Instance.entityManager.DestroyEntity(targetEntity);
+            players.Remove(targetPlayer);
         }
 
         public Player GetPlayer(int id) => players.Find(x => x.id == id);

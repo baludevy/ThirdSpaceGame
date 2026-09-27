@@ -2,26 +2,23 @@ using UnityEngine;
 
 namespace Server
 {
-    public class ChestObject : Object
-    {
-        public bool opened;
-    }
-    
-    public class Chest : Object, Interactable
+    public class Chest : Object
     {
         public bool opened;
 
-        public void Interact(Player player)
+        public override void Interact(Player player)
         {
-            if(opened)
+            if (opened)
                 return;
 
             opened = true;
             ServerSend.ChestOpened(id, opened);
+            
+            Debug.Log("Chest opened");
 
-            WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, position);
+            // WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, position);
         }
-        
+
         public bool CanInteract() => !opened;
     }
 }

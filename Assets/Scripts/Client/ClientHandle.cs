@@ -19,11 +19,18 @@ public static class ClientHandle
 
         for (int i = 0; i < objectCount; i++)
         {
-            ushort id = reader.GetUShort();
+            ushort objectId = reader.GetUShort();
             ObjectType type = (ObjectType)reader.GetByte();
             Vector2 position = reader.GetVector2();
 
-            ObjectManager.Instance.AddObject(id, type, position);
+            ObjectManager.Instance.AddObject(objectId, type, position);
+
+            if (type == ObjectType.chest)
+            {
+                bool opened = reader.GetBool();
+                
+                ObjectManager.Instance.GetObject(objectId).GetComponent<Chest>().SetOpened(opened);
+            }
         }
 
         int entityCount = reader.GetInt();
@@ -51,7 +58,7 @@ public static class ClientHandle
     {
         ushort entityId = reader.GetUShort();
         EntityType type = (EntityType)reader.GetByte();
-        Vector3 position = reader.GetVector2();
+        Vector2 position = reader.GetVector2();
 
         if (type == EntityType.player)
         {
@@ -87,9 +94,18 @@ public static class ClientHandle
         }
     }
 
+    public static void DestroyEntity(NetDataReader reader)
+    {
+        ushort entityId = reader.GetUShort();
+        
+        EntityManager.Instance.DestroyEntity(entityId);
+    }
+
     public static void ChestOpened(NetDataReader reader)
     {
         ushort objId = reader.GetUShort();
         bool opened = reader.GetBool();
+        
+        ObjectManager.Instance.GetObject(objId).GetComponent<Chest>().SetOpened(opened);
     }
 }

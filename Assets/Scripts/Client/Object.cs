@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class Object : MonoBehaviour
+namespace Client
 {
-    public ushort id;
-    public ObjectType type;
+    public class Object : MonoBehaviour
+    {
+        public ushort id;
+        public ObjectType type;
+    }
 }

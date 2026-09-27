@@ -19,5 +19,13 @@ namespace Server
             
             return entity;
         }
+        
+        public void DestroyEntity(Entity entity)
+        {
+            ServerSend.DestroyEntity(entity.entityId);
+            entities.Remove(entity);
+        }
+        
+        public Entity GetEntity(ushort id) => entities.Find(e => e.entityId == id);
     }
 }

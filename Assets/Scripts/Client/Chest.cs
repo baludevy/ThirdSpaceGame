@@ -1,8 +1,10 @@
+using Client;
 using UnityEngine;
+using Object = Client.Object;
 
 namespace Game
 {
-    public class Chest : Object
+    public class Chest : Object, Interactable
     {
         public bool opened;
 
@@ -16,14 +18,22 @@ namespace Game
 
             UpdateSprite();
         }
-        
+
         private void UpdateSprite()
         {
-            if(opened)
+            if (opened)
                 renderer.sprite = chestOpenedSprite;
             else
                 renderer.sprite = chestClosedSprite;
         }
+
+        public void Interact()
+        {
+            Debug.Log("Interacting with chest");
+        }
+
+        public ushort GetId() => id;
+
         public bool CanInteract() => !opened;
     }
 }

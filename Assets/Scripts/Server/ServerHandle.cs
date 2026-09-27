@@ -13,7 +13,7 @@ namespace Server
             ServerSend.InitalizeWorld(peer.Id, WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
             WorldManager.Instance.playerManager.SpawnPlayer(peer.Id, username, Vector3.zero);
         }
-        
+
         public static void PlayerMove(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
@@ -26,13 +26,14 @@ namespace Server
                 animState = animState
             });
         }
-        
+
         public static void Interact(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
+            ushort objectId = reader.GetUShort();
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.Interact();
+            WorldManager.Instance.objectManager.InteractWithObject(objectId, player);
         }
     }
 }

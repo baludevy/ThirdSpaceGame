@@ -49,6 +49,11 @@ namespace Client
             return entity;
         }
 
+        public void DestroyEntity(ushort entityId)
+        {
+            Destroy(GetEntity(entityId).gameObject);
+        }
+
         public Entity GetEntity(ushort id) => entities.Find(x => x.entityId == id);
     }
 }

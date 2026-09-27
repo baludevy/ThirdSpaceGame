@@ -74,6 +74,11 @@ namespace Server
             Debug.Log(
                 $"Client {peer.Id} disconnected: {disconnectInfo.Reason}"
             );
+
+            if (WorldManager.Instance.playerManager.GetPlayer(peer.Id) != null)
+            {
+                WorldManager.Instance.playerManager.DestroyPlayer(peer.Id);
+            }
         }
 
         private void OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod)
