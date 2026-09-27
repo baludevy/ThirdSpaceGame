@@ -2,6 +2,7 @@
 {
     Username = 1,
     PlayerMove,
+    Interact
 }
 
 public enum ServerPacketId : ushort
@@ -10,4 +11,5 @@ public enum ServerPacketId : ushort
     InitializeWorld,
     SpawnEntity,
     UpdateWorld,
+    ChestOpened,
 }

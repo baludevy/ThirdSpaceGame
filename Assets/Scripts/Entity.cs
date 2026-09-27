@@ -4,6 +4,7 @@ using UnityEngine;
 public enum EntityType : byte
 {
     player,
+    item,
 }
 
 public class Entity : MonoBehaviour

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Server;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
     public uint tick;
-    
     public static WorldManager Instance;
 
     private void Awake()
@@ -15,7 +16,6 @@ public class WorldManager : MonoBehaviour
         else
             Destroy(this);
     }
-
     private void FixedUpdate()
     {
         ProcessIncomingInputs();
@@ -23,7 +23,6 @@ public class WorldManager : MonoBehaviour
 
         tick++;
     }
-
     private void ProcessIncomingInputs()
     {
         foreach (Player player in PlayerManager.Instance.players)
@@ -31,31 +30,29 @@ public class WorldManager : MonoBehaviour
             player.inputManager.ProcessInputs();
         }
     }
-
     private void SendWorldUpdates()
     {
         foreach (Player player in PlayerManager.Instance.players)
         {
-            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.entityId));
+            ServerSend.UpdateWorld(player.id,GetWorldUpdate(player.entityId));
         }
     }
 
-    public World GetInitialWorld()
+    public World GetIntialWorld()
     {
-        return new World
-        {
-            entities = EntityManager.Instance.entities
-        };
+        Debug.Log($"Server entity count:{EntityManager.Instance.entities.Count}");
+            return new World
+            {
+                objects = Server.ObjectManager.Instance.objects, entities = EntityManager.Instance.entities
+            };
     }
-
-    public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
+    public WorldUpdate GetWorldUpdate (int excludePlayer = -1)
     {
         List<PlayerUpdate> playerUpdates = new List<PlayerUpdate>();
-
         foreach (Player player in PlayerManager.Instance.players)
         {
             if (player.id == excludePlayer)
-                continue;
+            continue;
 
             PlayerUpdate update = new PlayerUpdate
             {
@@ -63,10 +60,8 @@ public class WorldManager : MonoBehaviour
                 position = player.transform.position,
                 animState = player.animState,
             };
-
             playerUpdates.Add(update);
         }
-
         return new WorldUpdate
         {
             tick = tick,
@@ -74,3 +69,4 @@ public class WorldManager : MonoBehaviour
         };
     }
 }
+
