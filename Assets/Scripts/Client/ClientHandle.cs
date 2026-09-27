@@ -68,17 +68,40 @@ public static class ClientHandle
             PlayerManager.Instance.SpawnPlayer(entityId, playerId, username, position);
             return;
         }
-
-        Entity entity = EntityManager.Instance.ReplicateEntity(entityId, type, position);
         
-        if (entity.GetEntityType() == EntityType.item)
+        if (type == EntityType.item)
         {
-            if (entity.gameObject.TryGetComponent(out BounceEffect bounce))
+            ItemType itemType = (ItemType)reader.GetByte();
+            GameObject itemPrefab = PrefabManager.Instance.itemPrefabs[itemType];
+
+            DroppedItem droppedItem = EntityManager.Instance.ReplicateEntity(entityId, type, position, itemPrefab) as DroppedItem;
+
+            if (droppedItem != null && droppedItem.gameObject.TryGetComponent(out BounceEffect bounce))
             {
                 bounce.StartBounce();
             }
+
+            return;
+        }
+         Entity entity = EntityManager.Instance.ReplicateEntity(entityId, type, position);
+    }
+    public static void UpdateInventory(NetDataReader reader)
+    {
+        int inventorySlotCount = 27;
+
+        for(int i = 0; i < inventorySlotCount; i++)
+        {
+            int slotIndex = reader.GetByte();
+            int itemCount = reader.GetByte();
+
+            if(itemCount > 0)
+            {
+                ItemType itemType = (ItemType)reader.GetByte();
+                Debug.Log($"Slot({slotIndex}) contains: {itemType} - {itemCount} pieces");
+            }
         }
     }
+   
 
     public static void UpdateWorld(NetDataReader reader)
     {
