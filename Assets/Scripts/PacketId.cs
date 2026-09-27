@@ -2,18 +2,15 @@
 {
     Username = 1,
     PlayerMove,
-    DropItem,
-    OpenChest
+    Interact
 }
 
 public enum ServerPacketId : ushort
 {
     Welcome = 1,
-    PlayerJoined,
-    PlayerLeft,
-    SpawnPlayer,
-    PlayerMove,
+    InitializeWorld,
+    SpawnEntity,
+    DestroyEntity,
+    UpdateWorld,
     ChestOpened,
-    ItemDropped,
-    InitializeWorld
 }
