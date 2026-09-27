@@ -10,7 +10,12 @@ namespace Server
 
         public Entity SpawnEntity(EntityType type, Vector2 position, bool broadcast = true)
         {
-            Entity entity = type == EntityType.player ? new Player() : new Entity();
+            Entity entity = type switch
+            {
+                EntityType.player => new Player(),
+                EntityType.item => new DroppedItem(),
+                _ => new Entity()
+            };
 
             entity.entityId = nextEntityID++;
             entity.entityType = type;

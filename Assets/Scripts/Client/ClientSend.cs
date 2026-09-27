@@ -23,11 +23,12 @@ namespace Client
                 }, DeliveryMethod.Unreliable);
         }
         
-        public static void Interact(ushort objectId)
+        public static void Interact(InteractionKind interactionKind, ushort id)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.Interact, writer =>
             {
-                writer.Put(objectId);
+                writer.Put((byte)interactionKind);
+                writer.Put(id);
             });
         }
     }

@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Server
 {
-    public class Chest : Object
+    public class Chest : Object, Interactable
     {
         public bool opened;
 
-        public override void Interact(Player player)
+        public void Interact(Player player)
         {
             if (opened)
                 return;

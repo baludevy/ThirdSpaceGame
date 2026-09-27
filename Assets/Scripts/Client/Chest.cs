@@ -33,6 +33,8 @@ namespace Game
         }
 
         public ushort GetId() => id;
+        
+        public InteractionKind GetInteractionKind() => InteractionKind.Object;
 
         public bool CanInteract() => !opened;
     }

@@ -1,5 +1,6 @@
 using Client;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game
 {
@@ -23,11 +24,14 @@ namespace Game
             }
         }
         
-        public void OnInteract()
+        public void OnInteract(InputAction.CallbackContext context)
         {
+            if(!context.performed)
+                return;
+            
             if(interactableInRange != null)
             {
-                ClientSend.Interact(interactableInRange.GetId());
+                ClientSend.Interact(interactableInRange.GetInteractionKind(), interactableInRange.GetId());
             }
         }
     }

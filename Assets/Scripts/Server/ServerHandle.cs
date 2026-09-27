@@ -29,11 +29,27 @@ namespace Server
 
         public static void Interact(NetPeer peer, NetDataReader reader)
         {
-            int id = peer.Id;
-            ushort objectId = reader.GetUShort();
+            int playerId = peer.Id;
+            
+            InteractionKind interactionKind = (InteractionKind)reader.GetByte();
+            ushort id = reader.GetUShort();
 
-            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            WorldManager.Instance.objectManager.InteractWithObject(objectId, player);
+            WorldManager worldManager = WorldManager.Instance;
+
+            Player player = worldManager.playerManager.GetPlayer(playerId);
+
+            if (interactionKind == InteractionKind.Entity)
+            {
+                if (WorldManager.Instance.entityManager.GetEntity(id) is Interactable interactable)
+                    if (interactable.CanInteract())
+                        interactable.Interact(player);
+            }
+            else if (interactionKind == InteractionKind.Object)
+            {
+                if (WorldManager.Instance.objectManager.GetObject(id) is Interactable interactable)
+                    if (interactable.CanInteract())
+                        interactable.Interact(player);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@
     {
         void Interact();
         ushort GetId();
+        InteractionKind GetInteractionKind();
         bool CanInteract();
     }
 }
