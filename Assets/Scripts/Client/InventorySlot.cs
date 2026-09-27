@@ -15,8 +15,20 @@ namespace Client
         [SerializeField]
         private TMP_Text itemCountText;
         [SerializeField]
-        private Image image;
+        private Image itemImage;
+        
+        [SerializeField]
+        private Image slotImage;
+        [SerializeField]
+        private Sprite activeSprite;
+        [SerializeField]
+        private Sprite inactiveSprite;
 
+        public void SetActive(bool active)
+        {
+            slotImage.sprite = active ? activeSprite : inactiveSprite;
+        }
+        
         public void UpdateSlot(ItemType itemType, int itemCount)
         {
             if (itemCount > 0)
@@ -24,16 +36,16 @@ namespace Client
                 this.itemType = itemType;
                 this.itemCount = itemCount;
 
-                image.gameObject.SetActive(true);
+                itemImage.gameObject.SetActive(true);
                 
                 itemCountText.text = itemCount.ToString();
-                image.sprite = Inventory.Instance.itemSprites[itemType];
+                itemImage.sprite = Inventory.Instance.itemSprites[itemType];
             }
             else
             {
-                image.gameObject.SetActive(false);
+                itemImage.gameObject.SetActive(false);
                 
-                image.sprite = null;
+                itemImage.sprite = null;
                 itemCountText.text = "";
             }
         }

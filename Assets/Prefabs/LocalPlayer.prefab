@@ -876,11 +876,13 @@ MonoBehaviour:
   hotbarPanel: {fileID: 6034293304507612472}
   slotPrefab: {fileID: 6601051786054554896, guid: 5b60c96aebf435d4d91db9b65cb7788c, type: 3}
   itemSprites:
-  - key: 1
-    value: {fileID: -7471408065661566025, guid: eba2669c8a07b9242bd719d5e8a19c06, type: 3}
-  - key: 2
-    value: {fileID: 4596360870416389415, guid: 92b666dfaf0970d49bc79f7575cf2c7f, type: 3}
   - key: 3
     value: {fileID: 3552816090558413006, guid: 6b461015392870143bac38fd739aad15, type: 3}
+  - key: 2
+    value: {fileID: 4596360870416389415, guid: 92b666dfaf0970d49bc79f7575cf2c7f, type: 3}
+  - key: 1
+    value: {fileID: -7471408065661566025, guid: eba2669c8a07b9242bd719d5e8a19c06, type: 3}
   - key: 4
     value: {fileID: -3945622613385178370, guid: fe86351970c5eea47b7626fc607af5e7, type: 3}
+  activeHotbarSlotIndex: 0
+  activeItemType: 0

@@ -303,5 +303,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Client.InventorySlot
   slotIndex: 0
+  itemType: 0
   itemCountText: {fileID: 5765251268650040097}
-  image: {fileID: 4445230047309557021}
+  itemImage: {fileID: 4445230047309557021}
+  slotImage: {fileID: 1585973205660900022}
+  activeSprite: {fileID: 7089108910871154365, guid: 7528a6d15ffdb344891cdad78266d8f0, type: 3}
+  inactiveSprite: {fileID: -7501943619350547859, guid: 9d96221747c2c1a428715421ee9f66a3, type: 3}
