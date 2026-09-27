@@ -51,8 +51,6 @@ namespace Server
 
         private void OnConnectionRequest(ConnectionRequest request)
         {
-            Debug.Log($"Connection request from {request.RemoteEndPoint}");
-
             if (_server.ConnectedPeersCount < NetworkSettings.maxPlayers)
             {
                 request.AcceptIfKey(NetworkSettings.connectionKey);

@@ -52,7 +52,7 @@ public class InputManager
         {
             MoveInput input = incomingMoveInputs.Dequeue();
 
-            player.transform.position = input.position;
+            player.position = input.position;
             player.animState = input.animState;
         }
     }

@@ -13,10 +13,10 @@ namespace Server
     public struct PlayerUpdate
     {
         public ushort entityId;
-        public Vector3 position;
+        public Vector2 position;
         public AnimationState animState;
 
-        public PlayerUpdate(Vector3 position, AnimationState animState, ushort id)
+        public PlayerUpdate(Vector2 position, AnimationState animState, ushort id)
         {
             this.entityId = id;
             this.position = position;

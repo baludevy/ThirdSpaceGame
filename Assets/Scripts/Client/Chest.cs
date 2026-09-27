@@ -2,14 +2,9 @@ using UnityEngine;
 
 namespace Game
 {
-    public class ChestObject : Object
+    public class Chest : Object
     {
         public bool opened;
-    }
-
-    public class Chest : MonoBehaviour
-    {
-        private bool opened;
 
         [SerializeField] private SpriteRenderer renderer;
         [SerializeField] private Sprite chestClosedSprite;

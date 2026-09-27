@@ -63,8 +63,6 @@ namespace Client
 
         private void OnClientConnected(NetPeer peer)
         {
-            Debug.Log("Client connected, sending username to server");
-
             _serverPeer = peer;
             connected = true;
 

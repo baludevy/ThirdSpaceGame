@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
 using Server;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
     public uint tick;
     public static WorldManager Instance;
+    
+    [NonSerialized]
+    public ObjectManager objectManager;
+    [NonSerialized]
+    public EntityManager entityManager;
+    [NonSerialized]
+    public PlayerManager playerManager;
 
     private void Awake()
     {
@@ -15,7 +21,12 @@ public class WorldManager : MonoBehaviour
             Instance = this;
         else
             Destroy(this);
+        
+        objectManager = new ObjectManager();
+        entityManager = new EntityManager();
+        playerManager = new PlayerManager();
     }
+
     private void FixedUpdate()
     {
         ProcessIncomingInputs();
@@ -23,34 +34,28 @@ public class WorldManager : MonoBehaviour
 
         tick++;
     }
+
     private void ProcessIncomingInputs()
     {
-        foreach (Player player in PlayerManager.Instance.players)
+        foreach (Player player in playerManager.players)
         {
             player.inputManager.ProcessInputs();
         }
     }
+
     private void SendWorldUpdates()
     {
-        foreach (Player player in PlayerManager.Instance.players)
+        foreach (Player player in playerManager.players)
         {
             ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.entityId));
         }
     }
-
-    public World GetInitialWorld()
-    {
-        Debug.Log($"Server entity count:{EntityManager.Instance.entities.Count}");
-        return new World
-        {
-            objects = Server.ObjectManager.Instance.objects, entities = EntityManager.Instance.entities
-        };
-    }
-
+    
     public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
     {
         List<PlayerUpdate> playerUpdates = new List<PlayerUpdate>();
-        foreach (Player player in PlayerManager.Instance.players)
+        
+        foreach (Player player in playerManager.players)
         {
             if (player.id == excludePlayer)
                 continue;
@@ -58,11 +63,13 @@ public class WorldManager : MonoBehaviour
             PlayerUpdate update = new PlayerUpdate
             {
                 entityId = player.entityId,
-                position = player.transform.position,
+                position = player.position,
                 animState = player.animState,
             };
+            
             playerUpdates.Add(update);
         }
+        
         return new WorldUpdate
         {
             tick = tick,

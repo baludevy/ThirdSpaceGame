@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Server
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager
     {
-        public static PlayerManager Instance;
-
         public List<Player> players = new List<Player>();
 
-        void Awake()
+        public void SpawnPlayer(int id, string username, Vector3 position)
         {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
-        }
+            Player player = WorldManager.Instance.entityManager.SpawnEntity(EntityType.player, position, broadcast: false) as Player;
 
-        public void SpawnPlayer(int id, string username, Vector3 position, Quaternion rotation)
-        {
-            Entity entity = EntityManager.Instance.SpawnEntity(EntityType.player, position, rotation, broadcast: false);
+            if (player != null)
+            {
+                player.Initialize(id, username);
 
-            Player player = entity.GetComponent<Player>();
-            player.Initialize(id, username);
+                players.Add(player);
 
-            players.Add(player);
-
-            ServerSend.SpawnEntity(entity);
+                ServerSend.SpawnEntity(player);
+            }
         }
 
         public Player GetPlayer(int id) => players.Find(x => x.id == id);

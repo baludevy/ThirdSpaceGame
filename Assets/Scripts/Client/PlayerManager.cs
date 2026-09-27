@@ -21,13 +21,13 @@ namespace Client
                 Destroy(this);
         }
 
-        public void SpawnPlayer(ushort entityId, int playerId, string username, Vector3 position, Quaternion rotation)
+        public void SpawnPlayer(ushort entityId, int playerId, string username, Vector3 position)
         {
             Debug.Log($"Spawning player{playerId}");
 
             GameObject prefab = playerId == NetworkManager.Instance.Client.myId ? localPlayerPrefab : playerPrefab;
 
-            Entity entity = EntityManager.Instance.ReplicateEntity(entityId, EntityType.player, position, rotation, prefab);
+            Entity entity = EntityManager.Instance.ReplicateEntity(entityId, EntityType.player, position, prefab);
 
             Player player = entity.gameObject.GetComponent<Player>();
             player.Initialize(playerId, username);

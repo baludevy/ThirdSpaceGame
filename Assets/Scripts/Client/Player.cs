@@ -6,7 +6,7 @@ using AnimationState = Game.AnimationState;
 
 namespace Client
 {
-    
+
     public class Player : Entity
     {
         public int id;
@@ -21,13 +21,13 @@ namespace Client
             this.id = id;
             this.username = username;
 
-            if(usernameText)
+            if (usernameText)
                 usernameText.text = username;
         }
 
         public void UpdateAnimationState(AnimationState animState)
         {
-            if(animator == null) return;
+            if (animator == null) return;
 
             animator.SetBool("Forward", false);
             animator.SetBool("Side", false);
@@ -35,32 +35,34 @@ namespace Client
 
             switch (animState)
             {
-            case AnimationState.forward:
-                animator.SetBool("Forward", true);
-                break;
+                case AnimationState.forward:
+                    animator.SetBool("Forward", true);
+                    break;
+                case AnimationState.back:
+                    animator.SetBool("Back", false);
+                    break;
+                case AnimationState.left:
+                    if (sprite != null)
+                        sprite.flipX = false;
 
-            case AnimationState.left:
-                if(sprite!= null)
-                    sprite.flipX = false;
+                    if (animator != null)
+                        animator.SetBool("Side", true);
+                    break;
+                case AnimationState.right:
+                    if (sprite != null)
+                        sprite.flipX = true;
 
-                if (animator != null)
-                    animator.SetBool("Side", true);
-                break;
-            case AnimationState.right:
-                if(sprite != null)
-                    sprite.flipX = true;
-
-                if(animator != null)
-                    animator.SetBool("Side", true);
+                    if (animator != null)
+                        animator.SetBool("Side", true);
                     break;
 
-            case AnimationState.idle:
-                break;
+                case AnimationState.idle:
+                    break;
 
             }
         }
 
-        public override void ApplySnapshot (EntitySnapshot previous, EntitySnapshot current, float t)
+        public override void ApplySnapshot(EntitySnapshot previous, EntitySnapshot current, float t)
         {
             PlayerSnapshot to = current as PlayerSnapshot;
 

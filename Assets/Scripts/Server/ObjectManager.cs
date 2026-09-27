@@ -5,37 +5,18 @@ using UnityEngine;
 
 namespace Server
 {
-    public class ObjectManager : MonoBehaviour
+    public class ObjectManager
     {
-        public List<Object> objects = new List<Object>();
+        public List<Object> objects = new List<Object>
+        {
+            new ChestObject
+            {
+                id = 0,
+                type = ObjectType.chest,
+                position = Vector2.zero,
+            }
+        };
 
         public ushort nextObjectId;
-        
-        public static ObjectManager Instance;
-
-        void Awake()
-        {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(this);
-        }
-        
-        public void RegisterObject(ServerObject serverObj)
-        {
-            if (serverObj.Type == ObjectType.chest)
-            {
-                ChestObject obj = new ChestObject
-                {
-                    id = nextObjectId,
-                    type = serverObj.Type,
-                    go = serverObj.gameObject
-                };
-                
-                serverObj.SetObjectInstance(obj);
-                
-                objects.Add(obj);
-            }
-        }
     }
 }

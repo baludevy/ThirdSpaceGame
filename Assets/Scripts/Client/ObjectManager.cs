@@ -16,24 +16,20 @@ namespace Client
 
         void Awake()
         {
-            if(Instance == null)
+            if (Instance == null)
                 Instance = this;
             else
-                Destroy (this);
+                Destroy(this);
         }
 
-        public void AddObject(Object obj, UnityEngine.Vector2 position)
+        public void AddObject(ushort id, ObjectType type, Vector2 position)
         {
-           GameObject go = Instantiate(objectPrefabs[obj.type], position, Quaternion.identity);
+            GameObject go = Instantiate(objectPrefabs[type], position, Quaternion.identity);
+            Object obj = go.GetComponent<Object>();
 
-           obj.go = go;
-
-           if (obj.type == ObjectType.chest)
+            if (type == ObjectType.chest)
             {
-                ChestObject chestObj = obj as ChestObject;
                 Chest chest = go.GetComponent<Chest>();
-
-                chest.SetOpened(chestObj.opened);
             }
 
             objects.Add(obj);

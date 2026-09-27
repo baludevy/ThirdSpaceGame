@@ -10,8 +10,6 @@ public static class ClientHandle
     {
         int id = reader.GetInt();
 
-        Debug.Log($"Local id is {id}");
-
         NetworkManager.Instance.Client.myId = id;
         ClientSend.Username(NetworkUIManager.Instance.username);
     }
@@ -24,42 +22,29 @@ public static class ClientHandle
         {
             ushort id = reader.GetUShort();
             ObjectType type = (ObjectType)reader.GetByte();
-            Vector3 position = reader.GetVector2();
-            
-            if (type == ObjectType.chest)
-            {
-                ChestObject chestObj = new ChestObject
-                {
-                    id = id,
-                    type = type,
-                    opened = reader.GetBool(),
-                };
+            Vector2 position = reader.GetVector2();
 
-                ObjectManager.Instance.AddObject(chestObj, position);
-            }
+            ObjectManager.Instance.AddObject(id, type, position);
         }
 
         int entityCount = reader.GetInt();
-
-        Debug.Log($"Initializing world {entityCount}");
 
         for (int i = 0; i < entityCount; i++)
         {
             ushort entityId = reader.GetUShort();
             EntityType type = (EntityType)reader.GetByte();
-            Vector3 position = reader.GetVector3();
-            Quaternion rotation = reader.GetQuaternion();
+            Vector2 position = reader.GetVector2();
 
             if (type == EntityType.player)
             {
                 int playerId = reader.GetInt();
                 string username = reader.GetString();
 
-                PlayerManager.Instance.SpawnPlayer(entityId, playerId, username, position, rotation);
+                PlayerManager.Instance.SpawnPlayer(entityId, playerId, username, position);
                 continue;
             }
 
-            EntityManager.Instance.ReplicateEntity(entityId, type, position, rotation);
+            EntityManager.Instance.ReplicateEntity(entityId, type, position);
         }
     }
 
@@ -67,19 +52,18 @@ public static class ClientHandle
     {
         ushort entityId = reader.GetUShort();
         EntityType type = (EntityType)reader.GetByte();
-        Vector3 position = reader.GetVector3();
-        Quaternion rotation = reader.GetQuaternion();
+        Vector3 position = reader.GetVector2();
 
         if (type == EntityType.player)
         {
             int playerId = reader.GetInt();
             string username = reader.GetString();
 
-            PlayerManager.Instance.SpawnPlayer(entityId, playerId, username, position, rotation);
+            PlayerManager.Instance.SpawnPlayer(entityId, playerId, username, position);
             return;
         }
 
-        EntityManager.Instance.ReplicateEntity(entityId, type, position, rotation);
+        EntityManager.Instance.ReplicateEntity(entityId, type, position);
     }
 
     public static void UpdateWorld(NetDataReader reader)
@@ -94,8 +78,6 @@ public static class ClientHandle
             Vector2 position = reader.GetVector2();
             AnimationState animState = (AnimationState)reader.GetByte();
 
-            Debug.Log(entityId);
-            
             Entity entity = EntityManager.Instance.GetEntity(entityId);
             EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new PlayerSnapshot
             {
@@ -110,7 +92,5 @@ public static class ClientHandle
     {
         ushort objId = reader.GetUShort();
         bool opened = reader.GetBool();
-        
-        ObjectManager.Instance.GetObject(objId).go.GetComponent<Chest>().SetOpened(opened);
     }
 }

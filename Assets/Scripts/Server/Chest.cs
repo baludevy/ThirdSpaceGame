@@ -2,12 +2,14 @@ using UnityEngine;
 
 namespace Server
 {
-    
-    public class Chest : ServerObject, Interactable
+    public class ChestObject : Object
     {
         public bool opened;
-
-        public override ObjectType Type => ObjectType.chest;
+    }
+    
+    public class Chest : Object, Interactable
+    {
+        public bool opened;
 
         public void Interact(Player player)
         {
@@ -15,10 +17,11 @@ namespace Server
                 return;
 
             opened = true;
-            ServerSend.ChestOpened(objectInstance.id, opened);
+            ServerSend.ChestOpened(id, opened);
 
-            EntityManager.Instance.SpawnEntity(EntityType.item, transform.position, Quaternion.identity);
+            WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, position);
         }
+        
         public bool CanInteract() => !opened;
     }
 }
