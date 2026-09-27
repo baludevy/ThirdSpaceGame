@@ -12,9 +12,30 @@ namespace Server
             new Chest
             {
                 id = 0,
+                itemType = ItemType.carrot,
+                position = new Vector2(-2, 2)
+            },
+            new Chest
+            {
+                id = 1,
                 type = ObjectType.chest,
-                position = Vector2.zero,
-            }
+                itemType = ItemType.potato,
+                position = new Vector2(0, 2)
+            },
+            new Chest
+            {
+                id = 2,
+                type = ObjectType.chest,
+                itemType = ItemType.potato,
+                position = new Vector2(2, 2)
+            },
+            new Chest
+            {
+                id = 3,
+                type = ObjectType.chest,
+                itemType = ItemType.carrot,
+                position = new Vector2(4, 2)
+            },
         };
 
         public ushort nextObjectId;
