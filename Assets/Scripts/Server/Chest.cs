@@ -14,7 +14,9 @@ namespace Server
             opened = true;
             ServerSend.ChestOpened(id, opened);
 
-            WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, (Vector3)position - Vector3.up * 0.75f);
+            Vector3 pos = (Vector3)position - Vector3.up * 0.75f;
+
+            WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos);
         }
 
         public bool CanInteract() => !opened;
