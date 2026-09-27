@@ -114,8 +114,14 @@ public static class ClientHandle
             if (itemCount > 0)
             {
                 ItemType itemType = (ItemType)reader.GetByte();
+                
+                Inventory.Instance.UpdateSlot(slotIndex, itemType, itemCount);
                 Debug.Log($"Slot({slotIndex}) contains: {itemType} - {itemCount} pieces");
+                
+                continue;
             }
+            
+            Inventory.Instance.UpdateSlot(slotIndex, ItemType.empty, 0);
         }
     }
     

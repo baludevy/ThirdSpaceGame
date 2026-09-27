@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< Updated upstream:Assets/Sprites/Post_Home.aseprite.meta
 guid: 8b459338821421e44b468c8e8b6b3492
-========
-guid: 5ee53482601f2fd469f45fded1af0254
->>>>>>>> Stashed changes:Assets/Sprites/GRASSSSSSSSS.aseprite.meta
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -131,11 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-<<<<<<<< Updated upstream:Assets/Sprites/Post_Home.aseprite.meta
-  - name: post (home)
-========
-  - name: GRASSSSSSSSS
->>>>>>>> Stashed changes:Assets/Sprites/GRASSSSSSSSS.aseprite.meta
+  - name: Post_Home
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -145,15 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-<<<<<<<< Updated upstream:Assets/Sprites/Post_Home.aseprite.meta
       width: 16
       height: 16
-    spriteID: ab8fc6e728dba7144a036adde57be946
-========
-      width: 32
-      height: 32
-    spriteID: 0e1d283b642e2a14e96243170cc88109
->>>>>>>> Stashed changes:Assets/Sprites/GRASSSSSSSSS.aseprite.meta
+    spriteID: c059df98e1e9fa44aab68a3fdeb6d0f4
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -167,43 +153,25 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-<<<<<<<< Updated upstream:Assets/Sprites/Post_Home.aseprite.meta
-      value0: 2949970582
-========
-      value0: 758206327
->>>>>>>> Stashed changes:Assets/Sprites/GRASSSSSSSSS.aseprite.meta
+      value0: 3240481594
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-<<<<<<<< Updated upstream:Assets/Sprites/Post_Home.aseprite.meta
-    name: post (home)
-========
-    name: GRASSSSSSSSS
->>>>>>>> Stashed changes:Assets/Sprites/GRASSSSSSSSS.aseprite.meta
+    name: Post_Home
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-<<<<<<<< Updated upstream:Assets/Sprites/Post_Home.aseprite.meta
     - name: Post_Home
-========
-    - name: GRASSSSSSSSS
->>>>>>>> Stashed changes:Assets/Sprites/GRASSSSSSSSS.aseprite.meta
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-<<<<<<<< Updated upstream:Assets/Sprites/Post_Home.aseprite.meta
         width: 16
         height: 16
-      spriteId: ab8fc6e728dba7144a036adde57be946
-========
-        width: 32
-        height: 32
-      spriteId: 0e1d283b642e2a14e96243170cc88109
->>>>>>>> Stashed changes:Assets/Sprites/GRASSSSSSSSS.aseprite.meta
+      spriteId: c059df98e1e9fa44aab68a3fdeb6d0f4
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
