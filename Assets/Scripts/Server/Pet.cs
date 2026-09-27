@@ -10,6 +10,8 @@ namespace Server
         private Entity target;
         private float stateTimeRemaining;
 
+        public bool facingRight;
+        
         public PetAnimationState animationState = PetAnimationState.Idle;
 
         public override void Tick(float deltaTime)
@@ -27,6 +29,12 @@ namespace Server
             }
 
             Vector2 offset = target.position - position;
+            
+            if (offset.x > 0f)
+                facingRight = true;
+            else if (offset.x < 0f)
+                facingRight = false;
+            
             const float followDistance = 2f;
             const float speed = 0.04f;
 

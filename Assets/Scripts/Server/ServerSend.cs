@@ -120,6 +120,7 @@ namespace Server
 
                     if (entityUpdate is PetUpdate petUpdate)
                     {
+                        writer.Put(petUpdate.facingRight);
                         writer.Put((byte)petUpdate.animationState);
                     }
                 }

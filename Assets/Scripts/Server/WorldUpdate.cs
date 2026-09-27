@@ -23,6 +23,7 @@ namespace Server
 
     public class PetUpdate : EntityUpdate
     {
+        public bool facingRight;
         public PetAnimationState animationState;
     }
 }

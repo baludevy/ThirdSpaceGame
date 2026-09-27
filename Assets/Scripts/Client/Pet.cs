@@ -6,10 +6,17 @@ namespace Client
     {
         static readonly int Walking = Animator.StringToHash("Walking");
         static readonly int Sleeping = Animator.StringToHash("Sleeping");
+
+        [SerializeField] private SpriteRenderer renderer;
         [SerializeField] private Animator animator;
 
-        public void UpdateAnimationState(PetAnimationState animState)
+        public void UpdateAnimationState(bool facingRight, PetAnimationState animState)
         {
+            if (renderer != null)
+            {
+                renderer.flipX = facingRight;
+            }
+            
             if (animator == null) return;
 
             animator.SetBool(Walking, false);
@@ -28,7 +35,7 @@ namespace Client
         public override void ApplySnapshot(EntitySnapshot previous, EntitySnapshot current, float t)
         {
             if (current is PetSnapshot to)
-                UpdateAnimationState(to.animationState);
+                UpdateAnimationState(to.facingRight, to.animationState);
         }
     }
 }

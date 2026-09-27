@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 543881549991241520}
   - component: {fileID: 6475642546019937191}
   m_Layer: 0
-  m_Name: asked
+  m_Name: Cat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Client.Pet
   type: 1
+  renderer: {fileID: 3426640250486352935}
   animator: {fileID: 6475642546019937191}
 --- !u!95 &6475642546019937191
 Animator:

@@ -88,6 +88,7 @@ public class WorldManager : MonoBehaviour
                     entityId = pet.entityId,
                     entityType = pet.entityType,
                     position = pet.position,
+                    facingRight = pet.facingRight,
                     animationState = pet.animationState,
                 };
 

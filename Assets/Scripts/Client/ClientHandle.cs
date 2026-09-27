@@ -28,7 +28,7 @@ public static class ClientHandle
             if (type == ObjectType.chest)
             {
                 bool opened = reader.GetBool();
-                
+
                 ObjectManager.Instance.GetObject(objectId).GetComponent<Chest>().SetOpened(opened);
             }
         }
@@ -68,7 +68,7 @@ public static class ClientHandle
             PlayerManager.Instance.SpawnPlayer(entityId, playerId, username, position);
             return;
         }
-        
+
         if (type == EntityType.item)
         {
             ItemType itemType = (ItemType)reader.GetByte();
@@ -83,26 +83,26 @@ public static class ClientHandle
 
             return;
         }
-         Entity entity = EntityManager.Instance.ReplicateEntity(entityId, type, position);
+        Entity entity = EntityManager.Instance.ReplicateEntity(entityId, type, position);
     }
+    
     public static void UpdateInventory(NetDataReader reader)
     {
         int inventorySlotCount = 27;
 
-        for(int i = 0; i < inventorySlotCount; i++)
+        for (int i = 0; i < inventorySlotCount; i++)
         {
             int slotIndex = reader.GetByte();
             int itemCount = reader.GetByte();
 
-            if(itemCount > 0)
+            if (itemCount > 0)
             {
                 ItemType itemType = (ItemType)reader.GetByte();
                 Debug.Log($"Slot({slotIndex}) contains: {itemType} - {itemCount} pieces");
             }
         }
     }
-   
-
+    
     public static void UpdateWorld(NetDataReader reader)
     {
         uint tick = reader.GetUInt();
@@ -132,6 +132,7 @@ public static class ClientHandle
 
             if (entityType == EntityType.pet)
             {
+                bool facingRight = reader.GetBool();
                 PetAnimationState animState = (PetAnimationState)reader.GetByte();
                 Entity pet = EntityManager.Instance.GetEntity(entityId);
 
@@ -139,6 +140,7 @@ public static class ClientHandle
                 {
                     time = Time.time,
                     position = position,
+                    facingRight = facingRight,
                     animationState = animState
                 });
 
@@ -157,7 +159,7 @@ public static class ClientHandle
     public static void DestroyEntity(NetDataReader reader)
     {
         ushort entityId = reader.GetUShort();
-        
+
         EntityManager.Instance.DestroyEntity(entityId);
     }
 
@@ -165,7 +167,7 @@ public static class ClientHandle
     {
         ushort objId = reader.GetUShort();
         bool opened = reader.GetBool();
-        
+
         ObjectManager.Instance.GetObject(objId).GetComponent<Chest>().SetOpened(opened);
     }
 }

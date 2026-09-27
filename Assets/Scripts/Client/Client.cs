@@ -36,6 +36,7 @@ namespace Client
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnEntity, ClientHandle.SpawnEntity);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.UpdateWorld, ClientHandle.UpdateWorld);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.DestroyEntity, ClientHandle.DestroyEntity);
+            PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.UpdateInventory, ClientHandle.UpdateInventory);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.ChestOpened, ClientHandle.ChestOpened);
         }
 
