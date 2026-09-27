@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using Server;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using AnimationState = Game.AnimationState;
-
 namespace Client
 {
-
     public class Player : Entity
     {
         public int id;
@@ -15,6 +10,10 @@ namespace Client
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private Animator animator;
         [SerializeField] private TMP_Text usernameText;
+        
+        static readonly int Forward = Animator.StringToHash("Forward");
+        static readonly int Side = Animator.StringToHash("Side");
+        static readonly int Back = Animator.StringToHash("Back");
 
         public void Initialize(int id, string username)
         {
@@ -29,44 +28,40 @@ namespace Client
         {
             if (animator == null) return;
 
-            animator.SetBool("Forward", false);
-            animator.SetBool("Side", false);
-            animator.SetBool("Back", false);
+            animator.SetBool(Forward, false);
+            animator.SetBool(Side, false);
+            animator.SetBool(Back, false);
 
-            switch (animState)
+            if (animState == AnimationState.forward)
             {
-                case AnimationState.forward:
-                    animator.SetBool("Forward", true);
-                    break;
-                case AnimationState.back:
-                    animator.SetBool("Back", false);
-                    break;
-                case AnimationState.left:
-                    if (sprite != null)
-                        sprite.flipX = false;
+                animator.SetBool(Forward, true);
+            }
+            else if (animState == AnimationState.back)
+            {
+                animator.SetBool(Back, true);
+            }
+            else if (animState == AnimationState.left)
+            {
+                if (sprite != null)
+                    sprite.flipX = false;
 
-                    if (animator != null)
-                        animator.SetBool("Side", true);
-                    break;
-                case AnimationState.right:
-                    if (sprite != null)
-                        sprite.flipX = true;
+                if (animator != null)
+                    animator.SetBool(Side, true);
+            }
+            else if (animState == AnimationState.right)
+            {
+                if (sprite != null)
+                    sprite.flipX = true;
 
-                    if (animator != null)
-                        animator.SetBool("Side", true);
-                    break;
-
-                case AnimationState.idle:
-                    break;
-
+                if (animator != null)
+                    animator.SetBool(Side, true);
             }
         }
 
         public override void ApplySnapshot(EntitySnapshot previous, EntitySnapshot current, float t)
         {
-            PlayerSnapshot to = current as PlayerSnapshot;
-
-            UpdateAnimationState(to.animationState);
+            if (current is PlayerSnapshot to)
+                UpdateAnimationState(to.animationState);
         }
     }
 }

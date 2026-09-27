@@ -7,15 +7,6 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public enum AnimationState
-    {
-        idle,
-        left,
-        right,
-        back,
-        forward
-    }
-
     public class PlayerMovement : MonoBehaviour
     {
         public float MovingSpeed = 300f;

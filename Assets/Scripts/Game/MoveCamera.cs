@@ -5,18 +5,16 @@ namespace Game
     public class MoveCamera : MonoBehaviour
     {
         public Transform target;
-
+        
         public Vector3 offset;
-        float cameraZ;
+        private float cameraZ;
 
-        Vector3 velocity = Vector3.zero;
-
-        public void Start()
+        private void Start()
         {
             cameraZ = transform.position.z;
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             if (target == null)
             {
@@ -26,11 +24,7 @@ namespace Game
             float playerX = target.position.x;
             float playerY = target.position.y;
 
-            var targetPosition = new Vector3(
-                playerX,
-                playerY,
-                cameraZ
-            ) + offset;
+            Vector3 targetPosition = new Vector3(playerX, playerY, cameraZ) + offset;
 
             transform.position = targetPosition;
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Game;
 using UnityEngine;
 
 namespace Server
@@ -12,7 +11,7 @@ namespace Server
         [NonSerialized]
         public InputManager inputManager;
 
-        public Game.AnimationState animState;
+        public AnimationState animState;
 
         public void Initialize(int id, string username)
         {

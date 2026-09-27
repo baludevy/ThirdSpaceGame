@@ -1,6 +1,5 @@
 ﻿using LiteNetLib;
 using UnityEngine;
-using AnimationState = Game.AnimationState;
 
 namespace Client
 {
@@ -23,6 +22,7 @@ namespace Client
                     writer.Put((byte)animState);
                 }, DeliveryMethod.Unreliable);
         }
+        
         public static void Interact()
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.Interact);

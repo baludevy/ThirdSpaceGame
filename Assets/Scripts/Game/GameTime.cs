@@ -5,20 +5,20 @@ namespace Game
 {
     public class GameTime : MonoBehaviour
     {
-        public static GameTime Instance {get; private set; }
-    
-    public bool paused;
-    public long tick {get;private set; }
-    public int day { get; private set; }
+        public static GameTime Instance { get; private set; }
 
-    public float DayProgress { get; private set; }
-    public event Action<long> OnTick;
-    public event Action<int> OnNewDay;
+        public bool paused;
+        public long tick { get; private set; }
+        public int day { get; private set; }
 
-    private long lastTick;
-    private int lastDay;
+        public float DayProgress { get; private set; }
+        public event Action<long> OnTick;
+        public event Action<int> OnNewDay;
 
-    private void Awakae()
+        private long lastTick;
+        private int lastDay;
+
+        private void Awake()
         {
             if (Instance != null && Instance != this)
             {
@@ -29,6 +29,7 @@ namespace Game
             DontDestroyOnLoad(gameObject);
             UpdateFromRealTime(notify: false);
         }
+
         private void Update()
         {
             if (!paused)
@@ -36,11 +37,12 @@ namespace Game
                 UpdateFromRealTime(notify: true);
             }
         }
+
         private void UpdateFromRealTime(bool notify)
         {
             DateTime now = DateTime.UtcNow;
-            long currentTick = new
-            DateTimeOffset(now).ToUnixTimeSeconds();
+            long currentTick = new DateTimeOffset(now).ToUnixTimeSeconds();
+            
             int currentDay = (int)(now.Date - new DateTime(1970, 1, 1)).TotalDays;
 
             tick = currentTick;

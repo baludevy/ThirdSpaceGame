@@ -18,7 +18,7 @@ namespace Server
         {
             int id = peer.Id;
             Vector3 position = reader.GetVector2();
-            Game.AnimationState animState = (Game.AnimationState)reader.GetByte();
+            AnimationState animState = (AnimationState)reader.GetByte();
 
             WorldManager.Instance.playerManager.GetPlayer(id).inputManager.AddMoveInput(new MoveInput
             {

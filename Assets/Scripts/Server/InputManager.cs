@@ -5,7 +5,7 @@ using UnityEngine;
 public struct MoveInput
 {
     public Vector3 position;
-    public Game.AnimationState animState;
+    public AnimationState animState;
 }
 
 public class InputManager

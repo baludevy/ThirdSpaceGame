@@ -1,8 +1,8 @@
-namespace Game
+namespace Server
 {
     public interface Interactable
     {
-        void Interact();
+        void Interact(Player player);
         bool CanInteract();
     }
 }

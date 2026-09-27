@@ -2,7 +2,6 @@
 using Game;
 using LiteNetLib.Utils;
 using UnityEngine;
-using AnimationState = Game.AnimationState;
 
 public static class ClientHandle
 {
