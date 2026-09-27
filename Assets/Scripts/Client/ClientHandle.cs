@@ -69,7 +69,15 @@ public static class ClientHandle
             return;
         }
 
-        EntityManager.Instance.ReplicateEntity(entityId, type, position);
+        Entity entity = EntityManager.Instance.ReplicateEntity(entityId, type, position);
+        
+        if (entity.GetEntityType() == EntityType.item)
+        {
+            if (entity.gameObject.TryGetComponent(out BounceEffect bounce))
+            {
+                bounce.StartBounce();
+            }
+        }
     }
 
     public static void UpdateWorld(NetDataReader reader)

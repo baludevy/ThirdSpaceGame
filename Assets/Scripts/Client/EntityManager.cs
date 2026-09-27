@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game;
 using UnityEngine;
 
 namespace Client
@@ -32,10 +33,9 @@ namespace Client
             {
                 prefab = entityPrefabs[type];
             }
-            
 
             Entity entity = Instantiate(prefab, position, Quaternion.identity).GetComponent<Entity>();
-
+            
             entity.Initialize(id);
 
             entities.Add(entity);

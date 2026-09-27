@@ -17,7 +17,7 @@ namespace Client
 
         }
 
-        public EntityType GetEntityType => type;
+        public EntityType GetEntityType() => type;
         public void SetEntityType(EntityType type) => this.type = type;
     }
 

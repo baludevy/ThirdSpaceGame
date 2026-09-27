@@ -13,7 +13,6 @@ namespace Server
 
         public void Interact(Player player)
         {
-            Debug.Log("pick up item");
             WorldManager.Instance.entityManager.DestroyEntity(this);
         }
         
