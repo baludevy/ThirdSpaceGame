@@ -13,6 +13,7 @@ namespace Server
             Entity entity = type switch
             {
                 EntityType.player => new Player(),
+                EntityType.pet => new Pet(),
                 EntityType.item => new DroppedItem(),
                 _ => new Entity()
             };

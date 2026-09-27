@@ -88,29 +88,19 @@ namespace Server
 
                 foreach (EntityUpdate entityUpdate in update.entityUpdates)
                 {
+                    writer.Put(entityUpdate.entityId);
+                    writer.Put((byte)entityUpdate.entityType);
+                    writer.Put(entityUpdate.position);
+                    
                     if (entityUpdate is PlayerUpdate playerUpdate)
                     {
-                        writer.Put(playerUpdate.entityId);
-                        writer.Put((byte)playerUpdate.entityType);
-                        writer.Put(playerUpdate.position);
                         writer.Put((byte)playerUpdate.animationState);
-
-                        continue;
                     }
 
                     if (entityUpdate is PetUpdate petUpdate)
                     {
-                        writer.Put(petUpdate.entityId);
-                        writer.Put((byte)petUpdate.entityType);
-                        writer.Put(petUpdate.position);
                         writer.Put((byte)petUpdate.animationState);
-
-                        continue;
                     }
-
-                    writer.Put(entityUpdate.entityId);
-                    writer.Put((byte)entityUpdate.entityType);
-                    writer.Put(entityUpdate.position);
                 }
 
             }, DeliveryMethod.Unreliable);

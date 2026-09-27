@@ -8,7 +8,7 @@ public class WorldManager : MonoBehaviour
 {
     public uint tick;
     public static WorldManager Instance;
-    
+
     [NonSerialized]
     public ObjectManager objectManager;
     [NonSerialized]
@@ -22,7 +22,7 @@ public class WorldManager : MonoBehaviour
             Instance = this;
         else
             Destroy(this);
-        
+
         objectManager = new ObjectManager();
         entityManager = new EntityManager();
         playerManager = new PlayerManager();
@@ -56,11 +56,11 @@ public class WorldManager : MonoBehaviour
             ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
         }
     }
-    
+
     public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
     {
         List<EntityUpdate> entityUpdates = new List<EntityUpdate>();
-        
+
         foreach (Entity entity in entityManager.entities)
         {
             if (entity is Player player)
@@ -74,14 +74,14 @@ public class WorldManager : MonoBehaviour
                     entityType = player.entityType,
                     position = player.position,
                     animationState = player.animState,
-                };   
+                };
 
                 entityUpdates.Add(playerUpdate);
 
                 continue;
             }
 
-            if(entity is Pet pet)
+            if (entity is Pet pet)
             {
                 PetUpdate petUpdate = new PetUpdate
                 {
