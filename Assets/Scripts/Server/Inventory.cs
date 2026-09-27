@@ -128,5 +128,49 @@ namespace Server
 
             return false;
         }
+        public bool Move(int fromIndex, int toIndex)
+        {
+            if (fromIndex < 0 || toIndex >= slots.Count || toIndex < 0 || toIndex >= slots.Count || fromIndex == toIndex)
+            return false;
+
+            Slot from = slots[fromIndex];
+            Slot to = slots[toIndex];
+
+            if(from.isEmpty)
+                return false;
+
+                if (to.isEmpty)
+            {
+                to.itemType = from.itemType;
+                to.count = from.count;
+                from.count = 0;
+            }
+            else if
+            (to.itemType.Equals(from.itemType))
+            {
+                int space = maxStackSize - to.count;
+                if (space <= 0)
+                    return false;
+
+                    int moved = Math.Min(space, from.count);
+                    to.count += moved;
+                    from.count -= moved;
+                    }
+                    else
+                    {
+                    ItemType previousType = to.itemType;
+                        int previousCount = to.count;
+
+                        to.itemType = from.itemType;
+                        to.count = from.count;
+
+                        from.itemType = from.itemType;
+                        to.count = from.count;
+
+                        from.itemType = previousType;
+                        from.count = previousCount;
+                    }
+                    return true;
+            }
+        }
     }
-}
