@@ -35,6 +35,7 @@ namespace Client
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.InitializeWorld, ClientHandle.InitializeWorld);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnEntity, ClientHandle.SpawnEntity);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.UpdateWorld, ClientHandle.UpdateWorld);
+            PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.ChestOpened, ClientHandle.ChestOpened);
         }
 
         public void Connect(string ip, int port)
