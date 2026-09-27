@@ -9,7 +9,7 @@ namespace Client
     {
         public int slotIndex;
 
-        private ItemType itemType;
+        public ItemType itemType;
         private int itemCount;
 
         [SerializeField]

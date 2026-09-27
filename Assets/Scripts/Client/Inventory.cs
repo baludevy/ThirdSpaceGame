@@ -21,6 +21,9 @@ namespace Client
         [SerializeField]
         public Dictionary<ItemType, Sprite> itemSprites = new Dictionary<ItemType, Sprite>();
 
+        public int activeHotbarSlotIndex;
+        public ItemType activeItemType;
+
         private void Awake()
         {
             if (Instance == null)
@@ -35,6 +38,18 @@ namespace Client
             {
                 ToggleInventory();
             }
+
+            if (Keyboard.current.digit1Key.wasPressedThisFrame) activeHotbarSlotIndex = 0;
+            if (Keyboard.current.digit2Key.wasPressedThisFrame) activeHotbarSlotIndex = 1;
+            if (Keyboard.current.digit3Key.wasPressedThisFrame) activeHotbarSlotIndex = 2;
+            if (Keyboard.current.digit4Key.wasPressedThisFrame) activeHotbarSlotIndex = 3;
+            if (Keyboard.current.digit5Key.wasPressedThisFrame) activeHotbarSlotIndex = 4;
+            if (Keyboard.current.digit6Key.wasPressedThisFrame) activeHotbarSlotIndex = 5;
+            if (Keyboard.current.digit7Key.wasPressedThisFrame) activeHotbarSlotIndex = 6;
+            if (Keyboard.current.digit8Key.wasPressedThisFrame) activeHotbarSlotIndex = 7;
+            if (Keyboard.current.digit9Key.wasPressedThisFrame) activeHotbarSlotIndex = 8;
+            
+            activeItemType = slots[slotCount - hotbarSlotCount + activeHotbarSlotIndex].itemType;
         }
 
         private void Start()
@@ -63,6 +78,8 @@ namespace Client
             InventorySlot slot = slots[slotIndex];
 
             slot.UpdateSlot(itemType, itemCount);
+            
+            activeItemType = slots[slotCount - hotbarSlotCount + activeHotbarSlotIndex].itemType;
         }
 
         public void ToggleInventory()
