@@ -5,6 +5,7 @@ namespace Server
     public class Chest : Object, Interactable
     {
         public bool opened;
+        public ItemType itemType;
 
         public void Interact(Player player)
         {
@@ -16,7 +17,14 @@ namespace Server
 
             Vector3 pos = (Vector3)position - Vector3.up * 0.75f;
 
-            WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos);
+            if(WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is DroppedItem droppedItem)
+            {
+                droppedItem.itemType = itemType;
+                droppedItem.itemAmount = 50;
+
+                ServerSend.SpawnEntity(droppedItem);
+
+            }
         }
 
         public bool CanInteract() => !opened;
