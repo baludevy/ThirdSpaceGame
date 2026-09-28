@@ -7,11 +7,11 @@ namespace Game
         public Transform target;
         
         public Vector3 offset;
-        private float cameraZ;
+        private float cameraY;
 
         private void Start()
         {
-            cameraZ = transform.position.z;
+            cameraY = transform.position.y;
         }
 
         private void LateUpdate()
@@ -22,9 +22,9 @@ namespace Game
             }
 
             float playerX = target.position.x;
-            float playerY = target.position.y;
+            float playerZ = target.position.z;
 
-            Vector3 targetPosition = new Vector3(playerX, playerY, cameraZ) + offset;
+            Vector3 targetPosition = new Vector3(playerX, cameraY, playerZ) + offset;
 
             transform.position = targetPosition;
         }

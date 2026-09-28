@@ -280,7 +280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7501943619350547859, guid: 9d96221747c2c1a428715421ee9f66a3, type: 3}
+  m_Sprite: {fileID: -7501943619350547859, guid: 67e1b4fdc187acb43b9aabd4b5915445, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -307,5 +307,5 @@ MonoBehaviour:
   itemCountText: {fileID: 5765251268650040097}
   itemImage: {fileID: 4445230047309557021}
   slotImage: {fileID: 1585973205660900022}
-  activeSprite: {fileID: 7089108910871154365, guid: 7528a6d15ffdb344891cdad78266d8f0, type: 3}
-  inactiveSprite: {fileID: -7501943619350547859, guid: 9d96221747c2c1a428715421ee9f66a3, type: 3}
+  activeSprite: {fileID: -7501943619350547859, guid: 67e1b4fdc187acb43b9aabd4b5915445, type: 3}
+  inactiveSprite: {fileID: 7089108910871154365, guid: 138c2da4c156a54498d9b7eaa72696ce, type: 3}

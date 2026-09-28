@@ -24,7 +24,7 @@ namespace Game
 
         private FacingDirection lastDirection = FacingDirection.Forward;
         private Vector2 previousInput;
-        Rigidbody2D rb;
+        Rigidbody rb;
         Coroutine reloadCoroutine;
         private SpriteRenderer sprite;
 
@@ -38,7 +38,7 @@ namespace Game
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody>();
             anim = GetComponent<Animator>();
             sprite = GetComponent<SpriteRenderer>();
         }
@@ -78,34 +78,34 @@ namespace Game
         {
             float currentSpeed = isSprinting ? MovingSpeed * sprintMultiplier : MovingSpeed;
 
-            var movement = Vector2.zero;
+            var movement = Vector3.zero;
 
             switch (lastDirection)
             {
                 case FacingDirection.Right:
                     if (inputVector.x > 0.1f)
-                        movement = Vector2.right;
+                        movement = Vector3.right;
                     break;
 
                 case FacingDirection.Left:
                     if (inputVector.x < -0.1f)
-                        movement = Vector2.left;
+                        movement = Vector3.left;
                     break;
 
                 case FacingDirection.Back:
                     if (inputVector.y > 0.1f)
-                        movement = Vector2.up;
+                        movement = Vector3.forward;
                     break;
 
                 case FacingDirection.Forward:
                     if (inputVector.y < -0.1f)
-                        movement = Vector2.down;
+                        movement = Vector3.back;
                     break;
             }
 
             rb.linearVelocity = movement * currentSpeed * Time.deltaTime;
 
-            ClientSend.PlayerMove(transform.position, lastAnimState);
+            // ClientSend.PlayerMove(transform.position, lastAnimState);
         }
 
         //asked
@@ -164,13 +164,13 @@ namespace Game
                 case FacingDirection.Right:
                     anim.SetBool("Side", true);
                     lastAnimState = AnimationState.right;
-                    sprite.flipX = true;
+                    transform.localScale = new Vector3(-1, 1, 1);
                     break;
 
                 case FacingDirection.Left:
                     anim.SetBool("Side", true);
                     lastAnimState = AnimationState.left;
-                    sprite.flipX = false;
+                    transform.localScale = new Vector3(1, 1, 1);
                     break;
 
                 case FacingDirection.Back:
