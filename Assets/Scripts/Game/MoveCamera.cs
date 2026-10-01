@@ -5,28 +5,26 @@ namespace Game
     public class MoveCamera : MonoBehaviour
     {
         public Transform target;
-        
-        public Vector3 offset;
-        private float cameraY;
-
-        private void Start()
-        {
-            cameraY = transform.position.y;
-        }
+        public float spriteHeight = 2.25f;
+        public float followDistance = 10f;
+        public float cameraPitch = 45f;
 
         private void LateUpdate()
         {
-            if (target == null)
-            {
-                return;
-            }
+            if (target == null) return;
+            
+            Vector3 spriteCentre = target.position + Vector3.up * (spriteHeight * 0.5f);
 
-            float playerX = target.position.x;
-            float playerZ = target.position.z;
+            float pitchRadians = cameraPitch * Mathf.Deg2Rad;
 
-            Vector3 targetPosition = new Vector3(playerX, cameraY, playerZ) + offset;
+            Vector3 cameraOffset = new Vector3(
+                0f,
+                followDistance * Mathf.Sin(pitchRadians),
+                -followDistance * Mathf.Cos(pitchRadians)
+            );
 
-            transform.position = targetPosition;
+            transform.position = spriteCentre + cameraOffset;
+            transform.LookAt(spriteCentre);
         }
     }
 }
