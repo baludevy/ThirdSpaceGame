@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eba2669c8a07b9242bd719d5e8a19c06
+guid: 7528a6d15ffdb344891cdad78266d8f0
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -36,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 16
+    spritePixelsToUnits: 32
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -74,7 +74,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 1
+    fileImportMode: 2
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -89,7 +89,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   asepriteImporterSettings:
-    fileImportMode: 1
+    fileImportMode: 2
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639255102694855528
+  platformSettingsDirtyTick: 639266305924554557
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -127,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: carrot
+  - name: activeinvslot
     originalName: 
-    pivot: {x: 0.53846157, y: 0}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 13
-      height: 15
-    spriteID: dddbb2580d2a803458b6af7e10f8782e
+      width: 32
+      height: 32
+    spriteID: b3e024f704ca18c4fb6c594bd2afbdc1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -149,29 +149,50 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData: []
-  tileSetImportData: []
+  tileSetImportData:
+  - name: Layer 1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 32
+      height: 32
+    spriteID: 54451489992e851488bfc58b2af1643f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1209113189
+      value0: 4287466680
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: carrot
-    layerFlags: 0
+    name: Layer 1
+    layerFlags: 3
     layerType: 0
     blendMode: 0
     cells:
-    - name: Carrot
+    - name: Layer 1
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
+        x: 0
         y: 0
-        width: 13
-        height: 15
-      spriteId: dddbb2580d2a803458b6af7e10f8782e
+        width: 32
+        height: 32
+      spriteId: 54451489992e851488bfc58b2af1643f
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -204,5 +225,5 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   generatePhysicsShape: 0
   secondarySpriteTextures: []
-  previousTextureSize: {x: 32, y: 32}
-  canvasSize: {x: 16, y: 16}
+  previousTextureSize: {x: 64, y: 64}
+  canvasSize: {x: 32, y: 32}

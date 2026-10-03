@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eba2669c8a07b9242bd719d5e8a19c06
+guid: 6f23ac585603a4046be1df73e3792cec
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -36,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 16
+    spritePixelsToUnits: 100
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639255102694855528
+  platformSettingsDirtyTick: 0
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -127,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: carrot
+  - name: bird
     originalName: 
-    pivot: {x: 0.53846157, y: 0}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 13
-      height: 15
-    spriteID: dddbb2580d2a803458b6af7e10f8782e
+      width: 14
+      height: 13
+    spriteID: 0727d81c912c5e7419b6f1df83bb85f3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,55 +153,31 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1209113189
+      value0: 1891434909
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: carrot
+    name: bird
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Carrot
+    - name: Bird
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 1
         y: 0
-        width: 13
-        height: 15
-      spriteId: dddbb2580d2a803458b6af7e10f8782e
+        width: 14
+        height: 13
+      spriteId: 0727d81c912c5e7419b6f1df83bb85f3
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: DefaultTexturePlatform
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   previousTextureSize: {x: 32, y: 32}

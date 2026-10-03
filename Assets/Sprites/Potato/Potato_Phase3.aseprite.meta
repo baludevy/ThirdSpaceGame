@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eba2669c8a07b9242bd719d5e8a19c06
+guid: 5cdf9c7e02d161d4c859b84fec23a5bc
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -103,7 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639255102694855528
+  platformSettingsDirtyTick: 639255102663250529
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -127,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: carrot
+  - name: potato_phase_3
     originalName: 
-    pivot: {x: 0.53846157, y: 0}
+    pivot: {x: 0.5, y: -0.14285715}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 13
-      height: 15
-    spriteID: dddbb2580d2a803458b6af7e10f8782e
+      width: 16
+      height: 14
+    spriteID: 238e8295678661f47ba9a3f951ee5b64
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,25 +153,25 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1209113189
+      value0: 1528532925
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: carrot
+    name: potato_phase_3
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Carrot
+    - name: Potato_Phase3
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
-        y: 0
-        width: 13
-        height: 15
-      spriteId: dddbb2580d2a803458b6af7e10f8782e
+        x: 0
+        y: 2
+        width: 16
+        height: 14
+      spriteId: 238e8295678661f47ba9a3f951ee5b64
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

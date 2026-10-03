@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eba2669c8a07b9242bd719d5e8a19c06
+guid: ae9f78843897d254ab85de29ead651ae
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: carrot
+  - name: carrot_phase_2
     originalName: 
-    pivot: {x: 0.53846157, y: 0}
+    pivot: {x: 0.53333336, y: -0.16666667}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 13
-      height: 15
-    spriteID: dddbb2580d2a803458b6af7e10f8782e
+      width: 15
+      height: 12
+    spriteID: e7f0fe1c190941d4996de02573a62ff2
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,25 +153,25 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1209113189
+      value0: 677815476
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: carrot
+    name: carrot_phase_2
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Carrot
+    - name: Carrot_Phase2
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
-        y: 0
-        width: 13
-        height: 15
-      spriteId: dddbb2580d2a803458b6af7e10f8782e
+        x: 0
+        y: 2
+        width: 15
+        height: 12
+      spriteId: e7f0fe1c190941d4996de02573a62ff2
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
