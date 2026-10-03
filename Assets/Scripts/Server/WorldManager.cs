@@ -1,127 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Client;
 using Server;
 using Types;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class WorldManager : MonoBehaviour
+namespace Server
 {
-    public uint tick;
-    public static WorldManager Instance;
-
-    [NonSerialized]
-    public ObjectManager objectManager;
-    [NonSerialized]
-    public EntityManager entityManager;
-    [NonSerialized]
-    public PlayerManager playerManager;
-
-    private void Awake()
+    public class WorldManager : MonoBehaviour
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(this);
+        public uint tick;
+        public static WorldManager Instance;
 
-        objectManager = new ObjectManager();
-        entityManager = new EntityManager();
-        playerManager = new PlayerManager();
-    }
+        [NonSerialized]
+        public ObjectManager objectManager;
+        [NonSerialized]
+        public EntityManager entityManager;
+        [NonSerialized]
+        public PlayerManager playerManager;
 
-    void Start()
-    {
-        if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
+
+        private void Awake()
         {
-            cat.petType = PetType.Cat;
-            ServerSend.SpawnEntity(cat);
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(this);
+
+            objectManager = new ObjectManager();
+            entityManager = new EntityManager();
+            playerManager = new PlayerManager();
+
+
         }
-        
-        if(entityManager.SpawnEntity(EntityType.pet, Vector2.left, broadcast: false) is Pet dog)
+
+        void Start()
         {
-            dog.petType = PetType.Dog;
-            ServerSend.SpawnEntity(dog);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        TickEntities();
-        SendWorldUpdates();
-
-        tick++;
-    }
-
-    private void TickEntities()
-    {
-        foreach (Entity entity in entityManager.entities)
-        {
-            entity.Tick(Time.fixedDeltaTime);
-        }
-    }
-
-    private void SendWorldUpdates()
-    {
-        foreach (Player player in playerManager.players)
-        {
-            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
-        }
-    }
-
-    public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
-    {
-        List<EntityUpdate> entityUpdates = new List<EntityUpdate>();
-
-        foreach (Entity entity in entityManager.entities)
-        {
-            if (entity is Player player)
+            if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
             {
-                if (player.id == excludePlayer)
-                    continue;
-
-                PlayerUpdate playerUpdate = new PlayerUpdate
-                {
-                    entityId = player.entityId,
-                    entityType = player.entityType,
-                    position = player.position,
-                    animationState = player.animState,
-                };
-
-                entityUpdates.Add(playerUpdate);
-
-                continue;
+                cat.petType = PetType.Cat;
+                ServerSend.SpawnEntity(cat);
             }
 
-            if (entity is Pet pet)
+            if (entityManager.SpawnEntity(EntityType.pet, Vector2.left, broadcast: false) is Pet dog)
             {
-                PetUpdate petUpdate = new PetUpdate
-                {
-                    entityId = pet.entityId,
-                    entityType = pet.entityType,
-                    position = pet.position,
-                    facingRight = pet.facingRight,
-                    animationState = pet.animationState,
-                };
-
-                entityUpdates.Add(petUpdate);
-
-                continue;
+                dog.petType = PetType.Dog;
+                ServerSend.SpawnEntity(dog);
             }
+        }
 
-            EntityUpdate update = new EntityUpdate
+        private void FixedUpdate()
+        {
+            TickEntities();
+            SendWorldUpdates();
+
+            tick++;
+        }
+
+
+
+        private void TickEntities()
+        {
+            foreach (Entity entity in entityManager.entities)
             {
-                entityId = entity.entityId,
-                entityType = entity.entityType,
-                position = entity.position,
+                entity.Tick(Time.fixedDeltaTime);
+            }
+        }
+
+        private void SendWorldUpdates()
+        {
+            foreach (Player player in playerManager.players)
+            {
+                ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
+            }
+        }
+
+        public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
+        {
+            return new WorldUpdate
+            {
+                tick = tick,
+                entityUpdates = entityManager.entities
+                    .Where(entity => entity is not Player player || player.id != excludePlayer)
+                    .Select(entity => entity.GetUpdate())
+                    .ToList(),
             };
-
-            entityUpdates.Add(update);
         }
-
-        return new WorldUpdate
-        {
-            tick = tick,
-            entityUpdates = entityUpdates,
-        };
     }
 }
+

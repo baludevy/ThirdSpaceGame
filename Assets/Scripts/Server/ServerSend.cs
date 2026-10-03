@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteNetLib.Utils;
 using Game;
 using LiteNetLib;
 using UnityEngine;
@@ -10,159 +11,140 @@ namespace Server
         public static void Welcome(int id)
         {
             NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.Welcome, id, writer =>
-            {
-                writer.Put(id);
-            });
+                writer.Put(id));
         }
-        public static void InitalizeWorld(int id, List<Object> objects, List<Entity> entities)
+
+        public static void InitializeWorld(int id, List<Object> objects, List<Entity> entities)
         {
-            NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.InitializeWorld, id, writer =>
-            {
-                // === OBJECTS === ///
-                writer.Put(objects.Count);
-
-                foreach (Object obj in objects)
+            NetworkManager.Instance.Server.SendPacketTo(
+                ServerPacketId.InitializeWorld,
+                id,
+                writer =>
                 {
-                    writer.Put(obj.id);
-                    writer.Put((byte)obj.type);
+                    writer.Put(objects.Count);
 
-                    writer.Put(obj.position);
+                    foreach (Object obj in objects)
+                        WriteObject(writer, obj);
 
-                    if (obj.type == ObjectType.chest)
-                    {
-                        Chest chest = obj as Chest;
-                        writer.Put(chest != null && chest.opened);
-                    }
+                    writer.Put(entities.Count);
+
+                    foreach(Entity entity in entities)
+                        WriteEntity(writer, entity);
                 }
-
-                int wrotePlayer = 0;
-                
-                // === ENTITIES === ///
-                writer.Put(entities.Count);
-
-                foreach (Entity entity in entities)
-                {
-                    writer.Put(entity.entityId);
-                    writer.Put((byte)entity.entityType);
-                    writer.Put(entity.position);
-
-                    if (entity.entityType == EntityType.player)
-                    {
-                        if (entity is Player player)
-                        {
-                            writer.Put(player.id);
-                            writer.Put(player.username);
-                        }
-                    }
-                    if (entity.entityType == EntityType.pet)
-                    {
-                        if (entity is Pet pet)
-                        {
-                            writer.Put((byte)pet.petType);   
-                        }
-                    }
-                    if (entity.entityType == EntityType.item)
-                    {
-                        if (entity is DroppedItem item)
-                        {
-                            writer.Put((byte)item.itemType);
-                        }
-                    }
-                    wrotePlayer++;
-                }
-            });
+            );
         }
+
         public static void SpawnEntity(Entity entity)
         {
-            NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.SpawnEntity, writer =>
-            {
-                writer.Put(entity.entityId);
-                writer.Put((byte)entity.entityType);
-                writer.Put(entity.position);
-
-                if (entity.entityType == EntityType.player)
-                {
-                    if (entity is Player player)
-                    {
-                        writer.Put(player.id);
-                        writer.Put(player.username);
-                    }
-                }
-                if (entity.entityType == EntityType.pet)
-                {
-                    if (entity is Pet pet)
-                    {
-                        writer.Put((byte)pet.petType);   
-                    }
-                }
-                if (entity.entityType == EntityType.item)
-                {
-                    if (entity is DroppedItem item)
-                    {
-                        writer.Put((byte)item.itemType);
-                    }
-                }
-            });
-        }
-        public static void UpdateInventory(Player player)
-        {
-            NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateInventory, player.id, writer =>
-            {
-                foreach (Slot slot in player.inventory.slots)
-                {
-                    writer.Put((byte)slot.slotIndex);
-                    writer.Put((byte)slot.count);
-
-                    if(slot.count > 0)
-                        writer.Put((byte)slot.itemType);
-                }
-            });
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.SpawnEntity,
+                writer => WriteEntity(writer, entity)
+            );
         }
 
         public static void UpdateWorld(int targetId, WorldUpdate update)
         {
-            NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateWorld, targetId, writer =>
-            {
-                writer.Put(update.tick);
-
-                writer.Put(update.entityUpdates.Count);
-
-                foreach (EntityUpdate entityUpdate in update.entityUpdates)
+            NetworkManager.Instance.Server.SendPacketTo(
+                ServerPacketId.UpdateWorld,
+                targetId,
+                writer =>
                 {
-                    writer.Put(entityUpdate.entityId);
-                    writer.Put((byte)entityUpdate.entityType);
-                    writer.Put(entityUpdate.position);
-                    
-                    if (entityUpdate is PlayerUpdate playerUpdate)
-                    {
-                        writer.Put((byte)playerUpdate.animationState);
-                    }
+                    writer.Put(update.tick);
+                    writer.Put(update.entityUpdates.Count);
 
-                    if (entityUpdate is PetUpdate petUpdate)
+                    foreach(EntityUpdate entityUpdate in update.entityUpdates)
+                        WriteEntityUpdate(writer, entityUpdate);
+                },
+                LiteNetLib.DeliveryMethod.Unreliable
+            );
+        }
+
+        public static void UpdateInventory(Player player)
+        {
+            NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateInventory, player.id, writer =>
+                {
+                    foreach(Slot slot in player.inventory.slots)
                     {
-                        writer.Put(petUpdate.facingRight);
-                        writer.Put((byte)petUpdate.animationState);
+                        writer.Put((byte)slot.slotIndex);
+                        writer.Put((byte)slot.count);
+
+                        if(slot.count > 0)
+                            writer.Put((byte)slot.itemType);
                     }
                 }
-
-            }, DeliveryMethod.Unreliable);
+            );
         }
 
         public static void DestroyEntity(ushort entityId)
         {
-            NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.DestroyEntity, writer =>
-            {
-                writer.Put(entityId);
-            });
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.DestroyEntity,
+                writer => writer.Put(entityId)
+            );
         }
 
         public static void ChestOpened(ushort objId, bool opened)
         {
-            NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.ChestOpened, writer =>
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.ChestOpened,
+                writer =>
+                {
+                    writer.Put(objId);
+                    writer.Put(opened);
+                }
+            );
+        }
+
+        private static void WriteEntity(NetDataWriter writer, Entity entity)
+        {
+            writer.Put(entity.entityId);
+            writer.Put((byte)entity.entityType);
+            writer.Put(entity.position);
+
+            switch (entity)
             {
-                writer.Put(objId);
-                writer.Put(opened);
-            });
+                case Player player:
+                    writer.Put(player.id);
+                    writer.Put(player.username);
+                    break;
+
+                case Pet pet:
+                    writer.Put((byte)pet.petType);
+                    break;
+
+                case DroppedItem item:
+                    writer.Put((byte)item.itemType);
+                    break;
+            }
+        }
+
+        private static void WriteEntityUpdate(NetDataWriter writer, EntityUpdate update)
+        {
+            writer.Put(update.entityId);
+            writer.Put((byte)update.entityType);
+            writer.Put(update.position);
+
+            switch (update)
+            {
+                case PlayerUpdate player:
+                    writer.Put((byte)player.animationState);
+                    break;
+
+                case PetUpdate pet:
+                    writer.Put(pet.facingRight);
+                    writer.Put((byte)pet.animationState);
+                    break;
+            }
+        }
+
+        private static void WriteObject(NetDataWriter writer, Object obj)
+        {
+            writer.Put(obj.id);
+            writer.Put((byte)obj.type);
+            writer.Put(obj.position);
+
+            if (obj is Chest chest)
+                writer.Put(chest.opened);
         }
     }
 }

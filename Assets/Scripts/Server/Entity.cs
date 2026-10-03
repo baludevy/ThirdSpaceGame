@@ -6,12 +6,19 @@ namespace Server
     {
         public ushort entityId;
         public EntityType entityType;
-        
-        // === TRANSFORM ===
+
+        // === TRANSFORM === 
         public Vector2 position = Vector2.zero;
         public virtual void Tick(float deltaTime)
         {
             
         }
+
+        public virtual EntityUpdate GetUpdate() => new EntityUpdate
+        {
+            entityId = entityId,
+            entityType = entityType,
+            position = position
+        };
     }
 }
