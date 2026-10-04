@@ -66,7 +66,7 @@ namespace Client
             itemImage.gameObject.SetActive(visible);
             itemCountText.gameObject.SetActive(visible);
             
-            if (item.type != ItemType.empty && ItemCatalog.Instance.GetItem(item.type).Stackable)
+            if (item.type != ItemType.Empty && ItemCatalog.Instance.GetItem(item.type).Stackable)
             {
                 itemCountText.text = visible ? displayedCount.ToString() : "";
             }
@@ -80,7 +80,8 @@ namespace Client
         {
             return itemType switch
             {
-                ItemType.pickaxe or ItemType.shovel or ItemType.hoe => new Tool(itemType),
+                ItemType.CarrotSeed or ItemType.PotatoSeed => new Seed(itemType),
+                ItemType.Pickaxe or ItemType.Shovel or ItemType.Hoe => new Tool(itemType),
                 _ => new Item(itemType)
             };
         }

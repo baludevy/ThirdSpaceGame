@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
+﻿using System.Collections.Generic;
 using Types;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -22,7 +20,7 @@ namespace Game
         {
             return (value % size + size) % size;
         }
-        
+
         [SerializeField] public Dictionary<TileType, TileBase> tileSprites = new Dictionary<TileType, TileBase>();
 
         void Awake()
@@ -33,7 +31,7 @@ namespace Game
 
         public TileType GetTileType(Vector2Int position)
         {
-            TileBase tileAsset = GlobalTilemap.Instance.tilemap.GetTile(new Vector3Int(position.x, position.y, 0));
+            TileBase tileAsset = tilemap.GetTile(new Vector3Int(position.x, position.y, 0));
 
             if (tileAsset == null) return TileType.Empty;
 

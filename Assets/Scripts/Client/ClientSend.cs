@@ -31,12 +31,20 @@ namespace Client
             });
         }
 
-        public static void Interact(InteractionKind interactionKind, ushort id)
+        public static void Interact(InteractionKind interactionKind, ushort objectId)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.Interact, writer =>
             {
                 writer.Put((byte)interactionKind);
-                writer.Put(id);
+                writer.Put(objectId);
+            });
+        }
+
+        public static void SwitchHotbarSlot(int toIndex)
+        {
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.SwitchHotbarSlot, writer =>
+            {
+                writer.Put((byte)toIndex);
             });
         }
 

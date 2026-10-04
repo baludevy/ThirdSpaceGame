@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Client;
-using Server;
 using Types;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Server
 {
@@ -38,8 +34,43 @@ namespace Server
             objectManager = new ObjectManager();
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
-            
+
             tileManager.Initialize(new Vector2Int(101, 101));
+
+            objectManager.SpawnObject(new Chest
+            {
+                id = 0,
+                itemType = ItemType.Hoe,
+                itemAmount = 1,
+                position = new Vector2(-1.5f, 2f)
+            });
+
+            objectManager.SpawnObject(new Chest
+            {
+                id = 1,
+                type = ObjectType.Chest,
+                itemType = ItemType.Hoe,
+                itemAmount = 1,
+                position = new Vector2(0.5f, 2f)
+            });
+
+            objectManager.SpawnObject(new Chest
+            {
+                id = 2,
+                type = ObjectType.Chest,
+                itemType = ItemType.PotatoSeed,
+                itemAmount = 65,
+                position = new Vector2(2.5f, 2f)
+            });
+
+            objectManager.SpawnObject(new Chest
+            {
+                id = 3,
+                type = ObjectType.Chest,
+                itemType = ItemType.CarrotSeed,
+                itemAmount = 65,
+                position = new Vector2(4.5f, 2f)
+            });
             
             if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
             {
@@ -79,12 +110,12 @@ namespace Server
                 entity.Tick(Time.fixedDeltaTime);
             }
         }
-        
+
         private void SendTileUpdates()
         {
-            if(tileManager.updatedTiles.Count > 0)
+            if (tileManager.updatedTiles.Count > 0)
                 ServerSend.UpdateTiles(tileManager.updatedTiles);
-            
+
             tileManager.updatedTiles.Clear();
         }
 

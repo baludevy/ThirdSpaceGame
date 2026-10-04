@@ -31,6 +31,7 @@ namespace Server
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.PlayerMove, ServerHandle.PlayerMove);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.UseHeldItem, ServerHandle.UseHeldItem);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.Interact, ServerHandle.Interact);
+            PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.SwitchHotbarSlot, ServerHandle.SwitchHotbarSlot);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.InventoryMove, ServerHandle.InventoryMove);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.InventorySplit, ServerHandle.InventorySplit);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.InventoryDrop, ServerHandle.InventoryDrop);

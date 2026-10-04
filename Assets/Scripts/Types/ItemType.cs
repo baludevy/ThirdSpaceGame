@@ -1,12 +1,12 @@
 ﻿public enum ItemType
 {
-    empty,
-    carrot,
-    potato,
-    carrotSeed,
-    potatoSeed,
+    Empty,
+    Carrot,
+    Potato,
+    CarrotSeed,
+    PotatoSeed,
     
-    pickaxe,
-    shovel,
-    hoe
+    Pickaxe,
+    Shovel,
+    Hoe
 }

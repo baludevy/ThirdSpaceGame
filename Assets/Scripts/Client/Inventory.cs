@@ -81,6 +81,7 @@ namespace Client
             {
                 if (keyboard[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame)
                 {
+                    ClientSend.SwitchHotbarSlot(i);
                     activeHotbarSlotIndex = i;
                     break;
                 }

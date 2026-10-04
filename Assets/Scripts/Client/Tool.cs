@@ -11,7 +11,7 @@ namespace Client
 
         public override void Use()
         {
-            Debug.Log("used tool");
+            
         }
         
         public override bool CanBeUsed() => true;

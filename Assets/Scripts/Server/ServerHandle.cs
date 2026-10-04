@@ -35,12 +35,8 @@ namespace Server
             int playerId = peer.Id;
             int tileId = reader.GetInt();
 
-            Tile targetTile = WorldManager.Instance.tileManager.GetTile(tileId);
-            
-            if(targetTile.tileType == TileType.Grass)
-                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Soil);
-            else if(targetTile.tileType == TileType.Soil)
-                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Grass);
+            Player player = WorldManager.Instance.playerManager.GetPlayer(playerId);
+            player.UseHeldItem(tileId);
         }
 
         public static void Interact(NetPeer peer, NetDataReader reader)
@@ -68,6 +64,15 @@ namespace Server
             }
         }
 
+        public static void SwitchHotbarSlot(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+            int toIndex = reader.GetByte();
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
+            player.inventory.SwitchHotbarSlot(toIndex);
+        }
+
         public static void InventoryMove(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
@@ -78,7 +83,7 @@ namespace Server
             int toIndex = reader.GetByte();
 
             InventoryManager.Move(id, fromContainer, fromIndex, toContainer, toIndex);
-            
+
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
 
@@ -103,12 +108,12 @@ namespace Server
             int fromContainer = reader.GetShort();
             int fromIndex = reader.GetByte();
             bool split = reader.GetBool();
-            
+
             Debug.Log(fromIndex);
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
             player.inventory.Drop(fromIndex, split, player.position - Vector2.up);
-            
+
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
     }

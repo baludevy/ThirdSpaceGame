@@ -23,7 +23,13 @@ namespace Server
             this.username = username;
 
             inputManager = new InputManager(this);
-            inventory = new Inventory(-1, 27);
+            inventory = new Inventory(27);
+        }
+
+        public void UseHeldItem(int tileId)
+        {
+            Item heldItem = inventory.activeItem;
+            heldItem.Use(this, tileId);
         }
 
         public override EntityUpdate GetUpdate()

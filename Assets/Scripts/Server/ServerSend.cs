@@ -47,6 +47,14 @@ namespace Server
             );
         }
 
+        public static void SpawnObject(Object obj)
+        {
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.SpawnObject,
+                writer => WriteObject(writer, obj)
+            );
+        }
+
         public static void UpdateTiles(List<Tile> updatedTiles)
         {
             NetworkManager.Instance.Server.SendPacketToAll(
@@ -177,6 +185,9 @@ namespace Server
             writer.Put(obj.id);
             writer.Put((byte)obj.type);
             writer.Put(obj.position);
+
+            if (obj is Crop crop)
+                writer.Put((byte)crop.cropType);
 
             if (obj is Chest chest)
                 writer.Put(chest.opened);

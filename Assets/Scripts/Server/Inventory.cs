@@ -7,19 +7,28 @@ namespace Server
     public class Item
     {
         public bool stackable;
-        public int maxStackSize = 64;
+        public int maxStackSize;
         public int count;
         public ItemType type;
 
+        public Item(ItemType itemType, int count, bool stackable = true, int maxStackSize = 64)
+        {
+            this.type = itemType;
+            this.maxStackSize = maxStackSize;
+            this.count = count;
+            this.stackable = stackable;
+        }
+
+        public virtual void Use(Player player, int tileId)
+        {
+            
+        }
+
         public Item Copy(int amount)
         {
-            return new Item
-            {
-                stackable = stackable,
-                maxStackSize = maxStackSize,
-                count = amount,
-                type = type
-            };
+            Item copy = (Item)MemberwiseClone();
+            copy.count = amount;
+            return copy;
         }
     }
 
@@ -38,15 +47,27 @@ namespace Server
 
     public class Inventory
     {
-        public int containerId;
         public List<Slot> slots = new List<Slot>();
-
         private readonly int maxStackSize;
 
-        public Inventory(
-            int containerId,
-            int slotCount,
-            int maxStackSize = 64)
+        private int selectedHotbarSlot;
+
+        public Item activeItem
+        {
+            get
+            {
+                int hotbarStart = Math.Max(0, slots.Count - 9);
+                int inventoryIndex = hotbarStart + selectedHotbarSlot;
+
+                if (!IsValidIndex(inventoryIndex))
+                    return null;
+
+                Slot slot = slots[inventoryIndex];
+                return slot.isEmpty ? null : slot.item;
+            }
+        }
+
+        public Inventory(int slotCount, int maxStackSize = 64)
         {
             if (slotCount <= 0)
                 throw new ArgumentOutOfRangeException(nameof(slotCount));
@@ -54,7 +75,6 @@ namespace Server
             if (maxStackSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(maxStackSize));
 
-            this.containerId = containerId;
             this.maxStackSize = maxStackSize;
 
             for (int i = 0; i < slotCount; i++)
@@ -63,9 +83,7 @@ namespace Server
 
         private int GetStackLimit(Item item)
         {
-            return item.stackable
-                ? Math.Min(maxStackSize, item.maxStackSize)
-                : 1;
+            return item.stackable ? Math.Min(maxStackSize, item.maxStackSize) : 1;
         }
 
         private static bool CanStack(Item first, Item second)
@@ -216,7 +234,7 @@ namespace Server
             Slot from = slots[fromIndex];
             Slot to = destination.slots[toIndex];
 
-            if (from.isEmpty || (split && from.item.count < 2))
+            if (from.isEmpty || split && from.item.count < 2)
                 return false;
 
             int requested = split ? from.item.count / 2 + from.item.count % 2 : from.item.count;
@@ -293,6 +311,16 @@ namespace Server
         private bool IsValidIndex(int index)
         {
             return index >= 0 && index < slots.Count;
+        }
+
+        public void SwitchHotbarSlot(int hotbarSlot)
+        {
+            int hotbarSize = Math.Min(9, slots.Count);
+
+            if (hotbarSlot < 0 || hotbarSlot >= hotbarSize)
+                return;
+
+            selectedHotbarSlot = hotbarSlot;
         }
     }
 }
