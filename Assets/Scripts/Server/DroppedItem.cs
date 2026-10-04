@@ -1,6 +1,3 @@
-using UnityEngine;
-
-
 namespace Server
 {
     public class DroppedItem : Entity, Interactable
@@ -9,10 +6,10 @@ namespace Server
 
         public void Interact(Player player)
         {
-            player.inventory.Add(item);
+            if (player.inventory.Add(item))
+                WorldManager.Instance.entityManager.DestroyEntity(this);
+            
             ServerSend.UpdateInventory(player);
-
-            WorldManager.Instance.entityManager.DestroyEntity(this);
         }
 
         public bool CanInteract() => true;

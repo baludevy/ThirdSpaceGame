@@ -21,19 +21,18 @@ namespace Client
         [SerializeField] private GameObject slotPrefab;
         [SerializeField] private Canvas uiCanvas;
 
-        public GameObject dragPreviewPrefab;
-        [SerializeField]
-        public Dictionary<ItemType, Sprite> itemSprites = new();
+        [SerializeField] private GameObject dragPreviewPrefab;
 
         private readonly List<InventorySlot> slots = new();
         private readonly List<RaycastResult> pointerHits = new();
 
-        public int activeHotbarSlotIndex;
-        public Item currentItem;
+        private int activeHotbarSlotIndex;
 
         private InventorySlot draggedSlot;
         private GameObject dragPreviewObject;
         private bool splitDrag;
+        
+        public Item currentItem { get; private set; }
 
         private void Awake()
         {
@@ -153,7 +152,7 @@ namespace Client
 
             GameObject hit = pointerHits.Count > 0 ? pointerHits[0].gameObject : null;
             InventorySlot clickedSlot = hit != null ? hit.GetComponentInParent<InventorySlot>() : null;
-            
+
             if (clickedSlot != null && !slots.Contains(clickedSlot))
                 return;
 

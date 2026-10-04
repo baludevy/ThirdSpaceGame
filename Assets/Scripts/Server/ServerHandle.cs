@@ -77,9 +77,8 @@ namespace Server
             short toContainer = reader.GetShort();
             int toIndex = reader.GetByte();
 
-            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Move(fromIndex, toIndex);
             InventoryManager.Move(id, fromContainer, fromIndex, toContainer, toIndex);
+            
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
 
@@ -93,9 +92,6 @@ namespace Server
             int toIndex = reader.GetByte();
 
             InventoryManager.Split(id, fromContainer, fromIndex, toContainer, toIndex);
-
-            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Split(fromIndex, toIndex);
 
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
@@ -112,6 +108,8 @@ namespace Server
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
             player.inventory.Drop(fromIndex, split, player.position - Vector2.up);
+            
+            ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
     }
 }

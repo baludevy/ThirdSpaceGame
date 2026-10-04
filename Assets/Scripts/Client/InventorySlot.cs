@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using Types;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,9 +8,9 @@ namespace Client
 {
     public class InventorySlot : MonoBehaviour
     {
-        public int slotIndex;
-        public Item item;
-        public int itemCount;
+        [NonSerialized] public int slotIndex;
+        [NonSerialized] public Item item;
+        [NonSerialized] public int itemCount;
 
         public Sprite itemSprite => itemImage.sprite;
 
@@ -44,9 +46,10 @@ namespace Client
             this.itemCount = itemCount;
 
             if (itemCount > 0)
-                itemImage.sprite = Inventory.Instance.itemSprites[itemType];
+                itemImage.sprite = ItemCatalog.Instance.GetItem(itemType).Sprite;
             else
                 itemImage.sprite = null;
+
 
             RefreshItemVisibility();
         }
@@ -62,10 +65,18 @@ namespace Client
 
             itemImage.gameObject.SetActive(visible);
             itemCountText.gameObject.SetActive(visible);
-            itemCountText.text = visible ? displayedCount.ToString() : "";
+            
+            if (item.type != ItemType.empty && ItemCatalog.Instance.GetItem(item.type).Stackable)
+            {
+                itemCountText.text = visible ? displayedCount.ToString() : "";
+            }
+            else
+            {
+                itemCountText.text = "";
+            }
         }
 
-        public Item CreateItem(ItemType itemType)
+        public static Item CreateItem(ItemType itemType)
         {
             return itemType switch
             {

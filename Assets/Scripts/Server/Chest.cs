@@ -1,3 +1,4 @@
+using Types;
 using UnityEngine;
 
 namespace Server
@@ -19,7 +20,16 @@ namespace Server
 
             if(WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is DroppedItem droppedItem)
             {
-                Item item = Items.items.Find(x => x.type == itemType).Copy(1);
+                ItemDefinition itemDefinition = ItemCatalog.Instance.GetItem(itemType);
+                
+                Item item = new Item
+                {
+                    type = itemType,
+                    count = 10,
+                    stackable = itemDefinition.Stackable,
+                    maxStackSize = itemDefinition.MaxStackSize,
+                };
+                
                 droppedItem.item = item;
 
                 ServerSend.SpawnEntity(droppedItem);

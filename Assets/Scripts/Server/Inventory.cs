@@ -203,15 +203,9 @@ namespace Server
             return TransferTo(this, fromIndex, toIndex, true);
         }
 
-        public bool TransferTo(
-            Inventory destination,
-            int fromIndex,
-            int toIndex,
-            bool split = false)
+        public bool TransferTo(Inventory destination, int fromIndex, int toIndex, bool split = false)
         {
-            if (destination == null ||
-                !IsValidIndex(fromIndex) ||
-                !destination.IsValidIndex(toIndex))
+            if (destination == null || !IsValidIndex(fromIndex) || !destination.IsValidIndex(toIndex))
             {
                 return false;
             }
@@ -225,14 +219,11 @@ namespace Server
             if (from.isEmpty || (split && from.item.count < 2))
                 return false;
 
-            int requested = split
-                ? from.item.count / 2 + from.item.count % 2
-                : from.item.count;
+            int requested = split ? from.item.count / 2 + from.item.count % 2 : from.item.count;
 
             if (to.isEmpty || CanStack(from.item, to.item))
             {
-                int stackLimit = destination.GetStackLimit(
-                    to.isEmpty ? from.item : to.item);
+                int stackLimit = destination.GetStackLimit(to.isEmpty ? from.item : to.item);
 
                 int destinationCount = to.isEmpty ? 0 : to.item.count;
                 int space = Math.Max(0, stackLimit - destinationCount);
@@ -282,10 +273,7 @@ namespace Server
                 ? slot.item.count / 2 + slot.item.count % 2
                 : slot.item.count;
 
-            if (WorldManager.Instance.entityManager.SpawnEntity(
-                    EntityType.item,
-                    position,
-                    false) is not DroppedItem droppedItem)
+            if (WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, position, false) is not DroppedItem droppedItem)
             {
                 return false;
             }

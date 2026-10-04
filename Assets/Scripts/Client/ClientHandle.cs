@@ -40,6 +40,12 @@ namespace Client
 
         public static void UpdateInventory(NetDataReader reader)
         {
+            const int inventorySlotCount = 27;
+            for (int i = 0; i < inventorySlotCount; i++)
+            {
+                Inventory.Instance.UpdateSlot(i, ItemType.empty, 0);
+            }
+            
             int filledSlotCount = reader.GetInt();
 
             for (int i = 0; i < filledSlotCount; i++)
