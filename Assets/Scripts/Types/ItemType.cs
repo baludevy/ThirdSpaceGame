@@ -4,5 +4,9 @@
     carrot,
     potato,
     carrotSeed,
-    potatoSeed
+    potatoSeed,
+    
+    pickaxe,
+    shovel,
+    hoe
 }

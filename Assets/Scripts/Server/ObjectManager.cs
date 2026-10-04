@@ -12,14 +12,14 @@ namespace Server
             new Chest
             {
                 id = 0,
-                itemType = ItemType.carrotSeed,
+                itemType = ItemType.hoe,
                 position = new Vector2(-1.5f, 2f)
             },
             new Chest
             {
                 id = 1,
                 type = ObjectType.chest,
-                itemType = ItemType.potatoSeed,
+                itemType = ItemType.hoe,
                 position = new Vector2(0.5f, 2f)
             },
             new Chest

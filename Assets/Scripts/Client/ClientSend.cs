@@ -40,19 +40,7 @@ namespace Client
             });
         }
 
-<<<<<<< Updated upstream
-        public static void InventoryMove(int fromIndex, int toIndex)
-=======
-        public static void TileTest(int tileId)
-        {
-            NetworkManager.Instance.Client.SendPacket(ClientPacketId.TileTest, writer =>
-            {
-                writer.Put(tileId);
-            });
-        }
-
         public static void InventoryMove(int fromContainer, int fromIndex, int toContainer, int toIndex)
->>>>>>> Stashed changes
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryMove, writer =>
             {
@@ -78,7 +66,7 @@ namespace Client
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryDrop, writer =>
             {
-                writer.Put((ushort)fromContainer);
+                writer.Put((short)fromContainer);
                 writer.Put((byte)fromIndex);
                 writer.Put(drop);
             });

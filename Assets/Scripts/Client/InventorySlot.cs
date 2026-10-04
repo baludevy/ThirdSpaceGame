@@ -7,7 +7,7 @@ namespace Client
     public class InventorySlot : MonoBehaviour
     {
         public int slotIndex;
-        public ItemType itemType;
+        public Item item;
         public int itemCount;
 
         public Sprite itemSprite => itemImage.sprite;
@@ -40,7 +40,7 @@ namespace Client
 
         public void UpdateSlot(ItemType itemType, int itemCount)
         {
-            this.itemType = itemType;
+            this.item = CreateItem(itemType);
             this.itemCount = itemCount;
 
             if (itemCount > 0)
@@ -63,6 +63,15 @@ namespace Client
             itemImage.gameObject.SetActive(visible);
             itemCountText.gameObject.SetActive(visible);
             itemCountText.text = visible ? displayedCount.ToString() : "";
+        }
+
+        public Item CreateItem(ItemType itemType)
+        {
+            return itemType switch
+            {
+                ItemType.pickaxe or ItemType.shovel or ItemType.hoe => new Tool(itemType),
+                _ => new Item(itemType)
+            };
         }
     }
 }

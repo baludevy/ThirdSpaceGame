@@ -19,11 +19,10 @@ namespace Server
 
             if(WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is DroppedItem droppedItem)
             {
-                droppedItem.itemType = itemType;
-                droppedItem.itemAmount = Random.Range(1, 5);
+                Item item = Items.items.Find(x => x.type == itemType).Copy(1);
+                droppedItem.item = item;
 
                 ServerSend.SpawnEntity(droppedItem);
-
             }
         }
 

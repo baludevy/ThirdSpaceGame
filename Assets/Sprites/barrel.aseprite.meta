@@ -127,7 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: barrel
+  - name: Frame_0
     originalName: 
     pivot: {x: 0.4666667, y: 0}
     alignment: 9
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 15
       height: 16
-    spriteID: 421c6b1bd3102e14dbab27f7e331c5fc
+    spriteID: f802093f2aaa3774eb81bda86fca1e17
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -160,7 +160,7 @@ ScriptedImporter:
       y: 28
       width: 15
       height: 16
-    spriteID: eb4f7868d038a114a8702ce33cc9627c
+    spriteID: 2b462b98a6d2818479a8cee28ae4f74b
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -192,7 +192,7 @@ ScriptedImporter:
         y: 0
         width: 15
         height: 16
-      spriteId: 421c6b1bd3102e14dbab27f7e331c5fc
+      spriteId: f802093f2aaa3774eb81bda86fca1e17
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -201,7 +201,7 @@ ScriptedImporter:
         y: 0
         width: 15
         height: 16
-      spriteId: eb4f7868d038a114a8702ce33cc9627c
+      spriteId: 2b462b98a6d2818479a8cee28ae4f74b
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

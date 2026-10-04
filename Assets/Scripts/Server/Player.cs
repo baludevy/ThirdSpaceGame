@@ -23,7 +23,7 @@ namespace Server
             this.username = username;
 
             inputManager = new InputManager(this);
-            inventory = new Inventory(27);
+            inventory = new Inventory(-1, 27);
         }
 
         public override EntityUpdate GetUpdate()
@@ -36,5 +36,5 @@ namespace Server
                 animationState = animState
             };
         }
-    }   
+    }
 }

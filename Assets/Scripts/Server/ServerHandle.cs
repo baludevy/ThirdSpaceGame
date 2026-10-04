@@ -104,9 +104,11 @@ namespace Server
         {
             int id = peer.Id;
 
+            int fromContainer = reader.GetShort();
             int fromIndex = reader.GetByte();
-            int fromContainer = reader.GetByte();
             bool split = reader.GetBool();
+            
+            Debug.Log(fromIndex);
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
             player.inventory.Drop(fromIndex, split, player.position - Vector2.up);

@@ -5,17 +5,16 @@ namespace Server
 {
     public class DroppedItem : Entity, Interactable
     {
-        public ItemType itemType;
-        public int itemAmount = 1;
+        public Item item;
 
         public void Interact(Player player)
         {
-            player.inventory.Add(itemType, itemAmount);
+            player.inventory.Add(item);
             ServerSend.UpdateInventory(player);
 
             WorldManager.Instance.entityManager.DestroyEntity(this);
         }
-        
+
         public bool CanInteract() => true;
     }
 }
