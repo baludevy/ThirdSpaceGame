@@ -51,6 +51,12 @@ namespace Server
             objects.Add(obj);
         }
 
+        public void DestroyObject(ushort id)
+        {
+            objects.Remove(GetObject(id));
+            ServerSend.DestroyObject(id);
+        }
+
         public Object GetObject(ushort id) => objects.Find(x => x.id == id);
     }
 }

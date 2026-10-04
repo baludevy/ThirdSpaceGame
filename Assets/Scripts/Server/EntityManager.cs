@@ -38,10 +38,5 @@ namespace Server
         }
         
         public Entity GetEntity(ushort id) => entities.Find(e => e.entityId == id);
-
-        internal DroppedItem SpawnEntity(EntityType item, System.Numerics.Vector2 position, bool v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

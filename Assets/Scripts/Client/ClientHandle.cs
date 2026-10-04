@@ -1,6 +1,7 @@
 ﻿using Game;
 using LiteNetLib.Utils;
 using Types;
+using UnityEditor;
 using UnityEngine;
 
 namespace Client
@@ -41,6 +42,21 @@ namespace Client
         public static void SpawnObject(NetDataReader reader)
         {
             ReadObject(reader);
+        }
+
+        public static void DestroyObject(NetDataReader reader)
+        {
+            ushort objectId = reader.GetUShort();
+            
+            ObjectManager.Instance.DestroyObject(objectId);
+        }
+
+        public static void UpdateCrop(NetDataReader reader)
+        {
+            ushort cropId = reader.GetUShort();
+            int cropPhase = reader.GetByte();
+            
+            CropManager.Instance.UpdateCrop(cropId, cropPhase);
         }
 
         public static void UpdateInventory(NetDataReader reader)
@@ -118,14 +134,13 @@ namespace Client
             
             if (type == ObjectType.Crop)
             {
-                Debug.Log("a");
-                
                 CropType cropType = (CropType)reader.GetByte();
-                CropManager.Instance.SpawnCrop(cropType, position);
+                int cropPhase = reader.GetByte();
+                CropManager.Instance.SpawnCrop(objectId, cropType, cropPhase, position);
                 return;
             }
 
-            ObjectManager.Instance.AddObject(objectId, type, position);
+            ObjectManager.Instance.SpawnObject(objectId, type, position);
 
             if (type == ObjectType.Chest)
             {

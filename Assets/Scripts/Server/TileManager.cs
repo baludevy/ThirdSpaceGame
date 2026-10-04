@@ -39,8 +39,8 @@ namespace Server
 
             targetTile.tileType = tileType;
             updatedTiles.Add(targetTile);
-            
-            if(changedTiles.Contains(targetTile)) 
+
+            if (changedTiles.Contains(targetTile))
                 changedTiles.Find(tile => tile == targetTile).tileType = tileType;
             else
                 changedTiles.Add(targetTile);
@@ -55,6 +55,8 @@ namespace Server
         public Vector2Int position;
         public TileType tileType;
 
+        public Object occupant;
+
         public Tile(int tileId, Vector2Int position, TileType tileType)
         {
             this.tileId = tileId;
@@ -64,7 +66,17 @@ namespace Server
 
         public virtual void Tick(float deltaTime)
         {
+            if (occupant is Crop crop)
+            {
+                if (crop.lastGrowTime > 200 && crop.cropPhase < 2)
+                {
+                    crop.cropPhase++;
+                    ServerSend.UpdateCrop(crop.id, crop.cropPhase);
+                    crop.lastGrowTime = 0;
+                }
 
+                crop.lastGrowTime++;
+            }
         }
     }
 }

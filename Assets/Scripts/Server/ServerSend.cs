@@ -54,6 +54,14 @@ namespace Server
                 writer => WriteObject(writer, obj)
             );
         }
+        
+        public static void DestroyObject(ushort id)
+        {
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.DestroyObject,
+                writer => writer.Put(id)
+            );
+        }
 
         public static void UpdateTiles(List<Tile> updatedTiles)
         {
@@ -86,6 +94,18 @@ namespace Server
             );
         }
 
+        public static void UpdateCrop(ushort cropId, int cropPhase)
+        {
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.UpdateCrop,
+                writer =>
+                {
+                    writer.Put(cropId);
+                    writer.Put((byte)cropPhase);
+                }
+            );
+        }
+        
         public static void UpdateInventory(Player player)
         {
             NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateInventory, player.id, writer =>
@@ -187,7 +207,10 @@ namespace Server
             writer.Put(obj.position);
 
             if (obj is Crop crop)
+            {
                 writer.Put((byte)crop.cropType);
+                writer.Put((byte)crop.cropPhase);
+            }
 
             if (obj is Chest chest)
                 writer.Put(chest.opened);

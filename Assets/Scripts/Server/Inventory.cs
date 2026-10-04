@@ -186,14 +186,11 @@ namespace Server
             return total;
         }
 
-        public bool Remove(ItemType itemType, int amount = 1)
+        public bool Remove(Item item, int amount = 1)
         {
-            if (amount <= 0 || GetCount(itemType) < amount)
-                return false;
-
             foreach (Slot slot in slots)
             {
-                if (slot.isEmpty || !slot.item.type.Equals(itemType))
+                if (slot.isEmpty || slot.item != item)
                     continue;
 
                 int amountToRemove = Math.Min(amount, slot.item.count);

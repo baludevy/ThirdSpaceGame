@@ -16,7 +16,15 @@ namespace Server.Tools
             if (targetTile.tileType == TileType.Grass)
                 WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Soil);
             else if (targetTile.tileType == TileType.Soil)
+            {
+                if(targetTile.occupant != null)
+                {
+                    WorldManager.Instance.objectManager.DestroyObject(targetTile.occupant.id);
+                    targetTile.occupant = null;
+                }
+                
                 WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Grass);
+            }
         }
     }
 }

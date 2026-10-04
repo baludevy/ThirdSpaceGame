@@ -38,7 +38,7 @@ namespace Server
             return item.Type switch
             {
                 ItemType.PotatoSeed => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Potato },
-                ItemType.Carrot => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Carrot },
+                ItemType.CarrotSeed => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Carrot },
                 
                 
                 ItemType.Hoe => new Hoe(item.Type, count, item.Stackable, item.MaxStackSize),
