@@ -40,28 +40,45 @@ namespace Client
             });
         }
 
+<<<<<<< Updated upstream
         public static void InventoryMove(int fromIndex, int toIndex)
+=======
+        public static void TileTest(int tileId)
+        {
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.TileTest, writer =>
+            {
+                writer.Put(tileId);
+            });
+        }
+
+        public static void InventoryMove(int fromContainer, int fromIndex, int toContainer, int toIndex)
+>>>>>>> Stashed changes
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryMove, writer =>
             {
+                writer.Put((short)fromContainer);
                 writer.Put((byte)fromIndex);
+                writer.Put((short)toContainer);
                 writer.Put((byte)toIndex);
             });
         }
 
-        public static void InventorySplit(int fromIndex, int toIndex)
+        public static void InventorySplit(int fromContainer, int fromIndex, int toContainer, int toIndex)
         {
-            NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventorySplit, writer =>
+            NetworkManager.Instance.Client  .SendPacket(ClientPacketId.InventorySplit, writer =>
             {
+                writer.Put((short)fromContainer);
                 writer.Put((byte)fromIndex);
+                writer.Put((short)toContainer);
                 writer.Put((byte)toIndex);
             });
         }
 
-        public static void InventoryDrop(int fromIndex, bool drop)
+        public static void InventoryDrop(int fromContainer, int fromIndex, bool drop)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryDrop, writer =>
             {
+                writer.Put((ushort)fromContainer);
                 writer.Put((byte)fromIndex);
                 writer.Put(drop);
             });

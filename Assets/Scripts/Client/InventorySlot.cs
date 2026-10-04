@@ -43,7 +43,7 @@ namespace Client
             this.itemType = itemType;
             this.itemCount = itemCount;
 
-            if(itemCount > 0)
+            if (itemCount > 0)
                 itemImage.sprite = Inventory.Instance.itemSprites[itemType];
             else
                 itemImage.sprite = null;
@@ -51,11 +51,11 @@ namespace Client
             RefreshItemVisibility();
         }
 
-        public void RefreshItemVisibility()
+        private void RefreshItemVisibility()
         {
             int displayedCount = itemCount;
 
-            if(previewCount.HasValue)
+            if (previewCount.HasValue)
                 displayedCount = previewCount.Value;
 
             bool visible = displayedCount > 0 && !isHeld;
@@ -64,7 +64,5 @@ namespace Client
             itemCountText.gameObject.SetActive(visible);
             itemCountText.text = visible ? displayedCount.ToString() : "";
         }
-
-
     }
 }
