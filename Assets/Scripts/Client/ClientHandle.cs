@@ -19,12 +19,12 @@ namespace Client
         {
             int objectCount = reader.GetInt();
 
-            for(int i = 0; i < objectCount; i++)
+            for (int i = 0; i < objectCount; i++)
                 ReadObject(reader);
 
             int entityCount = reader.GetInt();
 
-            for(int i = 0; i < entityCount; i++)
+            for (int i = 0; i < entityCount; i++)
                 ReadEntity(reader);
         }
 
@@ -37,12 +37,12 @@ namespace Client
         {
             const int inventorySlotCount = 27;
 
-            for(int i = 0; i < inventorySlotCount; i++)
+            for (int i = 0; i < inventorySlotCount; i++)
             {
                 int slotIndex = reader.GetByte();
                 int itemCount = reader.GetByte();
 
-                if(itemCount > 0)
+                if (itemCount > 0)
                 {
                     ItemType itemType = (ItemType)reader.GetByte();
                     Inventory.Instance.UpdateSlot(slotIndex, itemType, itemCount);
@@ -54,12 +54,25 @@ namespace Client
             }
         }
 
+        public static void UpdateTiles(NetDataReader reader)
+        {
+            int updatedTileCount = reader.GetInt();
+
+            for (int i = 0; i < updatedTileCount; i++)
+            {
+                int tileId = reader.GetInt();
+                TileType tileType = (TileType)reader.GetByte();
+                
+                Debug.Log($"Tile{tileId} changed to {tileType}");
+            }
+        }
+
         public static void UpdateWorld(NetDataReader reader)
         {
             uint tick = reader.GetUInt();
             int entityUpdateCount = reader.GetInt();
 
-            for(int i = 0; i < entityUpdateCount; i++)
+            for (int i = 0; i < entityUpdateCount; i++)
                 ReadEntityUdpate(reader, tick);
         }
 
@@ -84,7 +97,7 @@ namespace Client
 
             ObjectManager.Instance.AddObject(objectId, type, position);
 
-            if(type == ObjectType.chest)
+            if (type == ObjectType.chest)
             {
                 bool opened = reader.GetBool();
                 ObjectManager.Instance.GetObject(objectId).GetComponent<Chest>().SetOpened(opened);
@@ -113,14 +126,14 @@ namespace Client
                     EntityManager.Instance.ReplicateEntity(entityId, type, position, PrefabManager.Instance.petPrefabs[petType]);
                     break;
 
-                
+
                 case EntityType.item:
                     ItemType itemType = (ItemType)reader.GetByte();
 
-                    DroppedItem droppedItem = 
+                    DroppedItem droppedItem =
                         EntityManager.Instance.ReplicateEntity(entityId, type, position, PrefabManager.Instance.itemPrefabs[itemType]) as DroppedItem;
-                    
-                    if(playSpawnEffect && droppedItem != null && droppedItem.TryGetComponent(out BounceEffect bounce))
+
+                    if (playSpawnEffect && droppedItem != null && droppedItem.TryGetComponent(out BounceEffect bounce))
                         bounce.StartBounce();
 
                     break;
@@ -140,7 +153,7 @@ namespace Client
 
             Entity entity = EntityManager.Instance.GetEntity(entityId);
 
-            if(entity == null)
+            if (entity == null)
                 return;
 
             switch (type)

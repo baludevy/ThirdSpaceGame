@@ -42,6 +42,21 @@ namespace Server
             );
         }
 
+        public static void UpdateTiles(List<Tile> updatedTiles)
+        {
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.UpdateTiles, writer =>
+                {
+                    writer.Put(updatedTiles.Count);
+                    
+                    foreach (Tile tile in updatedTiles)
+                    {
+                        writer.Put(tile.tileId);
+                        writer.Put((byte)tile.tileType);
+                    }
+                });
+        }
+
         public static void UpdateWorld(int targetId, WorldUpdate update)
         {
             NetworkManager.Instance.Server.SendPacketTo(
@@ -145,6 +160,11 @@ namespace Server
 
             if (obj is Chest chest)
                 writer.Put(chest.opened);
+        }
+
+        internal static void InitalizeWorld(int id, List<Object> objects, List<Entity> entities)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

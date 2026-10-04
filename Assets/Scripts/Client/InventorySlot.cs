@@ -1,76 +1,70 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Client
 {
-    public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    public class InventorySlot : MonoBehaviour
     {
         public int slotIndex;
-
         public ItemType itemType;
-        private int itemCount;
+        public int itemCount;
 
-        [SerializeField]
-        private TMP_Text itemCountText;
-        [SerializeField]
-        private Image itemImage;
+        public Sprite itemSprite => itemImage.sprite;
 
-        [SerializeField]
-        private Image slotImage;
-        [SerializeField]
-        private Sprite activeSprite;
-        [SerializeField]
-        private Sprite inactiveSprite;
+        [SerializeField] private TMP_Text itemCountText;
+        [SerializeField] private Image itemImage;
+        [SerializeField] private Image slotImage;
+        [SerializeField] private Sprite activeSprite;
+        [SerializeField] private Sprite inactiveSprite;
+
+        private bool isHeld;
+        private int? previewCount;
 
         public void SetActive(bool active)
         {
             slotImage.sprite = active ? activeSprite : inactiveSprite;
         }
 
+        public void SetHeld(bool held)
+        {
+            isHeld = held;
+            RefreshItemVisibility();
+        }
+
+        public void SetPreviewCount(int? count)
+        {
+            previewCount = count;
+            RefreshItemVisibility();
+        }
+
         public void UpdateSlot(ItemType itemType, int itemCount)
         {
-            if (itemCount > 0)
-            {
-                this.itemType = itemType;
-                this.itemCount = itemCount;
+            this.itemType = itemType;
+            this.itemCount = itemCount;
 
-                itemImage.gameObject.SetActive(true);
-
-                itemCountText.text = itemCount.ToString();
+            if(itemCount > 0)
                 itemImage.sprite = Inventory.Instance.itemSprites[itemType];
-            }
             else
-            {
-                itemImage.gameObject.SetActive(false);
-
                 itemImage.sprite = null;
-                itemCountText.text = "";
-            }
+
+            RefreshItemVisibility();
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public void RefreshItemVisibility()
         {
-            if (itemCount <= 0)
-                return;
+            int displayedCount = itemCount;
 
-            Inventory.Instance.BeginDrag(this, itemImage.sprite, eventData.position);
+            if(previewCount.HasValue)
+                displayedCount = previewCount.Value;
+
+            bool visible = displayedCount > 0 && !isHeld;
+
+            itemImage.gameObject.SetActive(visible);
+            itemCountText.gameObject.SetActive(visible);
+            itemCountText.text = visible ? displayedCount.ToString() : "";
         }
 
-        public void OnDrag(PointerEventData eventData)
-        {
-            Inventory.Instance.MoveDragPreview(eventData.position);
-        }
 
-        public void OnDrop(PointerEventData eventData)
-        {
-            Inventory.Instance.DropOn(this);
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            Inventory.Instance.EndDrag();
-        }
     }
 }

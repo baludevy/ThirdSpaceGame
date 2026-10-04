@@ -163,7 +163,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: carrot_seed
+    - name: Carrot_Seed
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
