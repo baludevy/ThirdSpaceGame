@@ -40,5 +40,23 @@ namespace Client
                 writer.Put((byte)toIndex);
             });
         }
+
+        public static void InventorySplit(int fromIndex, int toIndex)
+        {
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventorySplit, writer =>
+            {
+                writer.Put((byte)fromIndex);
+                writer.Put((byte)toIndex);
+            });
+        }
+
+        public static void InventoryDrop(int fromIndex, bool drop)
+        {
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryDrop, writer =>
+            {
+                writer.Put((byte)fromIndex);
+                writer.Put(drop);
+            });
+        }
     }
 }

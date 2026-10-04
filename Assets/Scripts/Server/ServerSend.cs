@@ -146,5 +146,10 @@ namespace Server
             if (obj is Chest chest)
                 writer.Put(chest.opened);
         }
+
+        internal static void InitalizeWorld(int id, List<Object> objects, List<Entity> entities)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

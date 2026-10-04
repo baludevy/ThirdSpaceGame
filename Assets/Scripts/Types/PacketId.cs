@@ -4,6 +4,8 @@
     PlayerMove,
     Interact,
     InventoryMove,
+    InventorySplit,
+    InventoryDrop, 
 }
 
 public enum ServerPacketId : ushort

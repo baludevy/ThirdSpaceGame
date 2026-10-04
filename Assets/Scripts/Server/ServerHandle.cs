@@ -1,5 +1,6 @@
 ﻿using LiteNetLib;
 using LiteNetLib.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Server
@@ -63,6 +64,30 @@ namespace Server
             player.inventory.Move(fromIndex, toIndex);
 
             ServerSend.UpdateInventory(player);
+        }
+
+        public static void InventorySplit(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+
+            int fromIndex = reader.GetByte();
+            int toIndex = reader.GetByte();
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
+            player.inventory.Split(fromIndex, toIndex);
+
+            ServerSend.UpdateInventory(player);
+        }
+
+        public static void InventoryDrop(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+
+            int fromIndex = reader.GetByte();
+            bool split = reader.GetBool();
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
+            player.inventory.Drop(fromIndex, split, player.position - Vector2.up);
         }
     }
 }
