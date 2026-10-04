@@ -35,12 +35,8 @@ namespace Server
             int playerId = peer.Id;
             int tileId = reader.GetInt();
 
-            Tile targetTile = WorldManager.Instance.tileManager.GetTile(tileId);
-            
-            if(targetTile.tileType == TileType.Grass)
-                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Soil);
-            else if(targetTile.tileType == TileType.Soil)
-                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Grass);
+            Player player = WorldManager.Instance.playerManager.GetPlayer(playerId);
+            player.UseHeldItem(tileId);
         }
 
         public static void Interact(NetPeer peer, NetDataReader reader)
@@ -68,6 +64,15 @@ namespace Server
             }
         }
 
+        public static void SwitchHotbarSlot(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+            int toIndex = reader.GetByte();
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
+            player.inventory.SwitchHotbarSlot(toIndex);
+        }
+
         public static void InventoryMove(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
@@ -77,9 +82,8 @@ namespace Server
             short toContainer = reader.GetShort();
             int toIndex = reader.GetByte();
 
-            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Move(fromIndex, toIndex);
             InventoryManager.Move(id, fromContainer, fromIndex, toContainer, toIndex);
+
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
 
@@ -94,9 +98,6 @@ namespace Server
 
             InventoryManager.Split(id, fromContainer, fromIndex, toContainer, toIndex);
 
-            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Split(fromIndex, toIndex);
-
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
 
@@ -104,12 +105,16 @@ namespace Server
         {
             int id = peer.Id;
 
+            int fromContainer = reader.GetShort();
             int fromIndex = reader.GetByte();
-            int fromContainer = reader.GetByte();
             bool split = reader.GetBool();
+
+            Debug.Log(fromIndex);
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
             player.inventory.Drop(fromIndex, split, player.position - Vector2.up);
+
+            ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
     }
 }

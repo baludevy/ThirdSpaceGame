@@ -26,6 +26,12 @@ namespace Server
             inventory = new Inventory(27);
         }
 
+        public void UseHeldItem(int tileId)
+        {
+            Item heldItem = inventory.activeItem;
+            heldItem.Use(this, tileId);
+        }
+
         public override EntityUpdate GetUpdate()
         {
             return new PlayerUpdate
@@ -36,5 +42,5 @@ namespace Server
                 animationState = animState
             };
         }
-    }   
+    }
 }

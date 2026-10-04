@@ -21,19 +21,18 @@ namespace Client
         [SerializeField] private GameObject slotPrefab;
         [SerializeField] private Canvas uiCanvas;
 
-        public GameObject dragPreviewPrefab;
-        [SerializeField]
-        public Dictionary<ItemType, Sprite> itemSprites = new();
+        [SerializeField] private GameObject dragPreviewPrefab;
 
         private readonly List<InventorySlot> slots = new();
         private readonly List<RaycastResult> pointerHits = new();
 
-        public int activeHotbarSlotIndex;
-        public ItemType activeItemType;
+        private int activeHotbarSlotIndex;
 
         private InventorySlot draggedSlot;
         private GameObject dragPreviewObject;
         private bool splitDrag;
+        
+        public Item currentItem { get; private set; }
 
         private void Awake()
         {
@@ -82,6 +81,7 @@ namespace Client
             {
                 if (keyboard[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame)
                 {
+                    ClientSend.SwitchHotbarSlot(i);
                     activeHotbarSlotIndex = i;
                     break;
                 }
@@ -98,7 +98,7 @@ namespace Client
             activeHotbarSlotIndex = Mathf.Clamp(activeHotbarSlotIndex, 0, hotbarSlotCount - 1);
 
             InventorySlot activeSlot = slots[hotbarStartIndex + activeHotbarSlotIndex];
-            activeItemType = activeSlot.itemCount > 0 ? activeSlot.itemType : default;
+            currentItem = activeSlot.itemCount > 0 ? activeSlot.item : null;
 
             for (int i = 0; i < hotbarSlotCount; i++)
                 slots[hotbarStartIndex + i].SetActive(i == activeHotbarSlotIndex);
@@ -112,7 +112,7 @@ namespace Client
             InventorySlot slot = slots[slotIndex];
 
             // Cancel holding if the server changes the source stack.
-            if (slot == draggedSlot && (slot.itemCount != itemCount || !EqualityComparer<ItemType>.Default.Equals(slot.itemType, itemType)))
+            if (slot == draggedSlot && (slot.itemCount != itemCount || !EqualityComparer<ItemType>.Default.Equals(slot.item.type, itemType)))
                 ClearHeldItem();
 
             slot.UpdateSlot(itemType, itemCount);
@@ -153,7 +153,7 @@ namespace Client
 
             GameObject hit = pointerHits.Count > 0 ? pointerHits[0].gameObject : null;
             InventorySlot clickedSlot = hit != null ? hit.GetComponentInParent<InventorySlot>() : null;
-            
+
             if (clickedSlot != null && !slots.Contains(clickedSlot))
                 return;
 
@@ -201,7 +201,7 @@ namespace Client
             bool dropHalf = splitDrag;
             int amountToDrop = dropHalf ? GetHalfCount(dropSource.itemCount) : dropSource.itemCount;
 
-            dropSource.UpdateSlot(dropSource.itemType, dropSource.itemCount - amountToDrop);
+            dropSource.UpdateSlot(dropSource.item.type, dropSource.itemCount - amountToDrop);
             ClearHeldItem();
             RefreshHotbar();
 
@@ -273,7 +273,7 @@ namespace Client
 
             int amountToMove = split ? GetHalfCount(from.itemCount) : from.itemCount;
 
-            if (to.itemCount == 0 || to.itemType.Equals(from.itemType))
+            if (to.itemCount == 0 || to.item.type.Equals(from.item.type))
             {
                 int availableSpace = maxStackSize - to.itemCount;
 
@@ -283,15 +283,15 @@ namespace Client
                 if (amountToMove <= 0)
                     return;
 
-                to.UpdateSlot(from.itemType, to.itemCount + amountToMove);
-                from.UpdateSlot(from.itemType, from.itemCount - amountToMove);
+                to.UpdateSlot(from.item.type, to.itemCount + amountToMove);
+                from.UpdateSlot(from.item.type, from.itemCount - amountToMove);
             }
             else if (!split)
             {
-                ItemType previousType = to.itemType;
+                ItemType previousType = to.item.type;
                 int previousCount = to.itemCount;
 
-                to.UpdateSlot(from.itemType, from.itemCount);
+                to.UpdateSlot(from.item.type, from.itemCount);
                 from.UpdateSlot(previousType, previousCount);
             }
         }

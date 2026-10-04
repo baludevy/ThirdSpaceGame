@@ -5,6 +5,7 @@ using Server;
 using Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Inventory = Client.Inventory;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -52,6 +53,9 @@ namespace Game
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
+                if (Inventory.Instance.currentItem == null || !Inventory.Instance.currentItem.CanBeUsed())
+                    return;
+                
                 Vector2Int tilePosition = GetHoveredTilePosition();
                 int tileId = tiles.Find(tile => tile.position == tilePosition).tileId;
 
@@ -63,7 +67,7 @@ namespace Game
         {
             Vector2Int tilePosition = GetHoveredTilePosition();
 
-            if (!IsInsideGrid(tilePosition))
+            if (!IsInsideGrid(tilePosition) || Inventory.Instance.currentItem == null || !Inventory.Instance.currentItem.CanBeUsed())
             {
                 previewSquare.gameObject.SetActive(false);
                 return;

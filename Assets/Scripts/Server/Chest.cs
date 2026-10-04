@@ -1,3 +1,5 @@
+using Server.Tools;
+using Types;
 using UnityEngine;
 
 namespace Server
@@ -6,25 +8,42 @@ namespace Server
     {
         public bool opened;
         public ItemType itemType;
+        public int itemAmount = 1;
 
         public void Interact(Player player)
         {
             if (opened)
                 return;
 
-            opened = true;
-            ServerSend.ChestOpened(id, opened);
+            ItemDefinition definition = ItemCatalog.Instance.GetItem(itemType);
 
+            if (definition == null || itemAmount <= 0)
+                return;
+
+            Item item = CreateItem(definition, itemAmount);
             Vector3 pos = (Vector3)position - Vector3.up * 0.75f;
 
-            if(WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is DroppedItem droppedItem)
+            if (WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is not DroppedItem droppedItem)
+                return;
+
+            droppedItem.item = item;
+            opened = true;
+
+            ServerSend.ChestOpened(id, opened);
+            ServerSend.SpawnEntity(droppedItem);
+        }
+
+        public static Item CreateItem(ItemDefinition item, int count)
+        {
+            return item.Type switch
             {
-                droppedItem.itemType = itemType;
-                droppedItem.itemAmount = Random.Range(1, 5);
-
-                ServerSend.SpawnEntity(droppedItem);
-
-            }
+                ItemType.PotatoSeed => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Potato },
+                ItemType.Carrot => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Carrot },
+                
+                
+                ItemType.Hoe => new Hoe(item.Type, count, item.Stackable, item.MaxStackSize),
+                _ => new Item(item.Type, count, item.Stackable, item.MaxStackSize)
+            };
         }
 
         public bool CanInteract() => !opened;

@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using Types;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,9 +8,9 @@ namespace Client
 {
     public class InventorySlot : MonoBehaviour
     {
-        public int slotIndex;
-        public ItemType itemType;
-        public int itemCount;
+        [NonSerialized] public int slotIndex;
+        [NonSerialized] public Item item;
+        [NonSerialized] public int itemCount;
 
         public Sprite itemSprite => itemImage.sprite;
 
@@ -40,13 +42,14 @@ namespace Client
 
         public void UpdateSlot(ItemType itemType, int itemCount)
         {
-            this.itemType = itemType;
+            this.item = CreateItem(itemType);
             this.itemCount = itemCount;
 
             if (itemCount > 0)
-                itemImage.sprite = Inventory.Instance.itemSprites[itemType];
+                itemImage.sprite = ItemCatalog.Instance.GetItem(itemType).Sprite;
             else
                 itemImage.sprite = null;
+
 
             RefreshItemVisibility();
         }
@@ -62,7 +65,25 @@ namespace Client
 
             itemImage.gameObject.SetActive(visible);
             itemCountText.gameObject.SetActive(visible);
-            itemCountText.text = visible ? displayedCount.ToString() : "";
+            
+            if (item.type != ItemType.Empty && ItemCatalog.Instance.GetItem(item.type).Stackable)
+            {
+                itemCountText.text = visible ? displayedCount.ToString() : "";
+            }
+            else
+            {
+                itemCountText.text = "";
+            }
+        }
+
+        public static Item CreateItem(ItemType itemType)
+        {
+            return itemType switch
+            {
+                ItemType.CarrotSeed or ItemType.PotatoSeed => new Seed(itemType),
+                ItemType.Pickaxe or ItemType.Shovel or ItemType.Hoe => new Tool(itemType),
+                _ => new Item(itemType)
+            };
         }
     }
 }

@@ -31,28 +31,24 @@ namespace Client
             });
         }
 
-        public static void Interact(InteractionKind interactionKind, ushort id)
+        public static void Interact(InteractionKind interactionKind, ushort objectId)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.Interact, writer =>
             {
                 writer.Put((byte)interactionKind);
-                writer.Put(id);
+                writer.Put(objectId);
             });
         }
 
-<<<<<<< Updated upstream
-        public static void InventoryMove(int fromIndex, int toIndex)
-=======
-        public static void TileTest(int tileId)
+        public static void SwitchHotbarSlot(int toIndex)
         {
-            NetworkManager.Instance.Client.SendPacket(ClientPacketId.TileTest, writer =>
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.SwitchHotbarSlot, writer =>
             {
-                writer.Put(tileId);
+                writer.Put((byte)toIndex);
             });
         }
 
         public static void InventoryMove(int fromContainer, int fromIndex, int toContainer, int toIndex)
->>>>>>> Stashed changes
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryMove, writer =>
             {
@@ -78,7 +74,7 @@ namespace Client
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryDrop, writer =>
             {
-                writer.Put((ushort)fromContainer);
+                writer.Put((short)fromContainer);
                 writer.Put((byte)fromIndex);
                 writer.Put(drop);
             });

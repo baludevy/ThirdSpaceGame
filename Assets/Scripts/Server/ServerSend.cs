@@ -22,10 +22,10 @@ namespace Server
                 writer =>
                 {
                     writer.Put(tiles.Count);
-                    
+
                     foreach (Tile tile in tiles)
                         WriteTile(writer, tile);
-                    
+
                     writer.Put(objects.Count);
 
                     foreach (Object obj in objects)
@@ -44,6 +44,14 @@ namespace Server
             NetworkManager.Instance.Server.SendPacketToAll(
                 ServerPacketId.SpawnEntity,
                 writer => WriteEntity(writer, entity)
+            );
+        }
+
+        public static void SpawnObject(Object obj)
+        {
+            NetworkManager.Instance.Server.SendPacketToAll(
+                ServerPacketId.SpawnObject,
+                writer => WriteObject(writer, obj)
             );
         }
 
@@ -82,13 +90,23 @@ namespace Server
         {
             NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateInventory, player.id, writer =>
                 {
+                    List<Slot> filledSlots = new List<Slot>();
+
                     foreach (Slot slot in player.inventory.slots)
                     {
-                        writer.Put((byte)slot.slotIndex);
-                        writer.Put((byte)slot.count);
+                        if (slot.item != null)
+                            filledSlots.Add(slot);
+                    }
 
-                        if (slot.count > 0)
-                            writer.Put((byte)slot.itemType);
+                    writer.Put(filledSlots.Count);
+
+                    foreach (Slot slot in filledSlots)
+                    {
+                        writer.Put((byte)slot.slotIndex);
+                        writer.Put((byte)slot.item.count);
+
+                        if (slot.item.count > 0)
+                            writer.Put((byte)slot.item.type);
                     }
                 }
             );
@@ -138,7 +156,7 @@ namespace Server
                     break;
 
                 case DroppedItem item:
-                    writer.Put((byte)item.itemType);
+                    writer.Put((byte)item.item.type);
                     break;
             }
         }
@@ -167,6 +185,9 @@ namespace Server
             writer.Put(obj.id);
             writer.Put((byte)obj.type);
             writer.Put(obj.position);
+
+            if (obj is Crop crop)
+                writer.Put((byte)crop.cropType);
 
             if (obj is Chest chest)
                 writer.Put(chest.opened);

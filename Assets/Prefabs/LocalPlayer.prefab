@@ -886,5 +886,11 @@ MonoBehaviour:
     value: {fileID: -7471408065661566025, guid: eba2669c8a07b9242bd719d5e8a19c06, type: 3}
   - key: 4
     value: {fileID: -3945622613385178370, guid: fe86351970c5eea47b7626fc607af5e7, type: 3}
+  - key: 6
+    value: {fileID: 6068003751869744166, guid: 155d5eb8c41fc5749a4081c3fc45d173, type: 3}
+  - key: 5
+    value: {fileID: -5139204344038343931, guid: 13805c072d25a1740ab71a37177bb6c4, type: 3}
+  - key: 7
+    value: {fileID: -1429664794290099598, guid: 12a8a62e886c7a44791202fa408a1d61, type: 3}
   activeHotbarSlotIndex: 0
   activeItemType: 0

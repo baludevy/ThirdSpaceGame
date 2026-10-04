@@ -38,11 +38,22 @@ namespace Client
             ReadEntity(reader, true);
         }
 
+        public static void SpawnObject(NetDataReader reader)
+        {
+            ReadObject(reader);
+        }
+
         public static void UpdateInventory(NetDataReader reader)
         {
             const int inventorySlotCount = 27;
-
             for (int i = 0; i < inventorySlotCount; i++)
+            {
+                Inventory.Instance.UpdateSlot(i, ItemType.Empty, 0);
+            }
+
+            int filledSlotCount = reader.GetInt();
+
+            for (int i = 0; i < filledSlotCount; i++)
             {
                 int slotIndex = reader.GetByte();
                 int itemCount = reader.GetByte();
@@ -54,7 +65,7 @@ namespace Client
                 }
                 else
                 {
-                    Inventory.Instance.UpdateSlot(slotIndex, ItemType.empty, 0);
+                    Inventory.Instance.UpdateSlot(slotIndex, ItemType.Empty, 0);
                 }
             }
         }
@@ -104,10 +115,19 @@ namespace Client
             ushort objectId = reader.GetUShort();
             ObjectType type = (ObjectType)reader.GetByte();
             Vector2 position = reader.GetVector2();
+            
+            if (type == ObjectType.Crop)
+            {
+                Debug.Log("a");
+                
+                CropType cropType = (CropType)reader.GetByte();
+                CropManager.Instance.SpawnCrop(cropType, position);
+                return;
+            }
 
             ObjectManager.Instance.AddObject(objectId, type, position);
 
-            if (type == ObjectType.chest)
+            if (type == ObjectType.Chest)
             {
                 bool opened = reader.GetBool();
                 ObjectManager.Instance.GetObject(objectId).GetComponent<Chest>().SetOpened(opened);
