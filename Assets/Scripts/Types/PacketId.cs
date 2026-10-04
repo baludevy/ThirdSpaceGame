@@ -3,7 +3,6 @@
     Username = 1,
     PlayerMove,
     Interact,
-    TileTest,
     InventoryMove,
     InventorySplit,
     InventoryDrop, 
