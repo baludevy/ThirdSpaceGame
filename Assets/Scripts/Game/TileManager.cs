@@ -100,11 +100,33 @@ namespace Game
 
         public void ModifyTile(int tileId, TileType tileType)
         {
-            Tile tile = tiles.Find(tile => tile.tileId == tileId);
+            Tile tile = tiles.Find(t => t.tileId == tileId);
+            if (tile == null) return;
+
             tile.tileType = tileType;
-            
-            GlobalTilemap.Instance.tilemap.SetTile(new Vector3Int(tile.position.x, tile.position.y, 0),
-                GlobalTilemap.Instance.tileSprites[tileType]);
+
+            UnityEngine.Tilemaps.TileBase tileAsset;
+
+            if (tileType == TileType.Grass)
+            {
+                int x = PositiveMod(tile.position.x - GlobalTilemap.Instance.grassPatternOrigin.x, 2);
+                int y = PositiveMod(tile.position.y - GlobalTilemap.Instance.grassPatternOrigin.y, 2);
+
+                tileAsset = GlobalTilemap.Instance.grassTiles[y * 2 + x];
+            }
+            else
+            {
+                tileAsset = GlobalTilemap.Instance.tileSprites[tileType];
+            }
+
+            GlobalTilemap.Instance.tilemap.SetTile(
+                new Vector3Int(tile.position.x, tile.position.y, 0),
+                tileAsset);
+        }
+        
+        private static int PositiveMod(int value, int size)
+        {
+            return (value % size + size) % size;
         }
     }
     

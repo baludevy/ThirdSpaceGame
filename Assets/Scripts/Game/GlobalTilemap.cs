@@ -13,8 +13,15 @@ namespace Game
 
         public Tilemap tilemap;
 
-        [SerializeField] private List<TileBase> grassTiles = new List<TileBase>();
+        [SerializeField] public List<TileBase> grassTiles = new List<TileBase>();
         [SerializeField] private List<TileBase> soilSprites = new List<TileBase>();
+
+        [SerializeField] public Vector2Int grassPatternOrigin;
+
+        private static int PositiveMod(int value, int size)
+        {
+            return (value % size + size) % size;
+        }
         
         [SerializeField] public Dictionary<TileType, TileBase> tileSprites = new Dictionary<TileType, TileBase>();
 
