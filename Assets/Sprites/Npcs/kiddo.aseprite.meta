@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bc693210d37e8e448bd045ee0410b22b
+guid: 2c147c8d4e11b4b4d87842a9ea3f98f4
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,7 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: player still
+  - name: kiddo
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 23
-    spriteID: 51e96d491743a134f9161dcf37f1b84e
+    spriteID: 620b22d38ed3cf5488f8ef3a6792922c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,17 +153,17 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 142563181
+      value0: 2078998541
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: player still
+    name: kiddo
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: player still
+    - name: kiddo
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -171,7 +171,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 23
-      spriteId: 51e96d491743a134f9161dcf37f1b84e
+      spriteId: 620b22d38ed3cf5488f8ef3a6792922c
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
