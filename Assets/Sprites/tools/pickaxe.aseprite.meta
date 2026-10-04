@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-guid: 04d7e12aa41be434e9d4d21a88175d25
-=======
-guid: 2101faab622414b4ea836791cbc091c4
->>>>>>> Stashed changes
+guid: 13805c072d25a1740ab71a37177bb6c4
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -131,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: barrel
+  - name: pickaxe
     originalName: 
-    pivot: {x: 0.4666667, y: 0}
+    pivot: {x: 0.53846157, y: -0.07692308}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -141,13 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 15
-      height: 16
-<<<<<<< Updated upstream
-    spriteID: f68e8ebda6074494ab762bf338e10cdc
-=======
-    spriteID: 92f81d9a9761c9342a8a9110fc70ef61
->>>>>>> Stashed changes
+      width: 13
+      height: 13
+    spriteID: 9df1f1a3284b14a4d9edfea14958dcdc
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -161,29 +153,25 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 140421074
+      value0: 2992837901
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: barrel
+    name: pickaxe
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: barrel
+    - name: pickaxe
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 1
-        y: 0
-        width: 15
-        height: 16
-<<<<<<< Updated upstream
-      spriteId: f68e8ebda6074494ab762bf338e10cdc
-=======
-      spriteId: 92f81d9a9761c9342a8a9110fc70ef61
->>>>>>> Stashed changes
+        y: 1
+        width: 13
+        height: 13
+      spriteId: 9df1f1a3284b14a4d9edfea14958dcdc
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

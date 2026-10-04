@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-guid: 588a5cc81ca284343843a034107f65d4
-=======
-guid: f2be30e5edc5fbe48815d92ecad55c3a
->>>>>>> Stashed changes
+guid: 12a8a62e886c7a44791202fa408a1d61
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -131,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: szarhordo
+  - name: hoe
     originalName: 
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.53846157, y: -0.071428575}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -141,13 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 16
-      height: 16
-<<<<<<< Updated upstream
-    spriteID: fab830499fe352f46a671407e2472631
-=======
-    spriteID: b5a3b923eece1ff4a9151b5e5b4f34d1
->>>>>>> Stashed changes
+      width: 13
+      height: 14
+    spriteID: 4c554f721ffc3e34798354ab72953d20
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -161,29 +153,25 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 2971504096
+      value0: 1502598586
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: szarhordo
+    name: hoe
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: szarhordo
+    - name: hoe
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-<<<<<<< Updated upstream
-      spriteId: fab830499fe352f46a671407e2472631
-=======
-      spriteId: b5a3b923eece1ff4a9151b5e5b4f34d1
->>>>>>> Stashed changes
+        x: 1
+        y: 1
+        width: 13
+        height: 14
+      spriteId: 4c554f721ffc3e34798354ab72953d20
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
