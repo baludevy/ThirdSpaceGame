@@ -35,7 +35,7 @@ namespace Server
             for (int i = 0; i < slotCount; i++)
                 slots.Add(new Slot(i));
         }
-        
+
         private IEnumerable<Slot> HotbarFirst()
         {
             int hotbarStart = Math.Max(0, slots.Count - 9);
@@ -51,7 +51,7 @@ namespace Server
         {
             if (amount <= 0)
                 return false;
-            
+
             long availableSpace = 0;
 
             foreach (Slot slot in slots)
@@ -64,7 +64,7 @@ namespace Server
 
             if (availableSpace < amount)
                 return false;
-            
+
             foreach (Slot slot in HotbarFirst())
             {
                 if (slot.isEmpty || !slot.itemType.Equals(itemType))
@@ -77,7 +77,7 @@ namespace Server
                 if (amount == 0)
                     return true;
             }
-            
+
             foreach (Slot slot in HotbarFirst())
             {
                 if (!slot.isEmpty)
@@ -131,46 +131,46 @@ namespace Server
         public bool Move(int fromIndex, int toIndex)
         {
             if (fromIndex < 0 || toIndex >= slots.Count || toIndex < 0 || toIndex >= slots.Count || fromIndex == toIndex)
-            return false;
+                return false;
 
             Slot from = slots[fromIndex];
             Slot to = slots[toIndex];
 
-            if(from.isEmpty)
+            if (from.isEmpty)
                 return false;
 
-                if (to.isEmpty)
+            if (to.isEmpty)
             {
                 to.itemType = from.itemType;
                 to.count = from.count;
                 from.count = 0;
             }
             else if
-            (to.itemType.Equals(from.itemType))
+                (to.itemType.Equals(from.itemType))
             {
                 int space = maxStackSize - to.count;
                 if (space <= 0)
                     return false;
 
-                    int moved = Math.Min(space, from.count);
-                    to.count += moved;
-                    from.count -= moved;
-                    }
-                    else
-                    {
-                    ItemType previousType = to.itemType;
-                        int previousCount = to.count;
-
-                        to.itemType = from.itemType;
-                        to.count = from.count;
-
-                        from.itemType = from.itemType;
-                        to.count = from.count;
-
-                        from.itemType = previousType;
-                        from.count = previousCount;
-                    }
-                    return true;
+                int moved = Math.Min(space, from.count);
+                to.count += moved;
+                from.count -= moved;
             }
+            else
+            {
+                ItemType previousType = to.itemType;
+                int previousCount = to.count;
+
+                to.itemType = from.itemType;
+                to.count = from.count;
+
+                from.itemType = from.itemType;
+                to.count = from.count;
+
+                from.itemType = previousType;
+                from.count = previousCount;
+            }
+            return true;
         }
     }
+}

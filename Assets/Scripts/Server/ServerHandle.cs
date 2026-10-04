@@ -1,5 +1,6 @@
 ﻿using LiteNetLib;
 using LiteNetLib.Utils;
+using Types;
 using UnityEngine;
 
 namespace Server
@@ -10,7 +11,7 @@ namespace Server
         {
             string username = reader.GetString();
 
-            ServerSend.InitalizeWorld(peer.Id, WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
+            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
             WorldManager.Instance.playerManager.SpawnPlayer(peer.Id, username, Vector3.zero);
         }
 
@@ -52,6 +53,14 @@ namespace Server
             }
         }
 
+        public static void TileTest(NetPeer peer, NetDataReader reader)
+        {
+            int playerId = peer.Id;
+            int tileId = reader.GetInt();
+
+            WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Soil);
+        }
+        
         public static void InventoryMove(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
