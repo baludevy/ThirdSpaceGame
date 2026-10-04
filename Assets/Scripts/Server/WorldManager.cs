@@ -15,6 +15,8 @@ namespace Server
         public static WorldManager Instance;
 
         [NonSerialized]
+        public TileManager tileManager;
+        [NonSerialized]
         public ObjectManager objectManager;
         [NonSerialized]
         public EntityManager entityManager;
@@ -29,11 +31,12 @@ namespace Server
             else
                 Destroy(this);
 
+            tileManager = new TileManager();
             objectManager = new ObjectManager();
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
-
-
+            
+            tileManager.Initialize(new Vector2Int(101, 101));
         }
 
         void Start()
@@ -53,13 +56,21 @@ namespace Server
 
         private void FixedUpdate()
         {
+            TickTiles();
             TickEntities();
+            SendTileUpdates();
             SendWorldUpdates();
 
             tick++;
         }
 
-
+        private void TickTiles()
+        {
+            foreach (Tile tile in tileManager.tiles)
+            {
+                tile.Tick(Time.fixedDeltaTime);
+            }
+        }
 
         private void TickEntities()
         {
@@ -67,6 +78,14 @@ namespace Server
             {
                 entity.Tick(Time.fixedDeltaTime);
             }
+        }
+        
+        private void SendTileUpdates()
+        {
+            if(tileManager.updatedTiles.Count > 0)
+                ServerSend.UpdateTiles(tileManager.updatedTiles);
+            
+            tileManager.updatedTiles.Clear();
         }
 
         private void SendWorldUpdates()
@@ -90,4 +109,3 @@ namespace Server
         }
     }
 }
-

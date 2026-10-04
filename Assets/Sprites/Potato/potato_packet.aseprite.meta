@@ -163,7 +163,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: potato_packet
+    - name: Potato_Packet
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:

@@ -3,6 +3,7 @@
     Username = 1,
     PlayerMove,
     Interact,
+    TileTest,
     InventoryMove,
     InventorySplit,
     InventoryDrop, 
@@ -15,6 +16,7 @@ public enum ServerPacketId : ushort
     SpawnEntity,
     UpdateWorld,
     DestroyEntity,
+    UpdateTiles,
     UpdateInventory,
     ChestOpened,
 }

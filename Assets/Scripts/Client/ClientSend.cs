@@ -32,6 +32,14 @@ namespace Client
             });
         }
 
+        public static void TileTest(int tileId)
+        {
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.TileTest, writer =>
+            {
+                writer.Put(tileId);
+            });
+        }
+
         public static void InventoryMove(int fromIndex, int toIndex)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventoryMove, writer =>

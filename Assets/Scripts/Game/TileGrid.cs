@@ -1,5 +1,7 @@
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Collections.Generic;
+using Client;
+using Server;
+using Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -17,19 +19,21 @@ namespace Game
         [SerializeField] private Transform previewSquare;
         [SerializeField] private Camera playerCamera;
 
+
         private void Awake()
         {
             int nextId = 0;
 
-            int xOffset = gridSize.x /2;
-            int yOffset = gridSize.x /2;
+            int xOffset = gridSize.x / 2;
+            int yOffset = gridSize.y / 2;
 
             for (int x = 0; x < gridSize.x; x++)
             {
                 for (int y = 0; y < gridSize.y; y++)
                 {
-                    Vector2Int gridPosition = new(x - xOffset, y - yOffset);
-                    tiles.Add(new Tile(nextId++, gridPosition));
+                    Vector2Int gridPosition = new Vector2Int(x - xOffset, y - yOffset);
+
+                    tiles.Add(new Tile(nextId++, gridPosition, GlobalTilemap.Instance.GetTileType(gridPosition)));
                 }
             }
         }
@@ -42,7 +46,8 @@ namespace Game
             {
                 Vector2Int tilePosition = GetHoveredTilePosition();
 
-                Debug.Log($"clicked {tilePosition}");
+                Debug.Log($"clicked {tilePosition}, {GlobalTilemap.Instance.GetTileType(tilePosition)}");
+                ClientSend.TileTest(tiles.Find(x => x.position == tilePosition).tileId);
             }
         }
 
@@ -64,13 +69,13 @@ namespace Game
         private Vector2Int GetHoveredTilePosition()
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
-            UnityEngine.Vector3 mouseScreenPosition = new(mousePosition.x, mousePosition.y, - playerCamera.transform.position.z);
+            Vector3 mouseScreenPosition = new(mousePosition.x, mousePosition.y, -playerCamera.transform.position.z);
             Vector3 mouseWorldPosition = playerCamera.ScreenToWorldPoint(mouseScreenPosition);
             Vector3 localMousePosition = transform.InverseTransformPoint(mouseWorldPosition);
 
             Vector2Int tilePosition = new(Mathf.FloorToInt(localMousePosition.x),
                 Mathf.FloorToInt(localMousePosition.y));
-            
+
             return tilePosition;
         }
 
@@ -80,7 +85,7 @@ namespace Game
             int maxX = gridSize.x - 1 - gridSize.x / 2;
 
             int minY = -gridSize.y / 2;
-            int maxY = gridSize.y - 1 - gridSize.y /2;
+            int maxY = gridSize.y - 1 - gridSize.y / 2;
 
             return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
         }
@@ -89,13 +94,15 @@ namespace Game
 
     public class Tile
     {
-        public int titleId;
+        public int tileId;
         public Vector2Int position;
+        public TileType tileType;
 
-        public Tile(int tileId, Vector2Int position)
+        public Tile(int tileId, Vector2Int position, TileType tileType)
         {
-            this.titleId = tileId;
+            this.tileId = tileId;
             this.position = position;
+            this.tileType = tileType;
         }
     }
 }
