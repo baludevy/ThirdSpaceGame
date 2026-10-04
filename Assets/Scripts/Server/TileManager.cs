@@ -9,6 +9,7 @@ namespace Server
     {
         public List<Tile> tiles = new List<Tile>();
         public List<Tile> updatedTiles = new List<Tile>();
+        public List<Tile> changedTiles = new List<Tile>();
 
         private Vector2Int gridSize;
 
@@ -38,6 +39,11 @@ namespace Server
 
             targetTile.tileType = tileType;
             updatedTiles.Add(targetTile);
+            
+            if(changedTiles.Contains(targetTile)) 
+                changedTiles.Find(tile => tile == targetTile).tileType = tileType;
+            else
+                changedTiles.Add(targetTile);
         }
 
         public Tile GetTile(int tileId) => tiles.Find(id => id.tileId == tileId);

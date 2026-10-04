@@ -23,6 +23,14 @@ namespace Client
                 }, DeliveryMethod.Unreliable);
         }
 
+        public static void UseHeldItem(int tileId)
+        {
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.UseHeldItem, writer =>
+            {
+                writer.Put(tileId);
+            });
+        }
+
         public static void Interact(InteractionKind interactionKind, ushort id)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.Interact, writer =>

@@ -11,6 +11,7 @@ namespace Game
 
         private void Start()
         {
+            TileManager.Instance.playerCamera = GetComponent<Camera>();
             cameraZ = transform.position.z;
         }
 

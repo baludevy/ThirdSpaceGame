@@ -1,27 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Client;
 using Server;
 using Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Game
 {
-    public class TileGrid : MonoBehaviour
+    public class TileManager : MonoBehaviour
     {
+        public static TileManager Instance;
+
         private List<Tile> tiles = new List<Tile>();
 
         public Vector2Int gridSize = new Vector2Int(101, 101);
 
         [SerializeField] private Transform previewSquare;
-        [SerializeField] private Camera playerCamera;
-
+        [NonSerialized] public Camera playerCamera;
 
         private void Awake()
         {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+
             int nextId = 0;
 
             int xOffset = gridSize.x / 2;
@@ -40,13 +46,16 @@ namespace Game
 
         private void Update()
         {
+            if (playerCamera == null) return;
+
             MovePreviewToMouseTile();
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 Vector2Int tilePosition = GetHoveredTilePosition();
+                int tileId = tiles.Find(tile => tile.position == tilePosition).tileId;
 
-                Debug.Log($"clicked {tilePosition}, {GlobalTilemap.Instance.GetTileType(tilePosition)}");
+                ClientSend.UseHeldItem(tileId);
             }
         }
 
@@ -88,9 +97,17 @@ namespace Game
 
             return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
         }
+
+        public void ModifyTile(int tileId, TileType tileType)
+        {
+            Tile tile = tiles.Find(tile => tile.tileId == tileId);
+            tile.tileType = tileType;
+            
+            GlobalTilemap.Instance.tilemap.SetTile(new Vector3Int(tile.position.x, tile.position.y, 0),
+                GlobalTilemap.Instance.tileSprites[tileType]);
+        }
     }
-
-
+    
     public class Tile
     {
         public int tileId;

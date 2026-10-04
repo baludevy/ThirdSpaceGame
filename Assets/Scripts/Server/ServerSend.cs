@@ -14,13 +14,18 @@ namespace Server
                 writer.Put(id));
         }
 
-        public static void InitializeWorld(int id, List<Object> objects, List<Entity> entities)
+        public static void InitializeWorld(int id, List<Tile> tiles, List<Object> objects, List<Entity> entities)
         {
             NetworkManager.Instance.Server.SendPacketTo(
                 ServerPacketId.InitializeWorld,
                 id,
                 writer =>
                 {
+                    writer.Put(tiles.Count);
+                    
+                    foreach (Tile tile in tiles)
+                        WriteTile(writer, tile);
+                    
                     writer.Put(objects.Count);
 
                     foreach (Object obj in objects)
@@ -28,7 +33,7 @@ namespace Server
 
                     writer.Put(entities.Count);
 
-                    foreach(Entity entity in entities)
+                    foreach (Entity entity in entities)
                         WriteEntity(writer, entity);
                 }
             );
@@ -48,11 +53,10 @@ namespace Server
                 ServerPacketId.UpdateTiles, writer =>
                 {
                     writer.Put(updatedTiles.Count);
-                    
+
                     foreach (Tile tile in updatedTiles)
                     {
-                        writer.Put(tile.tileId);
-                        writer.Put((byte)tile.tileType);
+                        WriteTile(writer, tile);
                     }
                 });
         }
@@ -67,7 +71,7 @@ namespace Server
                     writer.Put(update.tick);
                     writer.Put(update.entityUpdates.Count);
 
-                    foreach(EntityUpdate entityUpdate in update.entityUpdates)
+                    foreach (EntityUpdate entityUpdate in update.entityUpdates)
                         WriteEntityUpdate(writer, entityUpdate);
                 },
                 LiteNetLib.DeliveryMethod.Unreliable
@@ -78,12 +82,12 @@ namespace Server
         {
             NetworkManager.Instance.Server.SendPacketTo(ServerPacketId.UpdateInventory, player.id, writer =>
                 {
-                    foreach(Slot slot in player.inventory.slots)
+                    foreach (Slot slot in player.inventory.slots)
                     {
                         writer.Put((byte)slot.slotIndex);
                         writer.Put((byte)slot.count);
 
-                        if(slot.count > 0)
+                        if (slot.count > 0)
                             writer.Put((byte)slot.itemType);
                     }
                 }
@@ -108,6 +112,12 @@ namespace Server
                     writer.Put(opened);
                 }
             );
+        }
+
+        private static void WriteTile(NetDataWriter writer, Tile tile)
+        {
+            writer.Put(tile.tileId);
+            writer.Put((byte)tile.tileType);
         }
 
         private static void WriteEntity(NetDataWriter writer, Entity entity)

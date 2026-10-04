@@ -1,5 +1,6 @@
 ﻿using LiteNetLib;
 using LiteNetLib.Utils;
+using Types;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,7 +12,8 @@ namespace Server
         {
             string username = reader.GetString();
 
-            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
+            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.tileManager.changedTiles,
+                WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
             WorldManager.Instance.playerManager.SpawnPlayer(peer.Id, username, Vector3.zero);
         }
 
@@ -26,6 +28,19 @@ namespace Server
                 position = position,
                 animState = animState
             });
+        }
+
+        public static void UseHeldItem(NetPeer peer, NetDataReader reader)
+        {
+            int playerId = peer.Id;
+            int tileId = reader.GetInt();
+
+            Tile targetTile = WorldManager.Instance.tileManager.GetTile(tileId);
+            
+            if(targetTile.tileType == TileType.Grass)
+                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Soil);
+            else if(targetTile.tileType == TileType.Soil)
+                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Grass);
         }
 
         public static void Interact(NetPeer peer, NetDataReader reader)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using Types;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -14,6 +15,8 @@ namespace Game
 
         [SerializeField] private List<TileBase> grassTiles = new List<TileBase>();
         [SerializeField] private List<TileBase> soilSprites = new List<TileBase>();
+        
+        [SerializeField] public Dictionary<TileType, TileBase> tileSprites = new Dictionary<TileType, TileBase>();
 
         void Awake()
         {

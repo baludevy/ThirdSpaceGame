@@ -3,6 +3,7 @@
     Username = 1,
     PlayerMove,
     Interact,
+    UseHeldItem,
     InventoryMove,
     InventorySplit,
     InventoryDrop, 

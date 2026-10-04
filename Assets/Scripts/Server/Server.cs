@@ -29,6 +29,7 @@ namespace Server
         {
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.Username, ServerHandle.Username);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.PlayerMove, ServerHandle.PlayerMove);
+            PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.UseHeldItem, ServerHandle.UseHeldItem);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.Interact, ServerHandle.Interact);
             PacketDispatch.RegisterServerHandler((ushort)ClientPacketId.InventoryMove, ServerHandle.InventoryMove);
         }
