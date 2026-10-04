@@ -1,13 +1,9 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Unity.Mathematics;
-using TMPro;
-using System.Numerics;
-using Unity.VisualScripting;
-using Vector2 = UnityEngine.Vector2;
 
 namespace Client
 {
@@ -16,11 +12,8 @@ namespace Client
         public static Inventory Instance;
 
         private const int slotCount = 27;
-
         private const int hotbarSlotCount = 9;
-
         private const int hotbarStartIndex = slotCount - hotbarSlotCount;
-
         private const int maxStackSize = 64;
 
         [SerializeField] private RectTransform inventoryPanel;
@@ -44,7 +37,7 @@ namespace Client
 
         private void Awake()
         {
-            if(Instance != null && Instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
@@ -55,7 +48,7 @@ namespace Client
 
         private void Start()
         {
-            for(int i = 0; i < hotbarStartIndex; i++)
+            for (int i = 0; i < hotbarStartIndex; i++)
             {
                 InventorySlot slot = Instantiate(slotPrefab, inventoryPanel).GetComponent<InventorySlot>();
                 slot.slotIndex = i;
@@ -63,7 +56,7 @@ namespace Client
                 slots.Add(slot);
             }
 
-            for(int i = 0; i < hotbarSlotCount; i++)
+            for (int i = 0; i < hotbarSlotCount; i++)
             {
                 InventorySlot slot = Instantiate(slotPrefab, hotbarPanel).GetComponent<InventorySlot>();
                 slot.slotIndex = hotbarStartIndex + i;
@@ -79,15 +72,15 @@ namespace Client
             HandleItemClicks();
 
             Keyboard keyboard = Keyboard.current;
-            if(keyboard == null || slots.Count != slotCount)
+            if (keyboard == null || slots.Count != slotCount)
                 return;
 
-            if(keyboard.tabKey.wasPressedThisFrame)
+            if (keyboard.tabKey.wasPressedThisFrame)
                 ToggleInventory();
 
-            for(int i = 0; i < hotbarSlotCount; i++)
+            for (int i = 0; i < hotbarSlotCount; i++)
             {
-                if(keyboard[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame)
+                if (keyboard[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame)
                 {
                     activeHotbarSlotIndex = i;
                     break;
@@ -99,27 +92,27 @@ namespace Client
 
         private void RefreshHotbar()
         {
-            if(slots.Count != slotCount)
+            if (slots.Count != slotCount)
                 return;
 
-            activeHotbarSlotIndex = Mathf.Clamp(activeHotbarSlotIndex, 0 ,hotbarSlotCount - 1);
+            activeHotbarSlotIndex = Mathf.Clamp(activeHotbarSlotIndex, 0, hotbarSlotCount - 1);
 
             InventorySlot activeSlot = slots[hotbarStartIndex + activeHotbarSlotIndex];
             activeItemType = activeSlot.itemCount > 0 ? activeSlot.itemType : default;
 
-            for(int i = 0; i < hotbarSlotCount; i++)
+            for (int i = 0; i < hotbarSlotCount; i++)
                 slots[hotbarStartIndex + i].SetActive(i == activeHotbarSlotIndex);
         }
 
         public void UpdateSlot(int slotIndex, ItemType itemType, int itemCount)
         {
-            if(slotIndex < 0 || slotIndex >= slots.Count)
+            if (slotIndex < 0 || slotIndex >= slots.Count)
                 return;
 
             InventorySlot slot = slots[slotIndex];
 
             // Cancel holding if the server changes the source stack.
-            if(slot == draggedSlot && (slot.itemCount != itemCount || !EqualityComparer<ItemType>.Default.Equals(slot.itemType, itemType)))
+            if (slot == draggedSlot && (slot.itemCount != itemCount || !EqualityComparer<ItemType>.Default.Equals(slot.itemType, itemType)))
                 ClearHeldItem();
 
             slot.UpdateSlot(itemType, itemCount);
@@ -134,14 +127,14 @@ namespace Client
 
         private void HandleItemClicks()
         {
-            if(Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 ClearHeldItem();
                 return;
             }
 
             Mouse mouse = Mouse.current;
-            if(mouse == null || EventSystem.current == null)
+            if (mouse == null || EventSystem.current == null)
                 return;
 
             Vector2 position = mouse.position.ReadValue();
@@ -150,36 +143,36 @@ namespace Client
             bool leftClick = mouse.leftButton.wasPressedThisFrame;
             bool rightClick = mouse.rightButton.wasPressedThisFrame;
 
-            if(!leftClick && !rightClick)
+            if (!leftClick && !rightClick)
                 return;
 
-            PointerEventData pointer = new PointerEventData(EventSystem.current) { position = position};
+            PointerEventData pointer = new PointerEventData(EventSystem.current) { position = position };
 
             pointerHits.Clear();
             EventSystem.current.RaycastAll(pointer, pointerHits);
 
-            GameObject hit = pointerHits.Count > 0 ? pointerHits[0].gameObject : null;  
+            GameObject hit = pointerHits.Count > 0 ? pointerHits[0].gameObject : null;
             InventorySlot clickedSlot = hit != null ? hit.GetComponentInParent<InventorySlot>() : null;
-
-            if(clickedSlot != null && !slots.Contains(clickedSlot))
+            
+            if (clickedSlot != null && !slots.Contains(clickedSlot))
                 return;
 
-            if(draggedSlot == null || clickedSlot.itemCount <= 0)
+            if (draggedSlot == null)
             {
-                if(clickedSlot == null || clickedSlot.itemCount <= 0)
+                if (clickedSlot == null || clickedSlot.itemCount <= 0)
                     return;
 
                 bool split = rightClick && !leftClick;
-                if(split  && clickedSlot.itemCount < 2)
+                if (split && clickedSlot.itemCount < 2)
                     return;
 
                 BeginHold(clickedSlot, split, position);
                 return;
-            }       
+            }
 
-            if(clickedSlot != null)
+            if (clickedSlot != null)
             {
-                if(clickedSlot == draggedSlot)
+                if (clickedSlot == draggedSlot)
                 {
                     ClearHeldItem();
                     return;
@@ -192,16 +185,16 @@ namespace Client
                 ClearHeldItem();
                 RefreshHotbar();
 
-                if(split)
-                    ClientSend.InventorySplit(source.slotIndex, clickedSlot.slotIndex);
+                if (split)
+                    ClientSend.InventorySplit(-1, source.slotIndex, -1, clickedSlot.slotIndex);
                 else
-                    ClientSend.InventoryMove(source.slotIndex, clickedSlot.slotIndex);
+                    ClientSend.InventoryMove(-1, source.slotIndex, -1, clickedSlot.slotIndex);
 
                 return;
             }
 
             bool overUI = hit != null && hit.GetComponentInParent<Canvas>() != null;
-            if(overUI || IsOverInventory(position))
+            if (overUI || IsOverInventory(position))
                 return;
 
             InventorySlot dropSource = draggedSlot;
@@ -212,7 +205,7 @@ namespace Client
             ClearHeldItem();
             RefreshHotbar();
 
-            ClientSend.InventoryDrop(dropSource.slotIndex, dropHalf);            
+            ClientSend.InventoryDrop(-1, dropSource.slotIndex, dropHalf);
         }
 
         private void BeginHold(InventorySlot source, bool split, Vector2 position)
@@ -231,8 +224,8 @@ namespace Client
             previewImage.sprite = source.itemSprite;
             previewText.text = heldCount.ToString();
 
-            foreach(Graphic graphics in dragPreviewObject.GetComponentsInChildren<Graphic>(true))
-                graphics.raycastTarget = false;
+            foreach (Graphic graphic in dragPreviewObject.GetComponentsInChildren<Graphic>(true))
+                graphic.raycastTarget = false;
 
             source.SetPreviewCount(source.itemCount - heldCount);
             source.SetHeld(!split);
@@ -242,7 +235,7 @@ namespace Client
 
         private void ClearHeldItem()
         {
-            if(draggedSlot != null)
+            if (draggedSlot != null)
             {
                 draggedSlot.SetPreviewCount(null);
                 draggedSlot.SetHeld(false);
@@ -251,43 +244,43 @@ namespace Client
             draggedSlot = null;
             splitDrag = false;
 
-            if(dragPreviewObject != null)
+            if (dragPreviewObject != null)
                 Destroy(dragPreviewObject);
 
             dragPreviewObject = null;
         }
 
-        public void MoveDragPreview(Vector2 screenpos)
+        public void MoveDragPreview(Vector2 screenPos)
         {
-            if(dragPreviewObject == null)
+            if (dragPreviewObject == null)
                 return;
 
             RectTransform canvasRect = (RectTransform)uiCanvas.transform;
             RectTransform previewRect = dragPreviewObject.GetComponent<RectTransform>();
-            Camera camera = uiCanvas.renderMode == RenderMode.ScreenSpaceCamera ? null : uiCanvas.worldCamera;
+            Camera camera = uiCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : uiCanvas.worldCamera;
 
-            if(RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenpos, camera, out Vector2 localPoint))
-                previewRect.localPosition = new UnityEngine.Vector3(localPoint.x, localPoint.y, 0);       
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, camera, out Vector2 localPoint))
+                previewRect.localPosition = new Vector3(localPoint.x, localPoint.y, 0);
         }
 
         private void PredictMove(InventorySlot from, InventorySlot to, bool split)
         {
-            if(from == to || from.itemCount <= 0)
+            if (from == to || from.itemCount <= 0)
                 return;
-            
-            if(split && from.itemCount < 2)
+
+            if (split && from.itemCount < 2)
                 return;
 
             int amountToMove = split ? GetHalfCount(from.itemCount) : from.itemCount;
 
-            if(to.itemCount == 0 || to.itemType.Equals(from.itemType))
+            if (to.itemCount == 0 || to.itemType.Equals(from.itemType))
             {
-                int avaibleSpace = maxStackSize - to.itemCount;
+                int availableSpace = maxStackSize - to.itemCount;
 
-                if(amountToMove > avaibleSpace)
-                    amountToMove = avaibleSpace;
+                if (amountToMove > availableSpace)
+                    amountToMove = availableSpace;
 
-                if(amountToMove <= 0)
+                if (amountToMove <= 0)
                     return;
 
                 to.UpdateSlot(from.itemType, to.itemCount + amountToMove);
@@ -307,7 +300,7 @@ namespace Client
         {
             int half = count / 2;
 
-            if(count % 2 != 0)
+            if (count % 2 != 0)
                 half++;
 
             return half;
@@ -316,12 +309,12 @@ namespace Client
         private bool IsOverInventory(Vector2 position)
         {
             Camera camera = uiCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : uiCanvas.worldCamera;
-            return IsInsidePanel(inventoryPanel, position, camera) || IsInsidePanel(hotbarPanel, position, camera);          
+            return IsInsidePanel(inventoryPanel, position, camera) || IsInsidePanel(hotbarPanel, position, camera);
         }
 
         private static bool IsInsidePanel(RectTransform panel, Vector2 position, Camera camera)
         {
-            return panel != null && panel.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(panel, position, camera);    
+            return panel != null && panel.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(panel, position, camera);
         }
 
         private void OnDisable()
@@ -333,8 +326,8 @@ namespace Client
         {
             ClearHeldItem();
 
-            if(Instance == this)
-                Instance = null;            
+            if (Instance == this)
+                Instance = null;
         }
     }
 }

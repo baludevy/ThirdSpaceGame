@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+using UnityEngine;
 
 namespace Server
 {
@@ -20,10 +20,12 @@ namespace Server
 
     public class Inventory
     {
+        public int containerId;
+        
         public List<Slot> slots = new List<Slot>();
         private readonly int maxStackSize;
 
-        public Inventory(int slotCount, int maxStackSize = 64)
+        public Inventory(int containerId,int slotCount, int maxStackSize = 64)
         {
             if (slotCount <= 0)
                 throw new ArgumentOutOfRangeException(nameof(slotCount));
@@ -131,83 +133,71 @@ namespace Server
         }
         public bool Move(int fromIndex, int toIndex)
         {
-            if (fromIndex < 0 || toIndex >= slots.Count || toIndex < 0 || toIndex >= slots.Count || fromIndex == toIndex)
-                return false;
-
-            Slot from = slots[fromIndex];
-            Slot to = slots[toIndex];
-
-            if (from.isEmpty)
-                return false;
-
-            if (to.isEmpty)
-            {
-                to.itemType = from.itemType;
-                to.count = from.count;
-                from.count = 0;
-            }
-            else if
-            (to.itemType.Equals(from.itemType))
-            {
-                int space = maxStackSize - to.count;
-                if (space <= 0)
-                    return false;
-
-                int moved = Math.Min(space, from.count);
-                to.count += moved;
-                from.count -= moved;
-            }
-            else
-            {
-                ItemType previousType = to.itemType;
-                int previousCount = to.count;
-
-                to.itemType = from.itemType;
-                to.count = from.count;
-
-                from.itemType = from.itemType;
-                to.count = from.count;
-
-                from.itemType = previousType;
-                from.count = previousCount;
-            }
-            return true;
+            return TransferTo(this, fromIndex, toIndex);
         }
 
         public bool Split(int fromIndex, int toIndex)
         {
-            if(!IsValidIndex(fromIndex) || !IsValidIndex(toIndex))
+            return TransferTo(this, fromIndex, toIndex, true);
+        }
+
+        public bool TransferTo(Inventory destination, int fromIndex, int toIndex, bool split = false)
+        {
+            if (destination == null ||
+                !IsValidIndex(fromIndex) ||
+                !destination.IsValidIndex(toIndex))
+            {
                 return false;
-            
-            if(fromIndex == toIndex)
+            }
+
+            if (ReferenceEquals(this, destination) && fromIndex == toIndex)
                 return false;
 
             Slot from = slots[fromIndex];
-            Slot to = slots[toIndex];
+            Slot to = destination.slots[toIndex];
 
-            if(from.count < 2)
+            if (from.count <= 0 || (split && from.count < 2))
                 return false;
+            
+            int requested = split
+                ? from.count / 2 + from.count % 2
+                : from.count;
+            
+            if (to.isEmpty || to.itemType.Equals(from.itemType))
+            {
+                int space = destination.maxStackSize - to.count;
+                int moved = Math.Min(requested, space);
 
-            if(!to.isEmpty && !to.itemType.Equals(from.itemType))
+                if (moved <= 0)
+                    return false;
+
+                to.itemType = from.itemType;
+                to.count += moved;
+                from.count -= moved;
+
+                if (from.isEmpty)
+                    from.itemType = default;
+
+                return true;
+            }
+            
+            if (split)
                 return false;
-
-            int half = from.count / 2;
-
-            if(from.count % 2 != 0)
-                half++;
-
-            int avaibleSpace = maxStackSize - to.count;
-            int amountToMove = half;
-
-            if(amountToMove > avaibleSpace)
-                amountToMove = avaibleSpace;
-
-            if(amountToMove <= 0)
+            
+            if (from.count > destination.maxStackSize ||
+                to.count > maxStackSize)
+            {
                 return false;
+            }
+
+            ItemType previousType = to.itemType;
+            int previousCount = to.count;
 
             to.itemType = from.itemType;
-            to.count += amountToMove;
-            from.count -= amountToMove;
+            to.count = from.count;
+
+            from.itemType = previousType;
+            from.count = previousCount;
 
             return true;
         }
@@ -255,11 +245,6 @@ namespace Server
                 return false;
 
             return true;
-        }
-
-        internal void Drop(int fromIndex, bool split, UnityEngine.Vector2 vector2)
-        {
-            throw new NotImplementedException();
         }
     }
 }

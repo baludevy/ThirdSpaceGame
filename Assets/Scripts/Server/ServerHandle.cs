@@ -72,26 +72,32 @@ namespace Server
         {
             int id = peer.Id;
 
+            short fromContainer = reader.GetShort();
             int fromIndex = reader.GetByte();
+            short toContainer = reader.GetShort();
             int toIndex = reader.GetByte();
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
             player.inventory.Move(fromIndex, toIndex);
-
-            ServerSend.UpdateInventory(player);
+            InventoryManager.Move(id, fromContainer, fromIndex, toContainer, toIndex);
+            ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
 
         public static void InventorySplit(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
 
+            short fromContainer = reader.GetShort();
             int fromIndex = reader.GetByte();
+            short toContainer = reader.GetShort();
             int toIndex = reader.GetByte();
+
+            InventoryManager.Split(id, fromContainer, fromIndex, toContainer, toIndex);
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
             player.inventory.Split(fromIndex, toIndex);
 
-            ServerSend.UpdateInventory(player);
+            ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
 
         public static void InventoryDrop(NetPeer peer, NetDataReader reader)
@@ -99,6 +105,7 @@ namespace Server
             int id = peer.Id;
 
             int fromIndex = reader.GetByte();
+            int fromContainer = reader.GetByte();
             bool split = reader.GetBool();
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
