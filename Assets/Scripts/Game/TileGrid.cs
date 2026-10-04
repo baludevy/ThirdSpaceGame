@@ -47,7 +47,6 @@ namespace Game
                 Vector2Int tilePosition = GetHoveredTilePosition();
 
                 Debug.Log($"clicked {tilePosition}, {GlobalTilemap.Instance.GetTileType(tilePosition)}");
-                ClientSend.TileTest(tiles.Find(x => x.position == tilePosition).tileId);
             }
         }
 

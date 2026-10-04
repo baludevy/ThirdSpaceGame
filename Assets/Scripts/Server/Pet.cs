@@ -96,6 +96,7 @@ namespace Server
                 entityId = entityId,
                 entityType = entityType,
                 position = position,
+                facingRight = facingRight,
                 animationState = animationState
             };
         }

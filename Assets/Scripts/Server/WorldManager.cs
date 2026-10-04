@@ -30,17 +30,17 @@ namespace Server
                 Instance = this;
             else
                 Destroy(this);
+        }
 
+        private void Start()
+        {
             tileManager = new TileManager();
             objectManager = new ObjectManager();
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
             
             tileManager.Initialize(new Vector2Int(101, 101));
-        }
-
-        void Start()
-        {
+            
             if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
             {
                 cat.petType = PetType.Cat;
