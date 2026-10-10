@@ -14,6 +14,8 @@ public class NetworkManager : MonoBehaviour
 
     private void Awake()
     {
+        QualitySettings.vSyncCount = 1;
+        
         if (Instance == null)
         {
             Instance = this;

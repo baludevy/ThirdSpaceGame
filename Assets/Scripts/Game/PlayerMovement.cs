@@ -16,7 +16,6 @@ namespace Game
         public Slider StaminaSlider;
         public TMP_Text StaminaText;
 
-
         private Animator anim;
         Vector2 inputVector;
         bool isSprinting;
@@ -26,7 +25,8 @@ namespace Game
         private Vector2 previousInput;
         Rigidbody rb;
         Coroutine reloadCoroutine;
-        private SpriteRenderer sprite;
+
+        public SpriteRenderer sprite;
 
         bool staminareload;
 
@@ -39,8 +39,7 @@ namespace Game
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
-            anim = GetComponent<Animator>();
-            sprite = GetComponent<SpriteRenderer>();
+            anim = sprite.GetComponent<Animator>();
         }
 
         void Update()
@@ -76,6 +75,8 @@ namespace Game
 
         void FixedUpdate()
         {
+            rb.AddForce(Vector3.down * 10f, ForceMode.VelocityChange);
+
             float currentSpeed = isSprinting ? MovingSpeed * sprintMultiplier : MovingSpeed;
 
             var movement = Vector3.zero;
@@ -164,13 +165,13 @@ namespace Game
                 case FacingDirection.Right:
                     anim.SetBool("Side", true);
                     lastAnimState = AnimationState.right;
-                    transform.localScale = new Vector3(-1, 1, 1);
+                    sprite.transform.localScale = new Vector3(-1, 1, 1);
                     break;
 
                 case FacingDirection.Left:
                     anim.SetBool("Side", true);
                     lastAnimState = AnimationState.left;
-                    transform.localScale = new Vector3(1, 1, 1);
+                    sprite.transform.localScale = new Vector3(1, 1, 1);
                     break;
 
                 case FacingDirection.Back:
