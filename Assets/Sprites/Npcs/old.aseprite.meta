@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
-guid: 1200bcb759b35a449bf093b39e003ff0
-========
-guid: 7528a6d15ffdb344891cdad78266d8f0
->>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
+guid: db5c6aa969c56db48b88eff493c49da2
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -40,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 64
+    spritePixelsToUnits: 100
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -78,7 +74,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -93,7 +89,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   asepriteImporterSettings:
-    fileImportMode: 2
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -107,11 +103,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
-  platformSettingsDirtyTick: 639263026644717578
-========
-  platformSettingsDirtyTick: 639266305924554557
->>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
+  platformSettingsDirtyTick: 0
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -135,11 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
-  - name: Grass
-========
-  - name: activeinvslot
->>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
+  - name: old
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -149,13 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 32
-      height: 32
-<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
-    spriteID: 7f61f24fa93de57449832a64eb8a0311
-========
-    spriteID: b3e024f704ca18c4fb6c594bd2afbdc1
->>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
+      width: 16
+      height: 25
+    spriteID: b3e4edf6893ba4e418524f7269587d88
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -165,81 +149,36 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData: []
-  tileSetImportData:
-  - name: Layer 1
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 4
-      width: 32
-      height: 32
-    spriteID: 54451489992e851488bfc58b2af1643f
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+  tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 4287466680
+      value0: 4231482043
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Layer 1
-    layerFlags: 3
+    name: old
+    layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Layer 1
+    - name: old
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 32
-        height: 32
-      spriteId: 54451489992e851488bfc58b2af1643f
+        width: 16
+        height: 25
+      spriteId: b3e4edf6893ba4e418524f7269587d88
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: DefaultTexturePlatform
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
-  previousTextureSize: {x: 64, y: 64}
-  canvasSize: {x: 32, y: 32}
+  previousTextureSize: {x: 32, y: 64}
+  canvasSize: {x: 16, y: 32}
