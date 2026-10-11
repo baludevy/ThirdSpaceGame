@@ -8,15 +8,15 @@ namespace Server
 {
     public class Pet : Entity
     {
-        public PetType petType = PetType.Dog;
+        public PetType petType = PetType.WhiteCat;
 
         private Entity target;
 
         private float stateTimeRemaining;
 
-        public bool facingRight;
+        private bool facingRight;
 
-        public PetAnimationState animationState = PetAnimationState.Idle;
+        private PetAnimationState animationState = PetAnimationState.Idle;
 
         public override void Tick(float deltaTime)
         {

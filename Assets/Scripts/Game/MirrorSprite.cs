@@ -10,6 +10,7 @@ public class MirrorSprite : MonoBehaviour
     public SpriteRenderer source;
     public Camera reflectionCamera;
 
+    public Vector3 positionOffset;
     public Vector3 rotationOffset;
 
     private SpriteRenderer target;
@@ -60,7 +61,7 @@ public class MirrorSprite : MonoBehaviour
         source.GetPropertyBlock(properties);
         target.SetPropertyBlock(properties);
 
-        transform.SetPositionAndRotation(source.transform.position, reflectionCamera.transform.rotation * Quaternion.Euler(rotationOffset));
+        transform.SetPositionAndRotation(source.transform.position + positionOffset, reflectionCamera.transform.rotation * Quaternion.Euler(rotationOffset));
 
         transform.localScale = source.transform.lossyScale;
     }
