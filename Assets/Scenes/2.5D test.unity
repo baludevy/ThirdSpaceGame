@@ -1701,7 +1701,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 935432637}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1902,6 +1902,7 @@ GameObject:
   - component: {fileID: 1242881113}
   - component: {fileID: 1242881112}
   - component: {fileID: 1242881111}
+  - component: {fileID: 1242881115}
   m_Layer: 9
   m_Name: BrownCat
   m_TagString: Untagged
@@ -1995,7 +1996,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -7859359356945553702, guid: baad2e63b0176614c80eeacae687a0da, type: 3}
+  m_Sprite: {fileID: 7494635340274522194, guid: bcd4ab39abbd30343a99f9091c8cab0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2022,6 +2023,18 @@ Transform:
   - {fileID: 1942897420}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+--- !u!114 &1242881115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242881110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fef86fb906dbd4d880fef3415a3b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteShadows
 --- !u!4 &1341098510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3460018941304825847, guid: c616fa82b65aa464b84d30d41d608551, type: 3}
@@ -2335,7 +2348,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -2391,13 +2404,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763484492}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.59951293, y: -0.13776442, z: 0.10571035, w: 0.7813006}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 75, y: -20, z: 0}
 --- !u!1 &1843988630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,6 +2773,7 @@ GameObject:
   - component: {fileID: 3426640251898490760}
   - component: {fileID: 543881549118989471}
   - component: {fileID: 6475642547695855624}
+  - component: {fileID: 6475642547695855625}
   m_Layer: 9
   m_Name: WhiteCat
   m_TagString: Untagged
@@ -2789,6 +2803,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6475642547695855625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5274964228602987286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fef86fb906dbd4d880fef3415a3b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteShadows
 --- !u!1001 &8601499121498986899
 PrefabInstance:
   m_ObjectHideFlags: 0

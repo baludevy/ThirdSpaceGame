@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoveCamera
   target: {fileID: 2655920233098299924}
   spriteHeight: 1
-  followDistance: 20
+  followDistance: 19.5
   cameraPitch: 45
 --- !u!1 &7899731492581464642
 GameObject:
