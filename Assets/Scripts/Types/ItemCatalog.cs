@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Types
 {
@@ -12,6 +13,7 @@ namespace Types
         public bool Stackable = true;
         public int MaxStackSize = 64;
         public Sprite Sprite;
+        public GameObject DroppedPrefab;
     }
 
     public class ItemCatalog : MonoBehaviour

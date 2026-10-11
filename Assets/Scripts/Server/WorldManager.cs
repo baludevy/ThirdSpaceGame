@@ -74,13 +74,13 @@ namespace Server
             
             if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
             {
-                cat.petType = PetType.Cat;
+                cat.petType = PetType.WhiteCat;
                 ServerSend.SpawnEntity(cat);
             }
 
             if (entityManager.SpawnEntity(EntityType.pet, Vector2.left, broadcast: false) is Pet dog)
             {
-                dog.petType = PetType.Dog;
+                dog.petType = PetType.GrayDog;
                 ServerSend.SpawnEntity(dog);
             }
         }

@@ -2,7 +2,11 @@
 {
     public enum PetType
     {
-        Cat,
-        Dog,
+        WhiteCat,
+        BrownCat,
+        OrangeCat,
+        WhiteDog,
+        GrayDog,
+        BrownDog
     }
 }

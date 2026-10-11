@@ -168,7 +168,7 @@ namespace Client
                 case EntityType.pet:
                     PetType petType = (PetType)reader.GetByte();
 
-                    EntityManager.Instance.ReplicateEntity(entityId, type, position, PrefabManager.Instance.petPrefabs[petType]);
+                    EntityManager.Instance.ReplicateEntity(entityId, type, position, PetCatalog.Instance.GetPet(petType).Prefab);
                     break;
 
 
@@ -176,7 +176,7 @@ namespace Client
                     ItemType itemType = (ItemType)reader.GetByte();
 
                     DroppedItem droppedItem =
-                        EntityManager.Instance.ReplicateEntity(entityId, type, position, PrefabManager.Instance.itemPrefabs[itemType]) as DroppedItem;
+                        EntityManager.Instance.ReplicateEntity(entityId, type, position, ItemCatalog.Instance.GetItem(itemType).DroppedPrefab) as DroppedItem;
 
                     if (playSpawnEffect && droppedItem != null && droppedItem.TryGetComponent(out BounceEffect bounce))
                         bounce.StartBounce();
