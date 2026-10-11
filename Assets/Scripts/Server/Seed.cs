@@ -26,7 +26,7 @@ namespace Server
                 ownerTile = targetTile,
                 type = ObjectType.Crop,
                 cropType = cropType,
-                position = targetTile.position,
+                position = new Vector3(targetTile.position.x, targetTile.position.y, 0f),
             };
 
             targetTile.occupant = crop;

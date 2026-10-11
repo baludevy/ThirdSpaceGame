@@ -34,7 +34,7 @@ namespace Client
                 prefab = entityPrefabs[type];
             }
 
-            Entity entity = Instantiate(prefab, position, Quaternion.identity).GetComponent<Entity>();
+            Entity entity = Instantiate(prefab, position, prefab.transform.rotation).GetComponent<Entity>();
             
             entity.Initialize(id);
 

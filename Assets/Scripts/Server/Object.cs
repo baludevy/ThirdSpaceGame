@@ -8,7 +8,7 @@ namespace Server
         public ObjectType type;
     
         // === TRANSFORM ===
-        public Vector2 position;
+        public Vector3 position;
 
         public virtual void Start()
         {

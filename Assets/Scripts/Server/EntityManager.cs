@@ -9,7 +9,7 @@ namespace Server
         public ushort nextEntityID;
         public List<Entity> entities = new List<Entity>();
 
-        public Entity SpawnEntity(EntityType type, Vector2 position, bool broadcast = true)
+        public Entity SpawnEntity(EntityType type, Vector3 position, bool broadcast = true)
         {
             Entity entity = type switch
             {

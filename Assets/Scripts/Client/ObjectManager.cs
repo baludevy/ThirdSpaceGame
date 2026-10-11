@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Game;
 using LiteNetLib.Utils;
@@ -22,7 +22,7 @@ namespace Client
                 Destroy(this);
         }
 
-        public Object SpawnObject(ushort id, ObjectType type, Vector2 position)
+        public Object SpawnObject(ushort id, ObjectType type, Vector3 position)
         {
             GameObject go = Instantiate(objectPrefabs[type], position, Quaternion.identity);
             Object obj = go.GetComponent<Object>();

@@ -42,7 +42,7 @@ namespace Server
                 id = 0,
                 itemType = ItemType.Hoe,
                 itemAmount = 1,
-                position = new Vector2(-1.5f, 2f)
+                position = new Vector3(-1.5f, 2f, 0f)
             });
 
             objectManager.SpawnObject(new Chest
@@ -51,7 +51,7 @@ namespace Server
                 type = ObjectType.Chest,
                 itemType = ItemType.Hoe,
                 itemAmount = 1,
-                position = new Vector2(0.5f, 2f)
+                position = new Vector3(0.5f, 2f, 0f)
             });
 
             objectManager.SpawnObject(new Chest
@@ -60,7 +60,7 @@ namespace Server
                 type = ObjectType.Chest,
                 itemType = ItemType.PotatoSeed,
                 itemAmount = 65,
-                position = new Vector2(2.5f, 2f)
+                position = new Vector3(2.5f, 2f, 0f)
             });
 
             objectManager.SpawnObject(new Chest
@@ -69,18 +69,18 @@ namespace Server
                 type = ObjectType.Chest,
                 itemType = ItemType.CarrotSeed,
                 itemAmount = 65,
-                position = new Vector2(4.5f, 2f)
+                position = new Vector3(4.5f, 2f, 0f)
             });
             
-            if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
+            if (entityManager.SpawnEntity(EntityType.pet, Vector3.right, broadcast: false) is Pet cat)
             {
                 cat.petType = PetType.WhiteCat;
                 ServerSend.SpawnEntity(cat);
             }
 
-            if (entityManager.SpawnEntity(EntityType.pet, Vector2.left, broadcast: false) is Pet dog)
+            if (entityManager.SpawnEntity(EntityType.pet, Vector3.left, broadcast: false) is Pet dog)
             {
-                dog.petType = PetType.GrayDog;
+                dog.petType = PetType.BrownDog;
                 ServerSend.SpawnEntity(dog);
             }
         }

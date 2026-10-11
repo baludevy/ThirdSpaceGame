@@ -130,7 +130,7 @@ namespace Client
         {
             ushort objectId = reader.GetUShort();
             ObjectType type = (ObjectType)reader.GetByte();
-            Vector2 position = reader.GetVector2();
+            Vector3 position = reader.GetVector3();
             
             if (type == ObjectType.Crop)
             {
@@ -153,7 +153,7 @@ namespace Client
         {
             ushort entityId = reader.GetUShort();
             EntityType type = (EntityType)reader.GetByte();
-            Vector2 position = reader.GetVector2();
+            Vector3 position = reader.GetVector3();
 
             switch (type)
             {
@@ -194,7 +194,7 @@ namespace Client
         {
             ushort entityId = reader.GetUShort();
             EntityType type = (EntityType)reader.GetByte();
-            Vector2 position = reader.GetVector2();
+            Vector3 position = reader.GetVector3();
 
             Entity entity = EntityManager.Instance.GetEntity(entityId);
 

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Client;
-using Server;
 using Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Inventory = Client.Inventory;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 namespace Game
 {
@@ -15,136 +12,217 @@ namespace Game
     {
         public static TileManager Instance;
 
-        private List<Tile> tiles = new List<Tile>();
-
         public Vector2Int gridSize = new Vector2Int(101, 101);
 
+        [Header("Blocks")]
+        [SerializeField] private TileType startingTileType = TileType.Grass;
+        [SerializeField] private Material defaultMaterial;
+        [SerializeField] private TileMaterial[] tileMaterials;
+
+        [Header("Selection")]
         [SerializeField] private Transform previewSquare;
-        [NonSerialized] public Camera playerCamera;
+        [SerializeField] private float raycastDistance = 1000f;
+        public Camera playerCamera;
+
+        private readonly List<Tile> tiles = new List<Tile>();
+        private readonly Dictionary<Collider, Tile> colliderTiles =
+            new Dictionary<Collider, Tile>();
+
+        private readonly Dictionary<TileType, Material> materials =
+            new Dictionary<TileType, Material>();
+
+        [Serializable]
+        public class TileMaterial
+        {
+            public TileType tileType;
+            public Material material;
+        }
 
         private void Awake()
         {
-            if (Instance == null)
-                Instance = this;
-            else
+            if (Instance != null && Instance != this)
+            {
                 Destroy(gameObject);
+                return;
+            }
 
-            int nextId = 0;
+            Instance = this;
 
+            if (tileMaterials != null)
+            {
+                foreach (TileMaterial entry in tileMaterials)
+                {
+                    if (entry != null && entry.material != null)
+                        materials[entry.tileType] = entry.material;
+                }
+            }
+
+            // The preview should never intercept selection raycasts.
+            if (previewSquare != null)
+            {
+                foreach (Collider collider in
+                         previewSquare.GetComponentsInChildren<Collider>(true))
+                {
+                    collider.enabled = false;
+                }
+
+                previewSquare.gameObject.SetActive(false);
+            }
+
+            CreateBlocks();
+        }
+
+        private void CreateBlocks()
+        {
             int xOffset = gridSize.x / 2;
-            int yOffset = gridSize.y / 2;
+            int zOffset = gridSize.y / 2;
 
             for (int x = 0; x < gridSize.x; x++)
             {
-                for (int y = 0; y < gridSize.y; y++)
+                for (int z = 0; z < gridSize.y; z++)
                 {
-                    Vector2Int gridPosition = new Vector2Int(x - xOffset, y - yOffset);
+                    Vector2Int position =
+                        new Vector2Int(x - xOffset, z - zOffset);
 
-                    tiles.Add(new Tile(nextId++, gridPosition, GlobalTilemap.Instance.GetTileType(gridPosition)));
+                    GameObject block =
+                        GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+                    block.name = $"Block {position.x}, {position.y}";
+                    block.transform.SetParent(transform, false);
+                    
+                    block.transform.localPosition = new Vector3(
+                        position.x + 0.5f,
+                        -0.5f,
+                        position.y + 0.5f
+                    );
+
+                    Tile tile = new Tile(
+                        tiles.Count,
+                        position,
+                        startingTileType,
+                        block.GetComponent<Renderer>()
+                    );
+
+                    tiles.Add(tile);
+                    colliderTiles.Add(block.GetComponent<Collider>(), tile);
+
+                    ApplyMaterial(tile);
                 }
             }
         }
 
         private void Update()
         {
-            if (playerCamera == null) return;
+            if (playerCamera == null)
+                playerCamera = Camera.main;
 
-            MovePreviewToMouseTile();
-
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (playerCamera == null || Mouse.current == null)
             {
-                if (Inventory.Instance.currentItem == null || !Inventory.Instance.currentItem.CanBeUsed())
-                    return;
-                
-                Vector2Int tilePosition = GetHoveredTilePosition();
-                int tileId = tiles.Find(tile => tile.position == tilePosition).tileId;
-
-                ClientSend.UseHeldItem(tileId);
-            }
-        }
-
-        private void MovePreviewToMouseTile()
-        {
-            Vector2Int tilePosition = GetHoveredTilePosition();
-
-            if (!IsInsideGrid(tilePosition) || Inventory.Instance.currentItem == null || !Inventory.Instance.currentItem.CanBeUsed())
-            {
-                previewSquare.gameObject.SetActive(false);
+                UpdatePreview(null);
                 return;
             }
 
-            previewSquare.gameObject.SetActive(true);
+            Tile hoveredTile = GetHoveredTile();
+            UpdatePreview(hoveredTile);
+            
+            if (hoveredTile == null || !Mouse.current.leftButton.wasPressedThisFrame)
+                return;
 
-            previewSquare.position = transform.TransformPoint(new Vector3(tilePosition.x + 0.5f, tilePosition.y + 0.5f, 0));
+            if (Inventory.Instance == null ||
+                Inventory.Instance.currentItem == null ||
+                !Inventory.Instance.currentItem.CanBeUsed())
+                return;
+
+            ClientSend.UseHeldItem(hoveredTile.tileId);
         }
 
-        private Vector2Int GetHoveredTilePosition()
+        private Tile GetHoveredTile()
         {
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            Vector3 mouseScreenPosition = new(mousePosition.x, mousePosition.y, -playerCamera.transform.position.z);
-            Vector3 mouseWorldPosition = playerCamera.ScreenToWorldPoint(mouseScreenPosition);
-            Vector3 localMousePosition = transform.InverseTransformPoint(mouseWorldPosition);
+            Ray ray = playerCamera.ScreenPointToRay(
+                Mouse.current.position.ReadValue()
+            );
 
-            Vector2Int tilePosition = new(Mathf.FloorToInt(localMousePosition.x),
-                Mathf.FloorToInt(localMousePosition.y));
+            if (!Physics.Raycast(
+                    ray,
+                    out RaycastHit hit,
+                    raycastDistance,
+                    Physics.DefaultRaycastLayers,
+                    QueryTriggerInteraction.Ignore))
+            {
+                return null;
+            }
 
-            return tilePosition;
+            colliderTiles.TryGetValue(hit.collider, out Tile tile);
+            return tile;
         }
 
-        private bool IsInsideGrid(Vector2Int position)
+        private void UpdatePreview(Tile tile)
         {
-            int minX = -gridSize.x / 2;
-            int maxX = gridSize.x - 1 - gridSize.x / 2;
+            if (previewSquare == null)
+                return;
 
-            int minY = -gridSize.y / 2;
-            int maxY = gridSize.y - 1 - gridSize.y / 2;
+            previewSquare.gameObject.SetActive(tile != null);
 
-            return position.x >= minX && position.x <= maxX && position.y >= minY && position.y <= maxY;
+            if (tile == null)
+                return;
+
+            previewSquare.position = transform.TransformPoint(
+                new Vector3(
+                    tile.position.x + 0.5f,
+                    0.02f,
+                    tile.position.y + 0.5f
+                )
+            );
+
+            previewSquare.rotation = transform.rotation;
         }
 
         public void ModifyTile(int tileId, TileType tileType)
         {
-            Tile tile = tiles.Find(t => t.tileId == tileId);
-            if (tile == null) return;
+            if (tileId < 0 || tileId >= tiles.Count)
+                return;
 
+            Tile tile = tiles[tileId];
             tile.tileType = tileType;
 
-            UnityEngine.Tilemaps.TileBase tileAsset;
-
-            if (tileType == TileType.Grass)
-            {
-                int x = PositiveMod(tile.position.x - GlobalTilemap.Instance.grassPatternOrigin.x, 2);
-                int y = PositiveMod(tile.position.y - GlobalTilemap.Instance.grassPatternOrigin.y, 2);
-
-                tileAsset = GlobalTilemap.Instance.grassTiles[y * 2 + x];
-            }
-            else
-            {
-                tileAsset = GlobalTilemap.Instance.tileSprites[tileType];
-            }
-
-            GlobalTilemap.Instance.tilemap.SetTile(
-                new Vector3Int(tile.position.x, tile.position.y, 0),
-                tileAsset);
+            ApplyMaterial(tile);
         }
-        
-        private static int PositiveMod(int value, int size)
+
+        private void ApplyMaterial(Tile tile)
         {
-            return (value % size + size) % size;
+            Material material;
+
+            if (!materials.TryGetValue(tile.tileType, out material))
+                material = defaultMaterial;
+
+            if (material != null)
+                tile.blockRenderer.sharedMaterial = material;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
         }
     }
-    
+
     public class Tile
     {
         public int tileId;
         public Vector2Int position;
         public TileType tileType;
+        public Renderer blockRenderer;
 
-        public Tile(int tileId, Vector2Int position, TileType tileType)
+        public Tile(
+            int tileId,
+            Vector2Int position,
+            TileType tileType,
+            Renderer blockRenderer)
         {
             this.tileId = tileId;
             this.position = position;
             this.tileType = tileType;
+            this.blockRenderer = blockRenderer;
         }
     }
 }

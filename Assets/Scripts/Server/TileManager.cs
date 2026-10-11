@@ -17,18 +17,28 @@ namespace Server
         {
             this.gridSize = gridSize;
 
-            int nextId = 0;
+            tiles.Clear();
+            updatedTiles.Clear();
+            changedTiles.Clear();
 
+            int nextId = 0;
             int xOffset = gridSize.x / 2;
-            int yOffset = gridSize.y / 2;
+            int zOffset = gridSize.y / 2;
 
             for (int x = 0; x < gridSize.x; x++)
             {
-                for (int y = 0; y < gridSize.y; y++)
+                for (int z = 0; z < gridSize.y; z++)
                 {
-                    Vector2Int gridPosition = new Vector2Int(x - xOffset, y - yOffset);
+                    Vector2Int gridPosition = new Vector2Int(
+                        x - xOffset,
+                        z - zOffset
+                    );
 
-                    tiles.Add(new Tile(nextId++, gridPosition, GlobalTilemap.Instance.GetTileType(gridPosition)));
+                    tiles.Add(new Tile(
+                        nextId++,
+                        gridPosition,
+                        TileType.Grass
+                    ));
                 }
             }
         }
@@ -37,12 +47,15 @@ namespace Server
         {
             Tile targetTile = GetTile(tileId);
 
-            targetTile.tileType = tileType;
-            updatedTiles.Add(targetTile);
+            if (targetTile == null)
+                return;
 
-            if (changedTiles.Contains(targetTile))
-                changedTiles.Find(tile => tile == targetTile).tileType = tileType;
-            else
+            targetTile.tileType = tileType;
+
+            if (!updatedTiles.Contains(targetTile))
+                updatedTiles.Add(targetTile);
+
+            if (!changedTiles.Contains(targetTile))
                 changedTiles.Add(targetTile);
         }
 

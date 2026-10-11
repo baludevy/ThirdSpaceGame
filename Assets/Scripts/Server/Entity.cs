@@ -8,7 +8,7 @@ namespace Server
         public EntityType entityType;
 
         // === TRANSFORM === 
-        public Vector2 position = Vector2.zero;
+        public Vector3 position = Vector3.zero;
         public virtual void Tick(float deltaTime)
         {
             

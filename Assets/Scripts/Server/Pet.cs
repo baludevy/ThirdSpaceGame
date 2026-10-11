@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Types;
 using UnityEngine;
@@ -32,7 +32,7 @@ namespace Server
                 return;
             }
 
-            Vector2 offset = target.position - position;
+            Vector3 offset = target.position - position;
 
             if(offset.x > 0f)
                 facingRight = true;
@@ -50,16 +50,18 @@ namespace Server
 
             if(Mathf.Abs(offset.x) > followDistance)
             {
-                position = new Vector2(
+                position = new Vector3(
                     Mathf.MoveTowards(position.x, target.position.x, speed),
-                    position.y
+                    position.y,
+                    position.z
                 );
             }
             else
             {
-                position = new Vector2(
+                position = new Vector3(
                     position.x,
-                    Mathf.MoveTowards(position.y, target.position.y, speed)
+                    Mathf.MoveTowards(position.y, target.position.y, speed),
+                    position.z
                 );
             }
         }

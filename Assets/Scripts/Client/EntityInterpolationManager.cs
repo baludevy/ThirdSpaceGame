@@ -103,9 +103,9 @@ namespace Client
                 EntitySnapshot to = samples[1];
                 
                 float t = Mathf.InverseLerp(from.time, to.time, renderTime);
-                Vector2 position = Vector2.Lerp(from.position, to.position, t);
+                Vector3 position = Vector3.Lerp(from.position, to.position, t);
 
-                entity.transform.position = new Vector3(position.x, position.y, entity.transform.position.z);
+                entity.transform.position = position;
                 entity.ApplySnapshot(from, to, t);
             }
         }
@@ -115,6 +115,6 @@ namespace Client
     {
         public uint tick;
         public float time;
-        public Vector2 position;
+        public Vector3 position;
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -274,7 +274,7 @@ namespace Server
             return true;
         }
 
-        public bool Drop(int slotIndex, bool split, Vector2 position)
+        public bool Drop(int slotIndex, bool split, Vector3 position)
         {
             if (!IsValidIndex(slotIndex))
                 return false;

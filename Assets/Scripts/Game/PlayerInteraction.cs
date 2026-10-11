@@ -10,6 +10,8 @@ namespace Game
         
         public void OnTriggerEnter2D(Collider2D other)
         {
+            Debug.Log("csa");
+            
             if (other.TryGetComponent(out Interactable interactable) && interactable.CanInteract())
             {
                 interactableInRange = interactable;

@@ -4,7 +4,7 @@
     {
         WhiteCat,
         BrownCat,
-        OrangeCat,
+        GrayCat,
         WhiteDog,
         GrayDog,
         BrownDog

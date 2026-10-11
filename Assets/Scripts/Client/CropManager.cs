@@ -29,9 +29,9 @@ namespace Client
                 Destroy(gameObject);
         }
 
-        public void SpawnCrop(ushort cropId, CropType crop, int cropPhase, Vector2 position)
+        public void SpawnCrop(ushort cropId, CropType crop, int cropPhase, Vector3 position)
         {
-            Crop cropInstance = ObjectManager.Instance.SpawnObject(cropId, ObjectType.Crop, position + Vector2.right * 0.5f).GetComponent<Crop>();
+            Crop cropInstance = ObjectManager.Instance.SpawnObject(cropId, ObjectType.Crop, position + Vector3.right * 0.5f).GetComponent<Crop>();
             cropInstance.cropType = crop;
             
             CropSpriteEntry cropSprite = cropSprites.Find(x => x.type == crop);

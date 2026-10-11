@@ -13,7 +13,7 @@ namespace Server
     {
         public ushort entityId;
         public EntityType entityType;
-        public Vector2 position;
+        public Vector3 position;
     }
 
     public class PlayerUpdate : EntityUpdate

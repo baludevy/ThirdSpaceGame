@@ -20,7 +20,7 @@ namespace Server
         public static void PlayerMove(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
-            Vector3 position = reader.GetVector2();
+            Vector3 position = reader.GetVector3();
             AnimationState animState = (AnimationState)reader.GetByte();
 
             WorldManager.Instance.playerManager.GetPlayer(id).inputManager.AddMoveInput(new MoveInput
@@ -112,7 +112,7 @@ namespace Server
             Debug.Log(fromIndex);
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Drop(fromIndex, split, player.position - Vector2.up);
+            player.inventory.Drop(fromIndex, split, player.position - Vector3.up);
 
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Server
@@ -12,7 +12,7 @@ namespace Server
                 id = 0,
                 itemType = ItemType.Hoe,
                 itemAmount = 1,
-                position = new Vector2(-1.5f, 2f)
+                position = new Vector3(-1.5f, 2f, 0f)
             },
             new Chest
             {
@@ -20,7 +20,7 @@ namespace Server
                 type = ObjectType.Chest,
                 itemType = ItemType.Hoe,
                 itemAmount = 1,
-                position = new Vector2(0.5f, 2f)
+                position = new Vector3(0.5f, 2f, 0f)
             },
             new Chest
             {
@@ -28,7 +28,7 @@ namespace Server
                 type = ObjectType.Chest,
                 itemType = ItemType.PotatoSeed,
                 itemAmount = 65,
-                position = new Vector2(2.5f, 2f)
+                position = new Vector3(2.5f, 2f, 0f)
             },
             new Chest
             {
@@ -36,7 +36,7 @@ namespace Server
                 type = ObjectType.Chest,
                 itemType = ItemType.CarrotSeed,
                 itemAmount = 65,
-                position = new Vector2(4.5f, 2f)
+                position = new Vector3(4.5f, 2f, 0f)
             },
         };
 
