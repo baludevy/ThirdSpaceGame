@@ -1,5 +1,14 @@
-We built a prototype where players can join a host, see each other moving, opening chests, dropping items from inventory (inventory can be opened with I, unfortunately items cannot be picked up yet).
-All of this is done with LiteNetLib, no easy networking solution was used.
-The code is really messy right now, but we plan to fix that later.
+A work-in-progress game where you build a farm together with your friends, take care of pets, discover new areas etc.
 
-To test: open up two instances of the game, on one click 'Host Game', on the other one enter the ip (if on the same pc its 127.0.0.1) click 'Join Game', and everything should work.
+The game uses LiteNetLib for transport, everything on top is built completely custom in C#.
+One player is the server host, other clients connect to it, objects and entities are server-authoritative, other clients just present it to the user's screen.
+
+Current features (all synced between clients and server):
+- Player Movement
+- Treasure Chest
+- Pets
+- Inventory
+
+We plan on making this a full game by Week 8, right now we are building the code foundations to make sure this is possible thats why it looks like little progress is being made.
+
+<img width="1271" height="718" alt="gamea" src="https://github.com/user-attachments/assets/9360bad4-c749-4740-95e5-8d7c454004e7" />

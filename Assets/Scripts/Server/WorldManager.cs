@@ -1,127 +1,142 @@
 ﻿using System;
-using System.Collections.Generic;
-using Server;
+using System.Linq;
 using Types;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class WorldManager : MonoBehaviour
+namespace Server
 {
-    public uint tick;
-    public static WorldManager Instance;
-
-    [NonSerialized]
-    public ObjectManager objectManager;
-    [NonSerialized]
-    public EntityManager entityManager;
-    [NonSerialized]
-    public PlayerManager playerManager;
-
-    private void Awake()
+    public class WorldManager : MonoBehaviour
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(this);
+        public uint tick;
+        public static WorldManager Instance;
 
-        objectManager = new ObjectManager();
-        entityManager = new EntityManager();
-        playerManager = new PlayerManager();
-    }
+        [NonSerialized]
+        public TileManager tileManager;
+        [NonSerialized]
+        public ObjectManager objectManager;
+        [NonSerialized]
+        public EntityManager entityManager;
+        [NonSerialized]
+        public PlayerManager playerManager;
 
-    void Start()
-    {
-        if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
+
+        private void Awake()
         {
-            cat.petType = PetType.Cat;
-            ServerSend.SpawnEntity(cat);
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(this);
         }
-        
-        if(entityManager.SpawnEntity(EntityType.pet, Vector2.left, broadcast: false) is Pet dog)
+
+        private void Start()
         {
-            dog.petType = PetType.Dog;
-            ServerSend.SpawnEntity(dog);
-        }
-    }
+            tileManager = new TileManager();
+            objectManager = new ObjectManager();
+            entityManager = new EntityManager();
+            playerManager = new PlayerManager();
 
-    private void FixedUpdate()
-    {
-        TickEntities();
-        SendWorldUpdates();
+            tileManager.Initialize(new Vector2Int(101, 101));
 
-        tick++;
-    }
-
-    private void TickEntities()
-    {
-        foreach (Entity entity in entityManager.entities)
-        {
-            entity.Tick(Time.fixedDeltaTime);
-        }
-    }
-
-    private void SendWorldUpdates()
-    {
-        foreach (Player player in playerManager.players)
-        {
-            ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
-        }
-    }
-
-    public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
-    {
-        List<EntityUpdate> entityUpdates = new List<EntityUpdate>();
-
-        foreach (Entity entity in entityManager.entities)
-        {
-            if (entity is Player player)
+            objectManager.SpawnObject(new Chest
             {
-                if (player.id == excludePlayer)
-                    continue;
+                id = 0,
+                itemType = ItemType.Hoe,
+                itemAmount = 1,
+                position = new Vector2(-1.5f, 2f)
+            });
 
-                PlayerUpdate playerUpdate = new PlayerUpdate
-                {
-                    entityId = player.entityId,
-                    entityType = player.entityType,
-                    position = player.position,
-                    animationState = player.animState,
-                };
+            objectManager.SpawnObject(new Chest
+            {
+                id = 1,
+                type = ObjectType.Chest,
+                itemType = ItemType.Hoe,
+                itemAmount = 1,
+                position = new Vector2(0.5f, 2f)
+            });
 
-                entityUpdates.Add(playerUpdate);
+            objectManager.SpawnObject(new Chest
+            {
+                id = 2,
+                type = ObjectType.Chest,
+                itemType = ItemType.PotatoSeed,
+                itemAmount = 65,
+                position = new Vector2(2.5f, 2f)
+            });
 
-                continue;
+            objectManager.SpawnObject(new Chest
+            {
+                id = 3,
+                type = ObjectType.Chest,
+                itemType = ItemType.CarrotSeed,
+                itemAmount = 65,
+                position = new Vector2(4.5f, 2f)
+            });
+            
+            if (entityManager.SpawnEntity(EntityType.pet, Vector2.right, broadcast: false) is Pet cat)
+            {
+                cat.petType = PetType.Cat;
+                ServerSend.SpawnEntity(cat);
             }
 
-            if (entity is Pet pet)
+            if (entityManager.SpawnEntity(EntityType.pet, Vector2.left, broadcast: false) is Pet dog)
             {
-                PetUpdate petUpdate = new PetUpdate
-                {
-                    entityId = pet.entityId,
-                    entityType = pet.entityType,
-                    position = pet.position,
-                    facingRight = pet.facingRight,
-                    animationState = pet.animationState,
-                };
-
-                entityUpdates.Add(petUpdate);
-
-                continue;
+                dog.petType = PetType.Dog;
+                ServerSend.SpawnEntity(dog);
             }
+        }
 
-            EntityUpdate update = new EntityUpdate
+        private void FixedUpdate()
+        {
+            TickTiles();
+            TickEntities();
+            SendTileUpdates();
+            SendWorldUpdates();
+
+            tick++;
+        }
+
+        private void TickTiles()
+        {
+            foreach (Tile tile in tileManager.tiles)
             {
-                entityId = entity.entityId,
-                entityType = entity.entityType,
-                position = entity.position,
+                tile.Tick(Time.fixedDeltaTime);
+            }
+        }
+
+        private void TickEntities()
+        {
+            foreach (Entity entity in entityManager.entities)
+            {
+                entity.Tick(Time.fixedDeltaTime);
+            }
+        }
+
+        private void SendTileUpdates()
+        {
+            if (tileManager.updatedTiles.Count > 0)
+                ServerSend.UpdateTiles(tileManager.updatedTiles);
+
+            tileManager.updatedTiles.Clear();
+        }
+
+        private void SendWorldUpdates()
+        {
+            foreach (Player player in playerManager.players)
+            {
+                ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
+            }
+        }
+
+        public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
+        {
+            return new WorldUpdate
+            {
+                tick = tick,
+                entityUpdates = entityManager.entities
+                    .Where(entity => entity is not Player player || player.id != excludePlayer)
+                    .Select(entity => entity.GetUpdate())
+                    .ToList(),
             };
-
-            entityUpdates.Add(update);
         }
-
-        return new WorldUpdate
-        {
-            tick = tick,
-            entityUpdates = entityUpdates,
-        };
     }
 }

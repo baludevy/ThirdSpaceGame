@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Settings/3D.asset.meta
 guid: de1e0ccb0d728954696794703bacb254
+========
+guid: d5c61008ab9795c4c8687afd38976779
+>>>>>>>> master:Assets/Sprites/Grass/Layer 4.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

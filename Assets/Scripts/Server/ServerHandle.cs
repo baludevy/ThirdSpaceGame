@@ -1,5 +1,7 @@
 ﻿using LiteNetLib;
 using LiteNetLib.Utils;
+using Types;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Server
@@ -10,7 +12,8 @@ namespace Server
         {
             string username = reader.GetString();
 
-            ServerSend.InitalizeWorld(peer.Id, WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
+            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.tileManager.changedTiles,
+                WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
             WorldManager.Instance.playerManager.SpawnPlayer(peer.Id, username, Vector3.zero);
         }
 
@@ -25,6 +28,15 @@ namespace Server
                 position = position,
                 animState = animState
             });
+        }
+
+        public static void UseHeldItem(NetPeer peer, NetDataReader reader)
+        {
+            int playerId = peer.Id;
+            int tileId = reader.GetInt();
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(playerId);
+            player.UseHeldItem(tileId);
         }
 
         public static void Interact(NetPeer peer, NetDataReader reader)
@@ -52,17 +64,57 @@ namespace Server
             }
         }
 
+        public static void SwitchHotbarSlot(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+            int toIndex = reader.GetByte();
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
+            player.inventory.SwitchHotbarSlot(toIndex);
+        }
+
         public static void InventoryMove(NetPeer peer, NetDataReader reader)
         {
             int id = peer.Id;
 
+            short fromContainer = reader.GetShort();
             int fromIndex = reader.GetByte();
+            short toContainer = reader.GetShort();
             int toIndex = reader.GetByte();
 
-            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Move(fromIndex, toIndex);
+            InventoryManager.Move(id, fromContainer, fromIndex, toContainer, toIndex);
 
-            ServerSend.UpdateInventory(player);
+            ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
+        }
+
+        public static void InventorySplit(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+
+            short fromContainer = reader.GetShort();
+            int fromIndex = reader.GetByte();
+            short toContainer = reader.GetShort();
+            int toIndex = reader.GetByte();
+
+            InventoryManager.Split(id, fromContainer, fromIndex, toContainer, toIndex);
+
+            ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
+        }
+
+        public static void InventoryDrop(NetPeer peer, NetDataReader reader)
+        {
+            int id = peer.Id;
+
+            int fromContainer = reader.GetShort();
+            int fromIndex = reader.GetByte();
+            bool split = reader.GetBool();
+
+            Debug.Log(fromIndex);
+
+            Player player = WorldManager.Instance.playerManager.GetPlayer(id);
+            player.inventory.Drop(fromIndex, split, player.position - Vector2.up);
+
+            ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }
     }
 }

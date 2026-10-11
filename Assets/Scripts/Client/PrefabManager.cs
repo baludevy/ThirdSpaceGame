@@ -6,8 +6,7 @@ using UnityEngine;
 public class PrefabManager : MonoBehaviour
 {
     public static PrefabManager Instance;
-
-
+    
     [SerializeField]
     public Dictionary<ItemType, GameObject> itemPrefabs = new Dictionary<ItemType, GameObject>();
     [SerializeField]

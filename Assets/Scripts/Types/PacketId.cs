@@ -3,7 +3,11 @@
     Username = 1,
     PlayerMove,
     Interact,
+    UseHeldItem,
+    SwitchHotbarSlot,
     InventoryMove,
+    InventorySplit,
+    InventoryDrop, 
 }
 
 public enum ServerPacketId : ushort
@@ -11,8 +15,12 @@ public enum ServerPacketId : ushort
     Welcome = 1,
     InitializeWorld,
     SpawnEntity,
+    SpawnObject,
+    DestroyObject,
     UpdateWorld,
+    UpdateCrop,
     DestroyEntity,
+    UpdateTiles,
     UpdateInventory,
     ChestOpened,
 }

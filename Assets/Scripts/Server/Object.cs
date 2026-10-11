@@ -9,5 +9,10 @@ namespace Server
     
         // === TRANSFORM ===
         public Vector2 position;
+
+        public virtual void Start()
+        {
+            
+        }
     }
 }

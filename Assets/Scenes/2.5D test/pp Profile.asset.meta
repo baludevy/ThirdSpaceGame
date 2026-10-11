@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/2.5D test/pp Profile.asset.meta
 guid: dbd6baa1840c4ca49ba3c12a1f6c4cb6
+========
+guid: d3b8c67ef36a2fb4f9dfdd16c1a08ce6
+>>>>>>>> master:Assets/Misc/Layer 1.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Misc/ReflectionTex.renderTexture.meta
 guid: 24d106d57a52d014fb1e982ccd29488c
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 8400000
+========
+guid: 3b9a849767633454583b49f01650b08f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+>>>>>>>> master:Assets/Animations/Pets/Cat/CatBrown/New Animator Controller.controller.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 

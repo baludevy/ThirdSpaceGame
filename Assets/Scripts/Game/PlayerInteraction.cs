@@ -31,6 +31,7 @@ namespace Game
             
             if(interactableInRange != null)
             {
+                Debug.Log(interactableInRange.GetId());
                 ClientSend.Interact(interactableInRange.GetInteractionKind(), interactableInRange.GetId());
             }
         }

@@ -16,6 +16,7 @@ namespace Server
         {
             inputManager.ProcessInputs();
         }
+
         public void Initialize(int id, string username)
         {
             this.id = id;
@@ -23,6 +24,23 @@ namespace Server
 
             inputManager = new InputManager(this);
             inventory = new Inventory(27);
+        }
+
+        public void UseHeldItem(int tileId)
+        {
+            Item heldItem = inventory.activeItem;
+            heldItem.Use(this, tileId);
+        }
+
+        public override EntityUpdate GetUpdate()
+        {
+            return new PlayerUpdate
+            {
+                entityId = entityId,
+                entityType = entityType,
+                position = position,
+                animationState = animState
+            };
         }
     }
 }

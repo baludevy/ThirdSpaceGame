@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
 guid: 1200bcb759b35a449bf093b39e003ff0
+========
+guid: 7528a6d15ffdb344891cdad78266d8f0
+>>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -103,7 +107,11 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
+<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
   platformSettingsDirtyTick: 639263026644717578
+========
+  platformSettingsDirtyTick: 639266305924554557
+>>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -127,7 +135,11 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
+<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
   - name: Grass
+========
+  - name: activeinvslot
+>>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -139,7 +151,11 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 32
+<<<<<<<< HEAD:Assets/Sprites/Grass.aseprite.meta
     spriteID: 7f61f24fa93de57449832a64eb8a0311
+========
+    spriteID: b3e024f704ca18c4fb6c594bd2afbdc1
+>>>>>>>> master:Assets/Sprites/Inventory_Slot_Active.aseprite.meta
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -162,7 +178,7 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 32
-    spriteID: 7f61f24fa93de57449832a64eb8a0311
+    spriteID: 54451489992e851488bfc58b2af1643f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -192,7 +208,7 @@ ScriptedImporter:
         y: 0
         width: 32
         height: 32
-      spriteId: 7f61f24fa93de57449832a64eb8a0311
+      spriteId: 54451489992e851488bfc58b2af1643f
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

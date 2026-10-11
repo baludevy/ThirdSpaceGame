@@ -1,4 +1,6 @@
 ﻿public enum ObjectType
 {
-    chest,
+    Chest,
+    Barrel,
+    Crop
 }

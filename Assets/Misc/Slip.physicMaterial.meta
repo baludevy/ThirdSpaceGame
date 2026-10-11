@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Misc/Slip.physicMaterial.meta
 guid: 336a19ec6afb95c49a2efaa360010d17
+========
+guid: d7bb58a0196ae6f47885173b7698b352
+>>>>>>>> master:Assets/Sprites/Grass/Layer 3.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 13400000

@@ -22,7 +22,7 @@ namespace Client
                 Destroy(this);
         }
 
-        public void AddObject(ushort id, ObjectType type, Vector2 position)
+        public Object SpawnObject(ushort id, ObjectType type, Vector2 position)
         {
             GameObject go = Instantiate(objectPrefabs[type], position, Quaternion.identity);
             Object obj = go.GetComponent<Object>();
@@ -31,6 +31,14 @@ namespace Client
             obj.type = type;
 
             objects.Add(obj);
+
+            return obj;
+        }
+
+        public void DestroyObject(ushort id)
+        {
+            Destroy(GetObject(id).gameObject);
+            objects.Remove(GetObject(id));
         }
 
         public Object GetObject(ushort id) => objects.Find(x => x.id == id);

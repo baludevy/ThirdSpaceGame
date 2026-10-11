@@ -1,76 +1,89 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using Types;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Client
 {
-    public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    public class InventorySlot : MonoBehaviour
     {
-        public int slotIndex;
+        [NonSerialized] public int slotIndex;
+        [NonSerialized] public Item item;
+        [NonSerialized] public int itemCount;
 
-        public ItemType itemType;
-        private int itemCount;
+        public Sprite itemSprite => itemImage.sprite;
 
-        [SerializeField]
-        private TMP_Text itemCountText;
-        [SerializeField]
-        private Image itemImage;
+        [SerializeField] private TMP_Text itemCountText;
+        [SerializeField] private Image itemImage;
+        [SerializeField] private Image slotImage;
+        [SerializeField] private Sprite activeSprite;
+        [SerializeField] private Sprite inactiveSprite;
 
-        [SerializeField]
-        private Image slotImage;
-        [SerializeField]
-        private Sprite activeSprite;
-        [SerializeField]
-        private Sprite inactiveSprite;
+        private bool isHeld;
+        private int? previewCount;
 
         public void SetActive(bool active)
         {
             slotImage.sprite = active ? activeSprite : inactiveSprite;
         }
 
+        public void SetHeld(bool held)
+        {
+            isHeld = held;
+            RefreshItemVisibility();
+        }
+
+        public void SetPreviewCount(int? count)
+        {
+            previewCount = count;
+            RefreshItemVisibility();
+        }
+
         public void UpdateSlot(ItemType itemType, int itemCount)
         {
+            this.item = CreateItem(itemType);
+            this.itemCount = itemCount;
+
             if (itemCount > 0)
+                itemImage.sprite = ItemCatalog.Instance.GetItem(itemType).Sprite;
+            else
+                itemImage.sprite = null;
+
+
+            RefreshItemVisibility();
+        }
+
+        private void RefreshItemVisibility()
+        {
+            int displayedCount = itemCount;
+
+            if (previewCount.HasValue)
+                displayedCount = previewCount.Value;
+
+            bool visible = displayedCount > 0 && !isHeld;
+
+            itemImage.gameObject.SetActive(visible);
+            itemCountText.gameObject.SetActive(visible);
+            
+            if (item.type != ItemType.Empty && ItemCatalog.Instance.GetItem(item.type).Stackable)
             {
-                this.itemType = itemType;
-                this.itemCount = itemCount;
-
-                itemImage.gameObject.SetActive(true);
-
-                itemCountText.text = itemCount.ToString();
-                itemImage.sprite = Inventory.Instance.itemSprites[itemType];
+                itemCountText.text = visible ? displayedCount.ToString() : "";
             }
             else
             {
-                itemImage.gameObject.SetActive(false);
-
-                itemImage.sprite = null;
                 itemCountText.text = "";
             }
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public static Item CreateItem(ItemType itemType)
         {
-            if (itemCount <= 0)
-                return;
-
-            Inventory.Instance.BeginDrag(this, itemImage.sprite, eventData.position);
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            Inventory.Instance.MoveDragPreview(eventData.position);
-        }
-
-        public void OnDrop(PointerEventData eventData)
-        {
-            Inventory.Instance.DropOn(this);
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            Inventory.Instance.EndDrag();
+            return itemType switch
+            {
+                ItemType.CarrotSeed or ItemType.PotatoSeed => new Seed(itemType),
+                ItemType.Pickaxe or ItemType.Shovel or ItemType.Hoe => new Tool(itemType),
+                _ => new Item(itemType)
+            };
         }
     }
 }
