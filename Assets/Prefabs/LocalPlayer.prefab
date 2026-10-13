@@ -595,6 +595,7 @@ GameObject:
   - component: {fileID: 575424820943007910}
   - component: {fileID: 1361597052383612930}
   - component: {fileID: 9159451144839705100}
+  - component: {fileID: 3756631628920816014}
   m_Layer: 7
   m_Name: ReflectionCamera
   m_TagString: Untagged
@@ -728,6 +729,19 @@ MonoBehaviour:
   waterPlane: {fileID: 0}
   reflectionTexture: {fileID: 8400000, guid: 24d106d57a52d014fb1e982ccd29488c, type: 2}
   clipOffset: -0.5
+--- !u!114 &3756631628920816014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4074437185858522431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab6c96d07314adfbf102326dcc2bc0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.ReflectionCamera
+  cam: {fileID: 0}
 --- !u!1 &4848365823093484103
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using Game;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -27,6 +28,13 @@ public class MirrorSprite : MonoBehaviour
         if(!target) target = GetComponent<SpriteRenderer>();
         if(properties == null) properties = new MaterialPropertyBlock();
         RenderPipelineManager.beginCameraRendering += BeforeCameraRender;
+
+
+    }
+
+    void Start()
+    {
+        reflectionCamera = ReflectionCamera.Instance.cam;
     }
 
     void LateUpdate() => CopySprite();

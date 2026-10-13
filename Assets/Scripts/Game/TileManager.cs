@@ -84,8 +84,9 @@ namespace Game
                     Vector2Int position =
                         new Vector2Int(x - xOffset, z - zOffset);
 
-                    GameObject block =
-                        GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    GameObject block = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+                    Destroy(block.GetComponent<Collider>());
 
                     block.name = $"Block {position.x}, {position.y}";
                     block.transform.SetParent(transform, false);

@@ -14,7 +14,8 @@ namespace Client
         {
             if (renderer != null)
             {
-                renderer.flipX = facingRight;
+                
+                transform.localScale = facingRight ? new Vector3(-1, 1, 1 ) : new Vector3(1, 1, 1);
             }
             
             if (animator == null) return;

@@ -1,4 +1,5 @@
 using System;
+using Game;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -17,6 +18,8 @@ public class PlanarReflection : MonoBehaviour
 
     void OnEnable()
     {
+        waterPlane = WaterPlane.Instance.plane;
+        
         reflectionCamera = GetComponent<Camera>();
         reflectionCamera.enabled = false;
         UniversalAdditionalCameraData data = reflectionCamera.GetUniversalAdditionalCameraData();

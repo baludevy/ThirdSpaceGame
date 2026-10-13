@@ -20,12 +20,12 @@ namespace Server
 
         public override void Tick(float deltaTime)
         {
-            stateTimeRemaining -= deltaTime;  
+            stateTimeRemaining -= deltaTime;
 
-            if(stateTimeRemaining <= 0f || animationState == PetAnimationState.Walk && target == null)
+            if (stateTimeRemaining <= 0f || animationState == PetAnimationState.Walk && target == null)
             {
                 ChooseBehavior();
-            } 
+            }
 
             if (animationState != PetAnimationState.Walk || target == null)
             {
@@ -34,7 +34,7 @@ namespace Server
 
             Vector3 offset = target.position - position;
 
-            if(offset.x > 0f)
+            if (offset.x > 0f)
                 facingRight = true;
             else if (offset.x < 0f)
                 facingRight = false;
@@ -42,27 +42,31 @@ namespace Server
             const float followDistance = 2f;
             const float speed = 0.04f;
 
-            if(offset.sqrMagnitude <= followDistance * followDistance)
+            if (offset.sqrMagnitude <= followDistance * followDistance)
             {
                 animationState = PetAnimationState.Idle;
                 return;
             }
 
-            if(Mathf.Abs(offset.x) > followDistance)
+            if (Mathf.Abs(offset.x) > followDistance)
             {
                 position = new Vector3(
                     Mathf.MoveTowards(position.x, target.position.x, speed),
                     position.y,
                     position.z
                 );
+
+                Debug.Log(target.position.x);
             }
             else
             {
                 position = new Vector3(
                     position.x,
-                    Mathf.MoveTowards(position.y, target.position.y, speed),
-                    position.z
+                    position.y,
+                    Mathf.MoveTowards(position.z, target.position.z, speed)
                 );
+
+                Debug.Log(target.position.z);
             }
         }
 
@@ -73,12 +77,12 @@ namespace Server
 
             float choice = Random.value;
 
-            if(choice < 0.4f)
+            if (choice < 0.4f)
             {
                 animationState = PetAnimationState.Idle;
                 stateTimeRemaining = Random.Range(2f, 4f);
             }
-            else if(choice < 0.1f || players == null || players.Count == 0)
+            else if (choice < 0.1f || players == null || players.Count == 0)
             {
                 animationState = PetAnimationState.Sleep;
                 stateTimeRemaining = Random.Range(5f, 10f);

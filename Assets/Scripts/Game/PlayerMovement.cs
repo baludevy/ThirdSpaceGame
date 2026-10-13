@@ -106,7 +106,7 @@ namespace Game
 
             rb.linearVelocity = movement * currentSpeed * Time.deltaTime;
 
-            // ClientSend.PlayerMove(transform.position, lastAnimState);
+            ClientSend.PlayerMove(transform.position, lastAnimState);
         }
 
         //asked
