@@ -1,7 +1,6 @@
 ﻿using Game;
 using LiteNetLib.Utils;
 using Types;
-using UnityEditor;
 using UnityEngine;
 
 namespace Client
@@ -122,8 +121,8 @@ namespace Client
         {
             int tileId = reader.GetInt();
             TileType tileType = (TileType)reader.GetByte();
-
-            TileManager.Instance.ModifyTile(tileId, tileType);
+            
+            // modify tile
         }
 
         private static void ReadObject(NetDataReader reader)
@@ -168,7 +167,7 @@ namespace Client
                 case EntityType.pet:
                     PetType petType = (PetType)reader.GetByte();
 
-                    EntityManager.Instance.ReplicateEntity(entityId, type, position, PetCatalog.Instance.GetPet(petType).Prefab);
+                    EntityManager.Instance.ReplicateEntity(entityId, type, position, Catalog.Instance.GetPet(petType).Prefab);
                     break;
 
 
@@ -176,7 +175,7 @@ namespace Client
                     ItemType itemType = (ItemType)reader.GetByte();
 
                     DroppedItem droppedItem =
-                        EntityManager.Instance.ReplicateEntity(entityId, type, position, ItemCatalog.Instance.GetItem(itemType).DroppedPrefab) as DroppedItem;
+                        EntityManager.Instance.ReplicateEntity(entityId, type, position, Catalog.Instance.GetItem(itemType).DroppedPrefab) as DroppedItem;
 
                     if (playSpawnEffect && droppedItem != null && droppedItem.TryGetComponent(out BounceEffect bounce))
                         bounce.StartBounce();
@@ -201,44 +200,40 @@ namespace Client
             if (entity == null)
                 return;
 
-            switch (type)
+            if (type == EntityType.player)
             {
-                case EntityType.player:
-                    AnimationState animationState = (AnimationState)reader.GetByte();
+                AnimationState animationState = (AnimationState)reader.GetByte();
 
-                    EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new PlayerSnapshot
-                    {
-                        time = Time.time,
-                        position = position,
-                        animationState = animationState,
-                    });
+                EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new PlayerSnapshot
+                {
+                    time = Time.time,
+                    position = position,
+                    animationState = animationState
+                });
 
-                    break;
+            }
+            else if (type == EntityType.pet)
+            {
+                bool facingRight = reader.GetBool();
+                PetAnimationState petAnimationState = (PetAnimationState)reader.GetByte();
 
+                EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new PetSnapshot
+                {
+                    time = Time.time,
+                    position = position,
+                    facingRight = facingRight,
+                    animationState = petAnimationState
+                });
 
-                case EntityType.pet:
-                    bool facingRight = reader.GetBool();
-                    PetAnimationState petAnimationState = (PetAnimationState)reader.GetByte();
+            }
+            else if (type == EntityType.item)
+            {
+                EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new EntitySnapshot
+                {
+                    time = Time.time,
+                    position = position
+                });
 
-                    EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new PetSnapshot
-                    {
-                        time = Time.time,
-                        position = position,
-                        facingRight = facingRight,
-                        animationState = petAnimationState,
-                    });
-
-                    break;
-
-
-                default:
-                    EntityInterpolationManager.Instance.AddSnapshot(entity, tick, new EntitySnapshot
-                    {
-                        time = Time.time,
-                        position = position,
-                    });
-
-                    break;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace Server
             if (opened)
                 return;
 
-            ItemDefinition definition = ItemCatalog.Instance.GetItem(itemType);
+            ItemDefinition definition = Catalog.Instance.GetItem(itemType);
 
             if (definition == null || itemAmount <= 0)
                 return;

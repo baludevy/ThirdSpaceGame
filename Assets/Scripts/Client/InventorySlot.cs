@@ -46,7 +46,7 @@ namespace Client
             this.itemCount = itemCount;
 
             if (itemCount > 0)
-                itemImage.sprite = ItemCatalog.Instance.GetItem(itemType).Sprite;
+                itemImage.sprite = Catalog.Instance.GetItem(itemType).Sprite;
             else
                 itemImage.sprite = null;
 
@@ -66,7 +66,7 @@ namespace Client
             itemImage.gameObject.SetActive(visible);
             itemCountText.gameObject.SetActive(visible);
             
-            if (item.type != ItemType.Empty && ItemCatalog.Instance.GetItem(item.type).Stackable)
+            if (item.type != ItemType.Empty && Catalog.Instance.GetItem(item.type).Stackable)
             {
                 itemCountText.text = visible ? displayedCount.ToString() : "";
             }

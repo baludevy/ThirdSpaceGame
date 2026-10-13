@@ -1,9 +1,12 @@
 ﻿public enum ClientPacketId : ushort
 {
     Username = 1,
+    
     PlayerMove,
+    
     Interact,
     UseHeldItem,
+    
     SwitchHotbarSlot,
     InventoryMove,
     InventorySplit,
@@ -13,14 +16,19 @@
 public enum ServerPacketId : ushort
 {
     Welcome = 1,
+    
     InitializeWorld,
+    
     SpawnEntity,
     SpawnObject,
+    
+    DestroyEntity,
     DestroyObject,
+    
     UpdateWorld,
     UpdateCrop,
-    DestroyEntity,
     UpdateTiles,
     UpdateInventory,
+    
     ChestOpened,
 }

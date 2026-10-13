@@ -29,7 +29,7 @@ namespace Game
 
         public void Interact()
         {
-            Debug.Log("Interacting with chest");
+            
         }
 
         public ushort GetId() => id;

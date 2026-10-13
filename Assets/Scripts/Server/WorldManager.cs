@@ -74,7 +74,7 @@ namespace Server
             
             if (entityManager.SpawnEntity(EntityType.pet, Vector3.right, broadcast: false) is Pet cat)
             {
-                cat.petType = PetType.WhiteCat;
+                cat.petType = PetType.BrownCat;
                 ServerSend.SpawnEntity(cat);
             }
 

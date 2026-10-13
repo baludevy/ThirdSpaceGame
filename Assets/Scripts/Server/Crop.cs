@@ -1,5 +1,7 @@
-﻿using Types;
+﻿using System;
+using Types;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Server
 {
@@ -14,10 +16,10 @@ namespace Server
 
         public void Interact(Player player)
         {
-            ItemDefinition definition = ItemCatalog.Instance.GetItem(ItemType.Carrot);
+            ItemDefinition definition = Catalog.Instance.GetItem(ItemType.Carrot);
 
             if (cropType == CropType.Potato)
-                definition = ItemCatalog.Instance.GetItem(ItemType.Potato);
+                definition = Catalog.Instance.GetItem(ItemType.Potato);
             
             Item item = CreateItem(definition, Random.Range(1, 3));
             Vector3 pos = position - Vector3.up * 0.75f;
@@ -39,6 +41,7 @@ namespace Server
             {
                 ItemType.Potato => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Potato },
                 ItemType.Carrot => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Carrot },
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
 
