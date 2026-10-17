@@ -78,11 +78,11 @@ namespace Server
                 ServerSend.SpawnEntity(cat);
             }
 
-            if (entityManager.SpawnEntity(EntityType.pet, Vector3.left, broadcast: false) is Pet dog)
+            /*if (entityManager.SpawnEntity(EntityType.pet, Vector3.left, broadcast: false) is Pet dog)
             {
                 dog.petType = PetType.BrownDog;
                 ServerSend.SpawnEntity(dog);
-            }
+            }*/
         }
 
         private void FixedUpdate()
