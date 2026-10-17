@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e8710c29cd86ee148b76bf765b586d86
+guid: 94c75c9488ed93d4395f4a416e07a2b8
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,10 +136,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 26
+      y: 4
       width: 16
-      height: 13
-    spriteID: ef07ea4a33bfb894eb39d416e838f3fa
+      height: 14
+    spriteID: ef8a8fc1896f3c84e822f3f8c0c9a2e3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -147,7 +147,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 26}
+    uvTransform: {x: 4, y: 4}
   - name: Frame_1
     originalName: 
     pivot: {x: 0.5, y: 0}
@@ -157,10 +157,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 47
+      y: 26
       width: 16
       height: 13
-    spriteID: 0c16391f998003c45bdac93c06109ac0
+    spriteID: d2587bfa7c2e44a4d85dae3d2084d61a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -168,81 +168,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 47}
-  - name: Frame_2
-    originalName: 
-    pivot: {x: 0.5, y: -0.07692308}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 28
-      y: 4
-      width: 16
-      height: 13
-    spriteID: e22fedb2f2d3883478eed366d34062d8
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 28, y: 4}
-  - name: Frame_3
-    originalName: 
-    pivot: {x: 0.5, y: -0.07692308}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 28
-      y: 25
-      width: 16
-      height: 13
-    spriteID: 843eec025b158c9499c560383fe24207
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 28, y: 25}
-  - name: Frame_4
-    originalName: 
-    pivot: {x: 0.5, y: -0.071428575}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 4
-      width: 16
-      height: 14
-    spriteID: 36f16685a409a9a459e73676e2f2bd65
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 4, y: 26}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 4043748614
+      value0: 915228504
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: dog_waking_up
+    name: dog_walk
     layerFlags: 0
     layerType: 0
     blendMode: 0
@@ -254,8 +191,8 @@ ScriptedImporter:
         x: 0
         y: 0
         width: 16
-        height: 13
-      spriteId: ef07ea4a33bfb894eb39d416e838f3fa
+        height: 14
+      spriteId: ef8a8fc1896f3c84e822f3f8c0c9a2e3
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -264,34 +201,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 13
-      spriteId: 0c16391f998003c45bdac93c06109ac0
-    - name: Frame_2
-      frameIndex: 2
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 1
-        width: 16
-        height: 13
-      spriteId: e22fedb2f2d3883478eed366d34062d8
-    - name: Frame_3
-      frameIndex: 3
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 1
-        width: 16
-        height: 13
-      spriteId: 843eec025b158c9499c560383fe24207
-    - name: Frame_4
-      frameIndex: 4
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 1
-        width: 16
-        height: 14
-      spriteId: 36f16685a409a9a459e73676e2f2bd65
+      spriteId: d2587bfa7c2e44a4d85dae3d2084d61a
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -324,5 +234,5 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   generatePhysicsShape: 0
   secondarySpriteTextures: []
-  previousTextureSize: {x: 64, y: 64}
+  previousTextureSize: {x: 32, y: 64}
   canvasSize: {x: 16, y: 16}
