@@ -61,7 +61,7 @@ namespace Client
 
         public static void InventorySplit(int fromContainer, int fromIndex, int toContainer, int toIndex)
         {
-            NetworkManager.Instance.Client  .SendPacket(ClientPacketId.InventorySplit, writer =>
+            NetworkManager.Instance.Client.SendPacket(ClientPacketId.InventorySplit, writer =>
             {
                 writer.Put((short)fromContainer);
                 writer.Put((byte)fromIndex);

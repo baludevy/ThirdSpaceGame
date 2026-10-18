@@ -17,11 +17,6 @@ namespace Client
 
         public static void InitializeWorld(NetDataReader reader)
         {
-            int tileCount = reader.GetInt();
-
-            for (int i = 0; i < tileCount; i++)
-                ReadTile(reader);
-
             int objectCount = reader.GetInt();
 
             for (int i = 0; i < objectCount; i++)
@@ -46,7 +41,7 @@ namespace Client
         public static void DestroyObject(NetDataReader reader)
         {
             ushort objectId = reader.GetUShort();
-            
+
             ObjectManager.Instance.DestroyObject(objectId);
         }
 
@@ -54,8 +49,11 @@ namespace Client
         {
             ushort cropId = reader.GetUShort();
             int cropPhase = reader.GetByte();
-            
-            CropManager.Instance.UpdateCrop(cropId, cropPhase);
+
+            Crop crop = ObjectManager.Instance.GetObject(cropId) as Crop;
+
+            if (crop != null)
+                crop.SetCropPhase(cropPhase);
         }
 
         public static void UpdateInventory(NetDataReader reader)
@@ -85,16 +83,6 @@ namespace Client
             }
         }
 
-        public static void UpdateTiles(NetDataReader reader)
-        {
-            int updatedTileCount = reader.GetInt();
-
-            for (int i = 0; i < updatedTileCount; i++)
-            {
-                ReadTile(reader);
-            }
-        }
-
         public static void UpdateWorld(NetDataReader reader)
         {
             uint tick = reader.GetUInt();
@@ -117,25 +105,22 @@ namespace Client
             ObjectManager.Instance.GetObject(objectId).GetComponent<Chest>().SetOpened(opened);
         }
 
-        private static void ReadTile(NetDataReader reader)
-        {
-            int tileId = reader.GetInt();
-            TileType tileType = (TileType)reader.GetByte();
-            
-            // modify tile
-        }
-
         private static void ReadObject(NetDataReader reader)
         {
             ushort objectId = reader.GetUShort();
             ObjectType type = (ObjectType)reader.GetByte();
             Vector3 position = reader.GetVector3();
-            
+
             if (type == ObjectType.Crop)
             {
                 CropType cropType = (CropType)reader.GetByte();
                 int cropPhase = reader.GetByte();
-                CropManager.Instance.SpawnCrop(objectId, cropType, cropPhase, position);
+
+                Crop crop = ObjectManager.Instance.SpawnObject(objectId, type, position) as Crop;
+
+                if (crop != null)
+                    crop.SetCropType(cropType);
+
                 return;
             }
 

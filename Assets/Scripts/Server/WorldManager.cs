@@ -1,60 +1,42 @@
 ﻿using System;
 using System.Linq;
 using Types;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Server
 {
     public class WorldManager : MonoBehaviour
     {
-        public static WorldManager Instance;
-
         public uint tick;
-
-        [NonSerialized]
-        public TileManager tileManager;
-
+        public static WorldManager Instance;
+        
         [NonSerialized]
         public ObjectManager objectManager;
-
         [NonSerialized]
         public EntityManager entityManager;
-
         [NonSerialized]
         public PlayerManager playerManager;
 
-        public bool IsInitialized { get; private set; }
 
         private void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
+            if (Instance == null)
+                Instance = this;
+            else
                 Destroy(this);
-                return;
-            }
-
-            Instance = this;
         }
 
-        public void ResetSession()
+        private void Start()
         {
-            ClearSession();
-
-            tileManager = new TileManager();
             objectManager = new ObjectManager();
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
+            
+            ItemHelper.CreateDroppedItem(ItemType.Potato, 30, new Vector3(2, -0.35f, 2));
 
-            objectManager.objects.Clear();
-            objectManager.nextObjectId = 0;
-
-            tileManager.Initialize(new Vector2Int(101, 101));
-
-            objectManager.SpawnObject(new Chest
+            /* objectManager.SpawnObject(new Chest
             {
-                type = ObjectType.Chest,
+                id = 0,
                 itemType = ItemType.Hoe,
                 itemAmount = 1,
                 position = new Vector3(-1.5f, 2f, 0f)
@@ -62,6 +44,7 @@ namespace Server
 
             objectManager.SpawnObject(new Chest
             {
+                id = 1,
                 type = ObjectType.Chest,
                 itemType = ItemType.Hoe,
                 itemAmount = 1,
@@ -70,6 +53,7 @@ namespace Server
 
             objectManager.SpawnObject(new Chest
             {
+                id = 2,
                 type = ObjectType.Chest,
                 itemType = ItemType.PotatoSeed,
                 itemAmount = 65,
@@ -78,85 +62,42 @@ namespace Server
 
             objectManager.SpawnObject(new Chest
             {
+                id = 3,
                 type = ObjectType.Chest,
                 itemType = ItemType.CarrotSeed,
                 itemAmount = 65,
                 position = new Vector3(4.5f, 2f, 0f)
-            });
-
-            if (entityManager.SpawnEntity(EntityType.pet, Vector3.right, broadcast: false)is Pet cat)
-                cat.petType = PetType.BrownCat;
-
-            IsInitialized = true;
-        }
-
-        public void ClearSession()
-        {
-            IsInitialized = false;
-            tick = 0;
-
-            if (playerManager != null)
-                playerManager.players.Clear();
-
-            if (entityManager != null)
-            {
-                entityManager.entities.Clear();
-                entityManager.nextEntityID = 0;
-            }
-
-            if (objectManager != null)
-            {
-                objectManager.objects.Clear();
-                objectManager.nextObjectId = 0;
-            }
-
-            if (tileManager != null)
-                tileManager.updatedTiles.Clear();
-
-            tileManager = null;
-            objectManager = null;
-            entityManager = null;
-            playerManager = null;
+            }); */
         }
 
         private void FixedUpdate()
         {
-            if (!IsInitialized || NetworkManager.Instance == null ||
-                !NetworkManager.Instance.Server.running)
-                return;
-
             TickTiles();
             TickEntities();
-            SendTileUpdates();
-            SendWorldUpdate();
+            SendWorldUpdates();
 
             tick++;
-        } 
+        }
 
         private void TickTiles()
         {
-            foreach (Tile tile in tileManager.tiles)
-                tile.Tick(Time.fixedDeltaTime);
+            
         }
 
         private void TickEntities()
         {
-            foreach (Entity entity in entityManager.entities.ToArray())
+            foreach (Entity entity in entityManager.entities)
+            {
                 entity.Tick(Time.fixedDeltaTime);
+            }
         }
 
-        private void SendTileUpdates()
+        private void SendWorldUpdates()
         {
-            if (tileManager.updatedTiles.Count > 0)
-                ServerSend.UpdateTiles(tileManager.updatedTiles);
-
-            tileManager.updatedTiles.Clear();
-        }
-
-        private void SendWorldUpdate()
-        {
-            foreach (Player player in playerManager.players.ToArray())
+            foreach (Player player in playerManager.players)
+            {
                 ServerSend.UpdateWorld(player.id, GetWorldUpdate(player.id));
+            }
         }
 
         public WorldUpdate GetWorldUpdate(int excludePlayer = -1)
@@ -167,17 +108,8 @@ namespace Server
                 entityUpdates = entityManager.entities
                     .Where(entity => entity is not Player player || player.id != excludePlayer)
                     .Select(entity => entity.GetUpdate())
-                    .ToList()
+                    .ToList(),
             };
-        }
-
-        private void OnDestroy()
-        {
-            if (Instance != this)
-                return;
-
-            ClearSession();
-            Instance = null;
         }
     }
 }

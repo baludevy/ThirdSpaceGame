@@ -14,18 +14,13 @@ namespace Server
                 writer.Put(id));
         }
 
-        public static void InitializeWorld(int id, List<Tile> tiles, List<Object> objects, List<Entity> entities)
+        public static void InitializeWorld(int id, List<Object> objects, List<Entity> entities)
         {
             NetworkManager.Instance.Server.SendPacketTo(
                 ServerPacketId.InitializeWorld,
                 id,
                 writer =>
                 {
-                    writer.Put(tiles.Count);
-
-                    foreach (Tile tile in tiles)
-                        WriteTile(writer, tile);
-
                     writer.Put(objects.Count);
 
                     foreach (Object obj in objects)
@@ -61,20 +56,6 @@ namespace Server
                 ServerPacketId.DestroyObject,
                 writer => writer.Put(id)
             );
-        }
-
-        public static void UpdateTiles(List<Tile> updatedTiles)
-        {
-            NetworkManager.Instance.Server.SendPacketToAll(
-                ServerPacketId.UpdateTiles, writer =>
-                {
-                    writer.Put(updatedTiles.Count);
-
-                    foreach (Tile tile in updatedTiles)
-                    {
-                        WriteTile(writer, tile);
-                    }
-                });
         }
 
         public static void UpdateWorld(int targetId, WorldUpdate update)
@@ -150,12 +131,6 @@ namespace Server
                     writer.Put(opened);
                 }
             );
-        }
-
-        private static void WriteTile(NetDataWriter writer, Tile tile)
-        {
-            writer.Put(tile.tileId);
-            writer.Put((byte)tile.tileType);
         }
 
         private static void WriteEntity(NetDataWriter writer, Entity entity)

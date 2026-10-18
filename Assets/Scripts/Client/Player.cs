@@ -43,7 +43,7 @@ namespace Client
             else if (animState == AnimationState.left)
             {
                 if (sprite != null)
-                    sprite.flipX = false;
+                    sprite.transform.localScale = new Vector3(1, 1, 1);
 
                 if (animator != null)
                     animator.SetBool(Side, true);
@@ -51,7 +51,7 @@ namespace Client
             else if (animState == AnimationState.right)
             {
                 if (sprite != null)
-                    sprite.flipX = true;
+                    sprite.transform.localScale = new Vector3(-1, 1, 1);
 
                 if (animator != null)
                     animator.SetBool(Side, true);
