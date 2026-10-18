@@ -20,19 +20,20 @@ namespace Client
         [SerializeField] private RectTransform hotbarPanel;
         [SerializeField] private GameObject slotPrefab;
         [SerializeField] private Canvas uiCanvas;
-
         [SerializeField] private GameObject dragPreviewPrefab;
 
         private readonly List<InventorySlot> slots = new();
         private readonly List<RaycastResult> pointerHits = new();
 
         private int activeHotbarSlotIndex;
-
         private InventorySlot draggedSlot;
         private GameObject dragPreviewObject;
         private bool splitDrag;
-        
+
         public Item currentItem { get; private set; }
+
+        private bool IsConnected => NetworkManager.Instance != null &&
+                                    NetworkManager.Instance.Client.connected;
 
         private void Awake()
         {
@@ -51,7 +52,7 @@ namespace Client
             {
                 InventorySlot slot = Instantiate(slotPrefab, inventoryPanel).GetComponent<InventorySlot>();
                 slot.slotIndex = i;
-                slot.UpdateSlot(default, 0);
+                slot.UpdateSlot(ItemType.Empty, 0);
                 slots.Add(slot);
             }
 
@@ -59,18 +60,46 @@ namespace Client
             {
                 InventorySlot slot = Instantiate(slotPrefab, hotbarPanel).GetComponent<InventorySlot>();
                 slot.slotIndex = hotbarStartIndex + i;
-                slot.UpdateSlot(default, 0);
+                slot.UpdateSlot(ItemType.Empty, 0);
                 slots.Add(slot);
             }
 
             RefreshHotbar();
         }
 
+        public void Clear()
+        {
+            ClearHeldItem();
+
+            pointerHits.Clear();
+            activeHotbarSlotIndex = 0;
+            currentItem = null;
+
+            foreach (var slot in slots)
+            {
+                if (slot == null)
+                    continue;
+
+                slot.SetPreviewCount(null);
+                slot.SetHeld(false);
+                slot.UpdateSlot(ItemType.Empty, 0);
+            }
+
+            if (inventoryPanel != null)
+                inventoryPanel.gameObject.SetActive(false);
+
+            RefreshHotbar();
+        }
+
         private void Update()
         {
+            if (!IsConnected)
+                return;
+
             HandleItemClicks();
 
             Keyboard keyboard = Keyboard.current;
+
             if (keyboard == null || slots.Count != slotCount)
                 return;
 
@@ -111,9 +140,12 @@ namespace Client
 
             InventorySlot slot = slots[slotIndex];
 
-            // Cancel holding if the server changes the source stack.
-            if (slot == draggedSlot && (slot.itemCount != itemCount || !EqualityComparer<ItemType>.Default.Equals(slot.item.type, itemType)))
+            if (slot == draggedSlot &&
+                (slot.itemCount != itemCount || slot.item == null ||
+                 !EqualityComparer<ItemType>.Default.Equals(slot.item.type, itemType)))
+            {
                 ClearHeldItem();
+            }
 
             slot.UpdateSlot(itemType, itemCount);
             RefreshHotbar();
@@ -121,6 +153,9 @@ namespace Client
 
         public void ToggleInventory()
         {
+            if (!IsConnected)
+                return;
+
             ClearHeldItem();
             inventoryPanel.gameObject.SetActive(!inventoryPanel.gameObject.activeSelf);
         }
@@ -134,6 +169,7 @@ namespace Client
             }
 
             Mouse mouse = Mouse.current;
+
             if (mouse == null || EventSystem.current == null)
                 return;
 
@@ -163,6 +199,7 @@ namespace Client
                     return;
 
                 bool split = rightClick && !leftClick;
+
                 if (split && clickedSlot.itemCount < 2)
                     return;
 
@@ -194,6 +231,7 @@ namespace Client
             }
 
             bool overUI = hit != null && hit.GetComponentInParent<Canvas>() != null;
+
             if (overUI || IsOverInventory(position))
                 return;
 
@@ -245,7 +283,10 @@ namespace Client
             splitDrag = false;
 
             if (dragPreviewObject != null)
+            {
+                dragPreviewObject.SetActive(false);
                 Destroy(dragPreviewObject);
+            }
 
             dragPreviewObject = null;
         }
@@ -314,7 +355,8 @@ namespace Client
 
         private static bool IsInsidePanel(RectTransform panel, Vector2 position, Camera camera)
         {
-            return panel != null && panel.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(panel, position, camera);
+            return panel != null && panel.gameObject.activeInHierarchy &&
+                   RectTransformUtility.RectangleContainsScreenPoint(panel, position, camera);
         }
 
         private void OnDisable()
@@ -330,4 +372,4 @@ namespace Client
                 Instance = null;
         }
     }
-}
+}   

@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Client
 {
+    
     public class EntityInterpolationManager : MonoBehaviour
     {
         public static EntityInterpolationManager Instance;
 
-        private readonly Dictionary<ushort, SnapshotBuffer> buffers = new();
+        private readonly Dictionary<ushort, SnapshotBuffer>buffers = new();
 
         private bool hasClock;
         private uint firstTick;
@@ -29,9 +30,19 @@ namespace Client
             Instance = this;
         }
 
+        private void Clear()
+        {
+            buffers.Clear();
+            hasClock = false;
+            firstTick = 0;
+            latestTick = 0;
+            clockOffset = 0;
+        }
+
         public void AddSnapshot(Entity entity, uint tick, EntitySnapshot snapshot)
         {
-            if (entity == null) return;
+            if (entity == null || snapshot == null)
+                return;
 
             if (!hasClock)
             {
@@ -42,7 +53,7 @@ namespace Client
             }
 
             snapshot.tick = tick;
-            snapshot.time = (tick - firstTick) * worldUpdateInterval;
+            snapshot.time =(tick - firstTick) * worldUpdateInterval;
 
             if (tick > latestTick)
             {
@@ -57,21 +68,25 @@ namespace Client
             }
 
             buffer.Add(snapshot);
-        }
+            }
 
-        private void Update()
+            private void Update()
+            {
+                if (!hasClock)
+                    return;
+
+                float renderTime = Time.time - clockOffset - interpolationSeconds;
+
+                foreach (SnapshotBuffer buffer in buffers.Values)
+                        buffer.Interpolate(renderTime);
+            }
+
+            public void OnDestroy()
         {
-            if (!hasClock) return;
+            Clear();
 
-            float renderTime = Time.time - clockOffset - interpolationSeconds;
-
-            foreach (SnapshotBuffer buffer in buffers.Values)
-                buffer.Interpolate(renderTime);
-        }
-
-        public void RemoveEntity(ushort entityId)
-        {
-            buffers.Remove(entityId);
+            if (Instance == this)
+                Instance = null;
         }
 
         private class SnapshotBuffer
@@ -79,7 +94,7 @@ namespace Client
             private readonly Entity entity;
             private readonly List<EntitySnapshot> samples = new();
 
-            public SnapshotBuffer(Entity entity)
+            public SnapshotBuffer (Entity entity)
             {
                 this.entity = entity;
             }
@@ -94,27 +109,28 @@ namespace Client
 
             public void Interpolate(float renderTime)
             {
-                if (entity == null || samples.Count < 2) return;
+                if (entity == null || samples.Count < 2)
+                    return;
 
                 while (samples.Count > 2 && samples[1].time <= renderTime)
                     samples.RemoveAt(0);
 
                 EntitySnapshot from = samples[0];
                 EntitySnapshot to = samples[1];
-                
-                float t = Mathf.InverseLerp(from.time, to.time, renderTime);
-                Vector2 position = Vector2.Lerp(from.position, to.position, t);
 
-                entity.transform.position = new Vector3(position.x, position.y, entity.transform.position.z);
+                float t = Mathf.InverseLerp(from.time, to.time, renderTime);
+                Vector3 position = Vector3.Lerp(from.position, to.position, t);
+
+                entity.transform.position = position;
                 entity.ApplySnapshot(from, to, t);
             }
+        }
         }
     }
 
     public class EntitySnapshot
-    {
-        public uint tick;
-        public float time;
-        public Vector2 position;
-    }
+{
+    public uint tick;
+    public float time;
+    public Vector3 position;
 }
