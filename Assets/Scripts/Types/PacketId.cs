@@ -31,4 +31,5 @@ public enum ServerPacketId : ushort
     UpdateInventory,
     
     ChestOpened,
+    ChangeTile,
 }

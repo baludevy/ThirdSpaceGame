@@ -44,6 +44,8 @@ namespace Types
         public PetDefinition GetPet(PetType petType) => pets.Find(i => i.Type == petType);
         public CropDefinition GetCrop(CropType cropType) => crops.Find(i => i.Type == cropType);
 
+        public GameObject soilPrefab;
+
         void Awake()
         {
             if (Instance == null)

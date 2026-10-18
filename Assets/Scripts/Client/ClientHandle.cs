@@ -218,5 +218,16 @@ namespace Client
 
             }
         }
+
+        public static void ChangeTile(NetDataReader reader)
+        {
+            uint tileId = reader.GetUInt();
+            TileType tileType = (TileType)reader.GetByte();
+
+            if (tileType == TileType.Soil)
+                TileManager.Instance.SoilTile(tileId);
+            else
+                TileManager.Instance.ClearTile(tileId);
+        }
     }
 }

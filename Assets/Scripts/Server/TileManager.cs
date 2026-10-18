@@ -61,8 +61,7 @@ namespace Server
             return tile.occupant;
         }
 
-        public Object GetObjectAtTilePosition(Vector3 position) =>
-            FindTile(position)?.occupant;
+        public Object GetObjectAtTilePosition(Vector3 position) => FindTile(position)?.occupant;
 
         public bool IsTileOccupied(Vector3 position) => GetObjectAtTilePosition(position) != null;
         public bool IsTileOccupied(uint tileId) => GetTile(tileId).occupant != null;

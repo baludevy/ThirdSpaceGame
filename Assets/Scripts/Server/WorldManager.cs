@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Types;
 using UnityEngine;
 
 namespace Server
@@ -37,9 +38,10 @@ namespace Server
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
             
-            // ItemHelper.CreateDroppedItem(ItemType.Hoe, 1, new Vector3(2, -0.35f, 2));
+            ItemHelper.CreateDroppedItem(ItemType.Hoe, 1, new Vector3(-3, 0f, 2));
+            ItemHelper.CreateDroppedItem(ItemType.PotatoSeed, 64, new Vector3(-4, 0f, 2));
 
-            objectManager.SpawnObject(new Chest
+            /* objectManager.SpawnObject(new Chest
             {
                 id = 0,
                 itemType = ItemType.Hoe,
@@ -54,7 +56,7 @@ namespace Server
                 itemType = ItemType.PotatoSeed,
                 itemAmount = 64,
                 position = new Vector3(-1f, -0.1f, 0f)
-            });
+            }); */
 
             /* objectManager.SpawnObject(new Chest
             {
@@ -73,6 +75,13 @@ namespace Server
                 itemAmount = 65,
                 position = new Vector3(4.5f, 2f, 0f)
             }); */
+
+            if (entityManager.SpawnEntity(EntityType.pet, new Vector3(0, 0.075f, 0), broadcast: false) is Pet pet)
+            {
+                pet.petType = PetType.BrownCat;
+                
+                ServerSend.SpawnEntity(pet);
+            }
         }
 
         private void FixedUpdate()
@@ -86,7 +95,10 @@ namespace Server
 
         private void TickTiles()
         {
-            
+            foreach (Tile tile in tileManager.tiles)
+            {
+                tile.Tick(Time.fixedDeltaTime);
+            }
         }
 
         private void TickEntities()

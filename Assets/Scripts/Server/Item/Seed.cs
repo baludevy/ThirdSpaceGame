@@ -14,27 +14,20 @@ namespace Server
 
         public override void Use(Player player, uint tileId)
         {
-           /* WorldManager worldManager = WorldManager.Instance;
+            Debug.Log("seed");
+
+            WorldManager worldManager = WorldManager.Instance;
 
             Tile targetTile = worldManager.tileManager.GetTile(tileId);
 
-            if (targetTile.tileType != TileType.Soil || targetTile.occupant != null)
+            if (targetTile.type != TileType.Soil || targetTile.occupant != null)
                 return;
 
-            Crop crop = new Crop
-            {
-                ownerTile = targetTile,
-                type = ObjectType.Crop,
-                cropType = cropType,
-                position = new Vector3(targetTile.position.x, targetTile.position.y, 0f),
-            };
-
-            targetTile.occupant = crop;
-
-            worldManager.objectManager.SpawnObject(crop);
+            if (worldManager.tileManager.SpawnTileObject(ObjectType.Crop, targetTile.position) is Crop crop)
+                crop.cropType = cropType;
 
             player.inventory.Remove(this);
-            ServerSend.UpdateInventory(player);*/
+            ServerSend.UpdateInventory(player);
         }
     }
 }

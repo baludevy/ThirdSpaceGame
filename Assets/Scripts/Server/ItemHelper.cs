@@ -18,7 +18,12 @@ namespace Server
             if (WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, position, false) is not DroppedItem droppedItem)
                 return null;
 
+            
+            
             droppedItem.item = item;
+            
+            if(droppedItem.item is Seed) 
+                Debug.Log("csa");
             
             ServerSend.SpawnEntity(droppedItem);
 

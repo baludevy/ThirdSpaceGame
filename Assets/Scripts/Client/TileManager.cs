@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Client;
+using Types;
 using UnityEngine;
 
 namespace Game
@@ -21,7 +22,7 @@ namespace Game
             else
                 Destroy(this);
         }
-        
+
         private void Start()
         {
             uint id = 0;
@@ -44,14 +45,27 @@ namespace Game
                             id = id++,
                             position = new Vector3(x, bounds.max.y, z)
                         });
-
-                        Debug.Log(new Vector3(x, bounds.max.y, z));
                     }
                 }
-                
+
             }
         }
-        
+
+        public void SoilTile(uint tileId)
+        {
+            Tile tile = GetTileById(tileId);
+
+            tile.top = Instantiate(Catalog.Instance.soilPrefab, tile.position + Vector3.up * 0.0001f, Catalog.Instance.soilPrefab.transform.rotation);
+        }
+
+        public void ClearTile(uint tileId)
+        {
+            Tile tile = GetTileById(tileId);
+            
+            Destroy(tile.top);
+        }
+ 
         public Tile GetTileAtPosition(Vector3 position) => tiles.Find(x => (x.position - position).sqrMagnitude <= 0.01f * 0.01f);
+        public Tile GetTileById(uint tileId) => tiles.Find(x => x.id == tileId);
     }
 }

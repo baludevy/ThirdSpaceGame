@@ -14,10 +14,7 @@ namespace Client
         {
             Vector3 tilePosition = GridSelect.Instance.cellCenter;
             
-            Debug.Log(tilePosition);
-            
             uint tileId = TileManager.Instance.GetTileAtPosition(tilePosition).id;
-            
             
             if(GridSelect.Instance.hasValidPosition)
                 ClientSend.UseHeldItem(tileId);

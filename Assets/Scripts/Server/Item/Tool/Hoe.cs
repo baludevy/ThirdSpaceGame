@@ -1,5 +1,4 @@
 ﻿using Types;
-using UnityEngine;
 
 namespace Server.Tools
 {
@@ -15,12 +14,12 @@ namespace Server.Tools
             WorldManager world = WorldManager.Instance;
 
             Tile targetTile = world.tileManager.GetTile(tileId);
+            targetTile.type = TileType.Soil;
             
-            if(world.tileManager.IsTileOccupied(targetTile.position))
-                return;
+            /* if (world.tileManager.SpawnTileObject(ObjectType.Crop, targetTile.position) is Crop crop)
+                crop.cropType = CropType.Potato; */
             
-            if (world.tileManager.SpawnTileObject(ObjectType.Crop, targetTile.position) is Crop crop)
-                crop.cropType = CropType.Potato;
+            ServerSend.ChangeTile(targetTile);
         }
     }
 }

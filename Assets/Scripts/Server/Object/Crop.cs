@@ -7,10 +7,11 @@ namespace Server
 {
     public class Crop : Object, Interactable
     {
+        public Tile ownerTile;
         public CropType cropType;
         public int cropPhase;
 
-        public int lastGrowTime;
+        public float lastGrowTime;
 
         public void Interact(Player player)
         {

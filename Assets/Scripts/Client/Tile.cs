@@ -12,5 +12,7 @@ namespace Client
         public TileType type;
         
         public Object occupant;
+
+        public GameObject top;
     }
 }

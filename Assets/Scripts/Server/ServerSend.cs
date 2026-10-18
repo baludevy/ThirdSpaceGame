@@ -187,5 +187,14 @@ namespace Server
             if (obj is Chest chest)
                 writer.Put(chest.opened);
         }
+
+        public static void ChangeTile(Tile tile)
+        {
+            NetworkManager.Instance.Server.SendPacketToAll(ServerPacketId.ChangeTile, writer =>
+            {
+                writer.Put(tile.id);
+                writer.Put((byte)tile.type);
+            });
+        }
     }
 }

@@ -96,6 +96,9 @@ namespace Client
                 if (currentItem is Tool tool)
                 {
                     tool.Use();
+                } else if (currentItem is Seed seed)
+                {
+                    seed.Use();
                 }
             
             HandleItemClicks();
