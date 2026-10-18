@@ -32,10 +32,10 @@ namespace Server
         public static void UseHeldItem(NetPeer peer, NetDataReader reader)
         {
             int playerId = peer.Id;
-            int tileId = reader.GetInt();
+            Vector3 tilePosition = reader.GetVector3();
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(playerId);
-            player.UseHeldItem(tileId);
+            player.UseHeldItem(tilePosition);
         }
 
         public static void Interact(NetPeer peer, NetDataReader reader)

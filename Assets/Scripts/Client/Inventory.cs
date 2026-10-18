@@ -68,6 +68,12 @@ namespace Client
 
         private void Update()
         {
+            if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+                if (currentItem is Tool tool)
+                {
+                    tool.Use();
+                }
+            
             HandleItemClicks();
 
             Keyboard keyboard = Keyboard.current;

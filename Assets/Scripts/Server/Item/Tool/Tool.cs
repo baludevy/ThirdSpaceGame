@@ -1,4 +1,6 @@
-﻿namespace Server
+﻿using UnityEngine;
+
+namespace Server
 {
     public class Tool : Item
     {

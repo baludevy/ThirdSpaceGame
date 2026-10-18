@@ -12,7 +12,7 @@ namespace Server
 
         }
 
-        public override void Use(Player player, int tileId)
+        public override void Use(Player player, Vector3 tilePosition)
         {
            /* WorldManager worldManager = WorldManager.Instance;
 

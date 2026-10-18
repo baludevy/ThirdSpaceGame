@@ -21,7 +21,7 @@ namespace Client
 
         public Object SpawnObject(ushort id, ObjectType type, Vector3 position)
         {
-            GameObject go = Instantiate(objectPrefabs[type], position, Quaternion.identity);
+            GameObject go = Instantiate(objectPrefabs[type], position, objectPrefabs[type].transform.rotation);
             Object obj = go.GetComponent<Object>();
             
             obj.id = id;

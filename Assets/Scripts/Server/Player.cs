@@ -26,10 +26,10 @@ namespace Server
             inventory = new Inventory(27);
         }
 
-        public void UseHeldItem(int tileId)
+        public void UseHeldItem(Vector3 tilePosition)
         {
             Item heldItem = inventory.activeItem;
-            heldItem.Use(this, tileId);
+            heldItem.Use(this, tilePosition);
         }
 
         public override EntityUpdate GetUpdate()

@@ -1,4 +1,5 @@
 ﻿using Types;
+using UnityEngine;
 
 namespace Server.Tools
 {
@@ -9,22 +10,15 @@ namespace Server.Tools
 
         }
 
-        public override void Use(Player player, int tileId)
+        public override void Use(Player player, Vector3 tilePosition)
         {
-            /* Tile targetTile = WorldManager.Instance.tileManager.GetTile(tileId);
+            WorldManager world = WorldManager.Instance;
 
-            if (targetTile.tileType == TileType.Grass)
-                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Soil);
-            else if (targetTile.tileType == TileType.Soil)
-            {
-                if(targetTile.occupant != null)
-                {
-                    WorldManager.Instance.objectManager.DestroyObject(targetTile.occupant.id);
-                    targetTile.occupant = null;
-                }
-                
-                WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Grass);
-            } */
+            if(world.tileManager.IsTileOccupied(tilePosition))
+                return;
+            
+            if (world.tileManager.SpawnTileObject(ObjectType.Crop, tilePosition) is Crop crop )
+                crop.cropType = CropType.Potato;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Server
             this.stackable = stackable;
         }
 
-        public virtual void Use(Player player, int tileId)
+        public virtual void Use(Player player, Vector3 tilePosition)
         {
             
         }

@@ -6,11 +6,10 @@ namespace Game
 {
     public class GridSelect : MonoBehaviour
     {
-        [SerializeField] private Camera targetCamera;
+        private Camera targetCamera;
         [SerializeField] private GameObject previewPrefab;
-    
+
         [SerializeField] private Vector3 gridOrigin = Vector3.zero;
-        [SerializeField] private Vector3 previewOffset;
 
         [SerializeField] private bool snapToGrid = true;
 
@@ -18,15 +17,19 @@ namespace Game
         public Vector3 cursorWorldPosition { get; private set; }
         public Vector3 cellCenter { get; private set; }
         public bool hasValidPosition { get; private set; }
-    
+
         [SerializeField] private LayerMask groundLayers;
 
         private GameObject preview;
 
+        public static GridSelect Instance;
+
         private void Awake()
         {
-            if (targetCamera == null)
-                targetCamera = Camera.main;
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(this);
 
             preview = Instantiate(previewPrefab);
             preview.SetActive(false);
@@ -36,8 +39,8 @@ namespace Game
         {
             hasValidPosition = false;
 
-            if (targetCamera == null)
-                targetCamera = Camera.main;
+            if (targetCamera == null && LocalPlayer.Instance != null)
+                targetCamera = LocalPlayer.Instance.cam;
 
             if (preview == null)
                 return;
@@ -55,7 +58,7 @@ namespace Game
                 preview.SetActive(false);
                 return;
             }
-            
+
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             {
                 hasValidPosition = false;
@@ -74,7 +77,7 @@ namespace Game
                 return;
             }
 
-            float targetY = ground.transform.position.y + ground.transform.localScale.y / 2 + 0.001f ;
+            float targetY = ground.transform.position.y + ground.transform.localScale.y / 2 + 0.001f;
 
             cursorWorldPosition = new Vector3(
                 hit.point.x,
@@ -89,10 +92,7 @@ namespace Game
             cellCenter = new Vector3(gridOrigin.x + currentCell.x + 0.5f, targetY, gridOrigin.z + currentCell.y + 0.5f);
 
             Vector3 position = snapToGrid ? cellCenter : cursorWorldPosition;
-        
-            position.x += previewOffset.x;
-            position.z += previewOffset.z;
-
+            
             preview.transform.position = position;
             preview.SetActive(true);
             hasValidPosition = true;

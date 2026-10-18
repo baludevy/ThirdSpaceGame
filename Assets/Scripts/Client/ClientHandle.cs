@@ -166,11 +166,6 @@ namespace Client
                         bounce.StartBounce();
 
                     break;
-
-
-                default:
-                    EntityManager.Instance.ReplicateEntity(entityId, type, position);
-                    break;
             }
         }
 

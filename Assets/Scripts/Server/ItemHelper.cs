@@ -1,4 +1,5 @@
-﻿using Types;
+﻿using Server.Tools;
+using Types;
 using UnityEngine;
 
 namespace Server
@@ -30,6 +31,9 @@ namespace Server
             {
                 ItemType.PotatoSeed => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Potato },
                 ItemType.CarrotSeed => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Carrot },
+                
+                ItemType.Hoe => new Hoe(item.Type, count, item.Stackable, item.MaxStackSize),
+                    
                 _ => new Item(item.Type, count, item.Stackable, item.MaxStackSize)
             };
         }

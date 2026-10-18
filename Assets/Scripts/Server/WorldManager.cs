@@ -9,7 +9,9 @@ namespace Server
     {
         public uint tick;
         public static WorldManager Instance;
-        
+
+        [NonSerialized]
+        public TileManager tileManager;
         [NonSerialized]
         public ObjectManager objectManager;
         [NonSerialized]
@@ -28,11 +30,14 @@ namespace Server
 
         private void Start()
         {
+            tileManager = new TileManager();
+            tileManager.GenerateTiles();
+            
             objectManager = new ObjectManager();
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
             
-            ItemHelper.CreateDroppedItem(ItemType.Potato, 30, new Vector3(2, -0.35f, 2));
+            ItemHelper.CreateDroppedItem(ItemType.Hoe, 1, new Vector3(2, -0.35f, 2));
 
             /* objectManager.SpawnObject(new Chest
             {

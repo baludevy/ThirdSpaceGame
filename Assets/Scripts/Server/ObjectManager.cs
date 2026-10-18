@@ -42,13 +42,24 @@ namespace Server
 
         public ushort nextObjectId;
 
-        public void SpawnObject(Object obj)
+        public Object SpawnObject(ObjectType type, Vector3 position = default)
         {
-            obj.id = nextObjectId++;
-            
+            Object obj = CreateObject(nextObjectId++, type, position);
             ServerSend.SpawnObject(obj);
-            
+
             objects.Add(obj);
+
+            return obj;
+        }
+
+        public static Object CreateObject(ushort id, ObjectType type, Vector3 position)
+        {
+            return type switch
+            {
+                ObjectType.Crop => new Crop { type = type, position = position },
+
+                _ => new Object { type = type, position = position }
+            };
         }
 
         public void DestroyObject(ushort id)

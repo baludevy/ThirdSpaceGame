@@ -11,8 +11,6 @@ namespace Client
 
         public List<Entity> entities = new List<Entity>();
 
-        [SerializeField] public Dictionary<EntityType, GameObject> entityPrefabs = new Dictionary<EntityType, GameObject>();
-
         private void Awake()
         {
             if (Instance == null)
@@ -21,19 +19,9 @@ namespace Client
                 Destroy(this);
         }
 
-        public Entity ReplicateEntity(ushort id, EntityType type, Vector3 position, GameObject specialPrefab = null)
+        public Entity ReplicateEntity(ushort id, EntityType type, Vector3 position, GameObject prefab)
         {
-            GameObject prefab;
-
-            if (specialPrefab != null)
-            {
-                prefab = specialPrefab;
-            }
-            else
-            {
-                prefab = entityPrefabs[type];
-            }
-
+            
             Entity entity = Instantiate(prefab, position, prefab.transform.rotation).GetComponent<Entity>();
             
             entity.Initialize(id);
