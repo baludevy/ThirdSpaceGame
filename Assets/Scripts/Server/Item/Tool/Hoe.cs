@@ -11,7 +11,7 @@ namespace Server.Tools
 
         public override void Use(Player player, int tileId)
         {
-            Tile targetTile = WorldManager.Instance.tileManager.GetTile(tileId);
+            /* Tile targetTile = WorldManager.Instance.tileManager.GetTile(tileId);
 
             if (targetTile.tileType == TileType.Grass)
                 WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Soil);
@@ -24,7 +24,7 @@ namespace Server.Tools
                 }
                 
                 WorldManager.Instance.tileManager.ModifyTile(tileId, TileType.Grass);
-            }
+            } */
         }
     }
 }

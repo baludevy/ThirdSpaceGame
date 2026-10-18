@@ -1,51 +1,37 @@
-using Server.Tools;
-using Types;
+﻿using Types;
 using UnityEngine;
 
 namespace Server
 {
-    public class Chest : Object, Interactable
+    public static class ItemHelper
     {
-        public bool opened;
-        public ItemType itemType;
-        public int itemAmount = 1;
-
-        public void Interact(Player player)
+        public static DroppedItem CreateDroppedItem(ItemType itemType, int itemAmount, Vector3 position = default)
         {
-            if (opened)
-                return;
-
             ItemDefinition definition = Catalog.Instance.GetItem(itemType);
 
             if (definition == null || itemAmount <= 0)
-                return;
+                return null;
 
             Item item = CreateItem(definition, itemAmount);
-            Vector3 pos = (Vector3)position - Vector3.up * 0.75f;
-
-            if (WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is not DroppedItem droppedItem)
-                return;
+            
+            if (WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, position, false) is not DroppedItem droppedItem)
+                return null;
 
             droppedItem.item = item;
-            opened = true;
-
-            ServerSend.ChestOpened(id, opened);
+            
             ServerSend.SpawnEntity(droppedItem);
-        }
 
+            return droppedItem;
+        }
+        
         public static Item CreateItem(ItemDefinition item, int count)
         {
             return item.Type switch
             {
                 ItemType.PotatoSeed => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Potato },
                 ItemType.CarrotSeed => new Seed(item.Type, count, item.Stackable, item.MaxStackSize) { cropType = CropType.Carrot },
-                
-                
-                ItemType.Hoe => new Hoe(item.Type, count, item.Stackable, item.MaxStackSize),
                 _ => new Item(item.Type, count, item.Stackable, item.MaxStackSize)
             };
         }
-
-        public bool CanInteract() => !opened;
     }
 }

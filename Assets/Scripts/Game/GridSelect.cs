@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Game
@@ -52,6 +53,16 @@ namespace Game
             if (!targetCamera.pixelRect.Contains(mousePosition))
             {
                 preview.SetActive(false);
+                return;
+            }
+            
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                hasValidPosition = false;
+
+                if (preview != null)
+                    preview.SetActive(false);
+
                 return;
             }
 

@@ -164,12 +164,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Types.PetCatalog
   items:
-  - Name: 
-    Type: 0
-    Stackable: 0
-    MaxStackSize: 0
-    Sprite: {fileID: 0}
-    DroppedPrefab: {fileID: 0}
+  - Name: Potato
+    Type: 2
+    Stackable: 1
+    MaxStackSize: 64
+    Sprite: {fileID: -2972046113789603118, guid: cccf85a657ed4624a89693d65c99329e, type: 3}
+    DroppedPrefab: {fileID: 4940681760996614280, guid: edb7c61bd206f544b815924a8a656f14, type: 3}
   pets:
   - Name: Brown Cat
     Type: 1

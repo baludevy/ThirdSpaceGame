@@ -9,9 +9,7 @@ namespace Server
     {
         public uint tick;
         public static WorldManager Instance;
-
-        [NonSerialized]
-        public TileManager tileManager;
+        
         [NonSerialized]
         public ObjectManager objectManager;
         [NonSerialized]
@@ -30,14 +28,13 @@ namespace Server
 
         private void Start()
         {
-            tileManager = new TileManager();
             objectManager = new ObjectManager();
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
+            
+            ItemHelper.CreateDroppedItem(ItemType.Potato, 30, new Vector3(2, -0.35f, 2));
 
-            tileManager.Initialize(new Vector2Int(101, 101));
-
-            objectManager.SpawnObject(new Chest
+            /* objectManager.SpawnObject(new Chest
             {
                 id = 0,
                 itemType = ItemType.Hoe,
@@ -70,14 +67,13 @@ namespace Server
                 itemType = ItemType.CarrotSeed,
                 itemAmount = 65,
                 position = new Vector3(4.5f, 2f, 0f)
-            });
+            }); */
         }
 
         private void FixedUpdate()
         {
             TickTiles();
             TickEntities();
-            SendTileUpdates();
             SendWorldUpdates();
 
             tick++;
@@ -85,10 +81,7 @@ namespace Server
 
         private void TickTiles()
         {
-            foreach (Tile tile in tileManager.tiles)
-            {
-                tile.Tick(Time.fixedDeltaTime);
-            }
+            
         }
 
         private void TickEntities()
@@ -97,14 +90,6 @@ namespace Server
             {
                 entity.Tick(Time.fixedDeltaTime);
             }
-        }
-
-        private void SendTileUpdates()
-        {
-            if (tileManager.updatedTiles.Count > 0)
-                ServerSend.UpdateTiles(tileManager.updatedTiles);
-
-            tileManager.updatedTiles.Clear();
         }
 
         private void SendWorldUpdates()

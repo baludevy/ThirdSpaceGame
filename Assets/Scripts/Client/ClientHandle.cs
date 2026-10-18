@@ -17,11 +17,6 @@ namespace Client
 
         public static void InitializeWorld(NetDataReader reader)
         {
-            int tileCount = reader.GetInt();
-
-            for (int i = 0; i < tileCount; i++)
-                ReadTile(reader);
-
             int objectCount = reader.GetInt();
 
             for (int i = 0; i < objectCount; i++)
@@ -88,16 +83,6 @@ namespace Client
             }
         }
 
-        public static void UpdateTiles(NetDataReader reader)
-        {
-            int updatedTileCount = reader.GetInt();
-
-            for (int i = 0; i < updatedTileCount; i++)
-            {
-                ReadTile(reader);
-            }
-        }
-
         public static void UpdateWorld(NetDataReader reader)
         {
             uint tick = reader.GetUInt();
@@ -118,14 +103,6 @@ namespace Client
             bool opened = reader.GetBool();
 
             ObjectManager.Instance.GetObject(objectId).GetComponent<Chest>().SetOpened(opened);
-        }
-
-        private static void ReadTile(NetDataReader reader)
-        {
-            int tileId = reader.GetInt();
-            TileType tileType = (TileType)reader.GetByte();
-
-            // modify tile
         }
 
         private static void ReadObject(NetDataReader reader)

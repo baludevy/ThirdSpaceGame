@@ -8,7 +8,7 @@ namespace Game
     {
         public Interactable interactableInRange;
         
-        public void OnTriggerEnter2D(Collider2D other)
+        public void OnTriggerEnter(Collider other)
         {
             Debug.Log("csa");
             
@@ -18,7 +18,7 @@ namespace Game
             }
         }
         
-        private void OnTriggerExit2D(Collider2D other)
+        private void OnTriggerExit(Collider other)
         {
             if (other.TryGetComponent(out Interactable interactable) && interactable == interactableInRange)
             {

@@ -7,8 +7,6 @@ namespace Server
 {
     public class Crop : Object, Interactable
     {
-        public Tile ownerTile;
-        
         public CropType cropType;
         public int cropPhase;
 
@@ -31,8 +29,6 @@ namespace Server
             
             WorldManager.Instance.objectManager.DestroyObject(id);
             ServerSend.SpawnEntity(droppedItem);
-
-            ownerTile.occupant = null;
         }
         
         public static Item CreateItem(ItemDefinition item, int count)

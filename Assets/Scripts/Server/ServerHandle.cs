@@ -12,8 +12,7 @@ namespace Server
         {
             string username = reader.GetString();
 
-            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.tileManager.changedTiles,
-                WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
+            ServerSend.InitializeWorld(peer.Id, WorldManager.Instance.objectManager.objects, WorldManager.Instance.entityManager.entities);
             WorldManager.Instance.playerManager.SpawnPlayer(peer.Id, username, Vector3.zero);
         }
 
@@ -112,7 +111,7 @@ namespace Server
             Debug.Log(fromIndex);
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Drop(fromIndex, split, player.position - Vector3.up);
+            player.inventory.Drop(fromIndex, split, player.position + Vector3.back);
 
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }

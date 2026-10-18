@@ -14,7 +14,7 @@ namespace Server
 
         public override void Use(Player player, int tileId)
         {
-            WorldManager worldManager = WorldManager.Instance;
+           /* WorldManager worldManager = WorldManager.Instance;
 
             Tile targetTile = worldManager.tileManager.GetTile(tileId);
 
@@ -34,7 +34,7 @@ namespace Server
             worldManager.objectManager.SpawnObject(crop);
 
             player.inventory.Remove(this);
-            ServerSend.UpdateInventory(player);
+            ServerSend.UpdateInventory(player);*/
         }
     }
 }
