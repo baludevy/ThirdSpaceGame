@@ -71,18 +71,6 @@ namespace Server
                 itemAmount = 65,
                 position = new Vector3(4.5f, 2f, 0f)
             });
-            
-            if (entityManager.SpawnEntity(EntityType.pet, Vector3.right, broadcast: false) is Pet cat)
-            {
-                cat.petType = PetType.BrownCat;
-                ServerSend.SpawnEntity(cat);
-            }
-
-            /*if (entityManager.SpawnEntity(EntityType.pet, Vector3.left, broadcast: false) is Pet dog)
-            {
-                dog.petType = PetType.BrownDog;
-                ServerSend.SpawnEntity(dog);
-            }*/
         }
 
         private void FixedUpdate()

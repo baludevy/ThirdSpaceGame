@@ -170,7 +170,7 @@ MonoBehaviour:
     Prefab: {fileID: 5274964229881561273, guid: f3f6058db64d957419f1bec241662e75, type: 3}
   - Name: Brown Dog
     Type: 5
-    Prefab: {fileID: 5274964229881561273, guid: d7658dbac8de0634291aeb183e7db647, type: 3}
+    Prefab: {fileID: 7496404735132790598, guid: d7658dbac8de0634291aeb183e7db647, type: 3}
   crops: []
 --- !u!1 &935432637
 GameObject:
@@ -364,7 +364,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
