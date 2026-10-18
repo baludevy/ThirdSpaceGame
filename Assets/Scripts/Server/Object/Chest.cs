@@ -14,15 +14,14 @@ namespace Server
         {
             if (opened)
                 return;
-            
-            Vector3 pos = position - Vector3.up * 0.75f;
 
-            DroppedItem droppedItem = ItemHelper.CreateDroppedItem(itemType, itemAmount, pos);
+            Vector3 pos = position + Vector3.back * 1.5f;
+
+            ItemHelper.CreateDroppedItem(itemType, itemAmount, pos);
             
             opened = true;
 
             ServerSend.ChestOpened(id, opened);
-            
         }
 
         public bool CanInteract() => !opened;

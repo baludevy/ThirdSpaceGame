@@ -13,10 +13,14 @@ namespace Client
         public override void Use()
         {
             Vector3 tilePosition = GridSelect.Instance.cellCenter;
+            
             Debug.Log(tilePosition);
             
+            uint tileId = TileManager.Instance.GetTileAtPosition(tilePosition).id;
+            
+            
             if(GridSelect.Instance.hasValidPosition)
-                ClientSend.UseHeldItem(tilePosition);
+                ClientSend.UseHeldItem(tileId);
         }
         
         public override bool CanBeUsed() => true;

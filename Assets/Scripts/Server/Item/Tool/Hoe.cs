@@ -10,14 +10,16 @@ namespace Server.Tools
 
         }
 
-        public override void Use(Player player, Vector3 tilePosition)
+        public override void Use(Player player, uint tileId)
         {
             WorldManager world = WorldManager.Instance;
 
-            if(world.tileManager.IsTileOccupied(tilePosition))
+            Tile targetTile = world.tileManager.GetTile(tileId);
+            
+            if(world.tileManager.IsTileOccupied(targetTile.position))
                 return;
             
-            if (world.tileManager.SpawnTileObject(ObjectType.Crop, tilePosition) is Crop crop )
+            if (world.tileManager.SpawnTileObject(ObjectType.Crop, targetTile.position) is Crop crop)
                 crop.cropType = CropType.Potato;
         }
     }

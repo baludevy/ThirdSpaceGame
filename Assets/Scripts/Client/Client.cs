@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Data.Common;
 using System.Diagnostics;
-using System.Runtime.InteropServices.WindowsRuntime;
 using LiteNetLib;
 using LiteNetLib.Utils;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager.Requests;
-using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
 
 namespace Client
 {
     public enum ClientState
     {
-        Disconnect,
+        Disconnected,
         Connecting,
         Connected,
         Reconnecting,
@@ -59,7 +53,7 @@ namespace Client
         public double ReconnectDelaySeconds { get; set; } = 2;
 
         public bool running => _client.IsRunning;
-        public bool IsBusy => State != ClientState.Disconnect || _stopping;
+        public bool IsBusy => State != ClientState.Disconnected || _stopping;
 
         public bool connected => State == ClientState.Connected &&
                                  _serverPeer != null &&
@@ -85,7 +79,7 @@ namespace Client
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.Welcome, ClientHandle.Welcome);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.InitializeWorld, ClientHandle.InitializeWorld);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnEntity, ClientHandle.SpawnEntity);
-            PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnObject, ClientHandle.SpawnEntity);
+            PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.SpawnObject, ClientHandle.SpawnObject);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.DestroyObject, ClientHandle.DestroyObject);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.UpdateWorld, ClientHandle.UpdateWorld);
             PacketDispatch.RegisterClientHandler((ushort)ServerPacketId.DestroyEntity, ClientHandle.DestroyEntity);
@@ -214,7 +208,7 @@ namespace Client
                     _port = 0;
                     _reconnectAttempts = 0;
 
-                    SetState(ClientState.Disconnect);
+                    SetState(ClientState.Disconnected);
                     Raise(Disconnected, reason);
                 }
             }

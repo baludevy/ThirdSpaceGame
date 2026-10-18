@@ -17,6 +17,15 @@ namespace Client
         private const float worldUpdateInterval = 0.02f;
         private const int interpolationTicks = 1;
         private const float interpolationSeconds = interpolationTicks * worldUpdateInterval;
+        
+        public void Clear()
+        {
+            buffers.Clear();
+            hasClock = false;
+            firstTick = 0;
+            latestTick = 0;
+            clockOffset = 0;
+        }
 
         private void Awake()
         {

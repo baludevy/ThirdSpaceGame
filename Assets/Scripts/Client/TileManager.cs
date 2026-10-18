@@ -10,7 +10,7 @@ namespace Game
         private List<Ground> groundObjects = new List<Ground>();
 
         [NonSerialized]
-        public List<Tile> tiles;
+        public List<Tile> tiles = new List<Tile>();
 
         public static TileManager Instance;
 
@@ -24,7 +24,6 @@ namespace Game
         
         private void Start()
         {
-            tiles = new List<Tile>();
             uint id = 0;
 
             foreach (Ground ground in FindObjectsByType<Ground>())
@@ -52,5 +51,7 @@ namespace Game
                 
             }
         }
+        
+        public Tile GetTileAtPosition(Vector3 position) => tiles.Find(x => (x.position - position).sqrMagnitude <= 0.01f * 0.01f);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Client;
 using Game;
+using Server;
 using UnityEngine;
-using ClientState = global::Client.ClientState;
-using ServerState = global::Server.ServerState;
 
 public enum NetworkState
 {
@@ -313,18 +313,18 @@ public sealed class NetworkManager : MonoBehaviour
             objects.objects.Clear();
         }
 
-        if (global::Client.EntityInterpolationManager.Instance != null)
-            global::Client.EntityInterpolationManager.Instance.Clear();
+        if (EntityInterpolationManager.Instance != null)
+            EntityInterpolationManager.Instance.Clear();
 
         if (global::Client.Inventory.Instance != null)
             global::Client.Inventory.Instance.Clear();
 
-        foreach (var camera in UnityEngine.Object.FindObjectsOfType<MoveCamera>(true))
+        foreach (MoveCamera camera in FindObjectsByType<MoveCamera>())
         {
             if (camera.target == null)
                 continue;
 
-            foreach (var target in targets)
+            foreach (GameObject target in targets)
             {
                 if (target != null && camera.target.IsChildOf(target.transform))
                 {

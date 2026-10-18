@@ -23,11 +23,11 @@ namespace Client
                 }, DeliveryMethod.Unreliable);
         }
 
-        public static void UseHeldItem(Vector3 position)
+        public static void UseHeldItem(uint tileId)
         {
             NetworkManager.Instance.Client.SendPacket(ClientPacketId.UseHeldItem, writer =>
             {
-                writer.Put(position);
+                writer.Put(tileId);
             });
         }
 

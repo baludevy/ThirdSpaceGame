@@ -119,7 +119,10 @@ namespace Client
                 Crop crop = ObjectManager.Instance.SpawnObject(objectId, type, position) as Crop;
 
                 if (crop != null)
+                {
                     crop.SetCropType(cropType);
+                    crop.SetCropPhase(cropPhase);
+                }
 
                 return;
             }
@@ -159,8 +162,7 @@ namespace Client
                 case EntityType.item:
                     ItemType itemType = (ItemType)reader.GetByte();
 
-                    DroppedItem droppedItem =
-                        EntityManager.Instance.ReplicateEntity(entityId, type, position, Catalog.Instance.GetItem(itemType).DroppedPrefab) as DroppedItem;
+                    DroppedItem droppedItem = EntityManager.Instance.ReplicateEntity(entityId, type, position, Catalog.Instance.GetItem(itemType).DroppedPrefab) as DroppedItem;
 
                     if (playSpawnEffect && droppedItem != null && droppedItem.TryGetComponent(out BounceEffect bounce))
                         bounce.StartBounce();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Types;
 using UnityEngine;
 
 namespace Server
@@ -19,7 +18,8 @@ namespace Server
         [NonSerialized]
         public PlayerManager playerManager;
 
-
+        private bool isInitialized;
+        
         private void Awake()
         {
             if (Instance == null)
@@ -37,26 +37,26 @@ namespace Server
             entityManager = new EntityManager();
             playerManager = new PlayerManager();
             
-            ItemHelper.CreateDroppedItem(ItemType.Hoe, 1, new Vector3(2, -0.35f, 2));
+            // ItemHelper.CreateDroppedItem(ItemType.Hoe, 1, new Vector3(2, -0.35f, 2));
 
-            /* objectManager.SpawnObject(new Chest
+            objectManager.SpawnObject(new Chest
             {
                 id = 0,
                 itemType = ItemType.Hoe,
                 itemAmount = 1,
-                position = new Vector3(-1.5f, 2f, 0f)
+                position = new Vector3(-3f, -0.1f, 0f)
             });
 
             objectManager.SpawnObject(new Chest
             {
                 id = 1,
                 type = ObjectType.Chest,
-                itemType = ItemType.Hoe,
-                itemAmount = 1,
-                position = new Vector3(0.5f, 2f, 0f)
+                itemType = ItemType.PotatoSeed,
+                itemAmount = 64,
+                position = new Vector3(-1f, -0.1f, 0f)
             });
 
-            objectManager.SpawnObject(new Chest
+            /* objectManager.SpawnObject(new Chest
             {
                 id = 2,
                 type = ObjectType.Chest,
@@ -113,8 +113,34 @@ namespace Server
                 entityUpdates = entityManager.entities
                     .Where(entity => entity is not Player player || player.id != excludePlayer)
                     .Select(entity => entity.GetUpdate())
-                    .ToList(),
+                    .ToList()
             };
+        }
+
+        public void ClearSession()
+        {
+            isInitialized = false;
+            tick = 0;
+
+            if (playerManager != null)
+                playerManager.players.Clear();
+
+            if (entityManager != null)
+            {
+                entityManager.entities.Clear();
+                entityManager.nextEntityID = 0;
+            }
+
+            if (objectManager != null)
+            {
+                objectManager.objects.Clear();
+                objectManager.nextObjectId = 0;
+            }
+
+            tileManager = null;
+            objectManager = null;
+            entityManager = null;
+            playerManager = null;
         }
     }
 }

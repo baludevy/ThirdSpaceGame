@@ -170,6 +170,12 @@ MonoBehaviour:
     MaxStackSize: 64
     Sprite: {fileID: -2972046113789603118, guid: cccf85a657ed4624a89693d65c99329e, type: 3}
     DroppedPrefab: {fileID: 4940681760996614280, guid: edb7c61bd206f544b815924a8a656f14, type: 3}
+  - Name: Potato Seed
+    Type: 4
+    Stackable: 1
+    MaxStackSize: 64
+    Sprite: {fileID: -7590016393096812913, guid: 30b3b6d14cfaa0c468b0afa43163367e, type: 3}
+    DroppedPrefab: {fileID: 4940681760996614280, guid: 170226a09e9901b459d3becdfe83b938, type: 3}
   - Name: Hoe
     Type: 7
     Stackable: 0
@@ -419,7 +425,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5500
+  m_ColorTemperature: 20000
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -777,6 +783,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429f314197af4856a01a6edfce7dd5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkManager
+  port: 2067
+  autoReconnect: 1
+  maxReconnectAttempts: 3
+  connectionTimeoutSeconds: 10
+  reconnectDelaySeconds: 2
 --- !u!1 &78877568024836918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1496,9 +1507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e117ba882cfa4496ab2edb89a79145ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.TileManager
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!222 &2475151042682058015
 CanvasRenderer:
   m_ObjectHideFlags: 0

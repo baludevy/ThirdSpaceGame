@@ -33,6 +33,30 @@ namespace Client
         private bool splitDrag;
         
         public Item currentItem { get; private set; }
+        
+        public void Clear()
+        {
+            ClearHeldItem();
+
+            pointerHits.Clear();
+            activeHotbarSlotIndex = 0;
+            currentItem = null;
+
+            foreach (InventorySlot slot in slots)
+            {
+                if (slot == null)
+                    continue;
+
+                slot.SetPreviewCount(null);
+                slot.SetHeld(false);
+                slot.UpdateSlot(ItemType.Empty, 0);
+            }
+
+            if (inventoryPanel != null)
+                inventoryPanel.gameObject.SetActive(false);
+
+            RefreshHotbar();
+        }
 
         private void Awake()
         {
