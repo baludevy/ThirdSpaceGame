@@ -111,7 +111,7 @@ namespace Server
             Debug.Log(fromIndex);
 
             Player player = WorldManager.Instance.playerManager.GetPlayer(id);
-            player.inventory.Drop(fromIndex, split, player.position + Vector3.back);
+            player.inventory.Drop(fromIndex, split, player.position + Vector3.back + Vector3.up * 0.5f);
 
             ServerSend.UpdateInventory(WorldManager.Instance.playerManager.GetPlayer(id));
         }

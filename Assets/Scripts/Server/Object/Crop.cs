@@ -21,7 +21,7 @@ namespace Server
                 definition = Catalog.Instance.GetItem(ItemType.Potato);
             
             Item item = CreateItem(definition, Random.Range(1, 3));
-            Vector3 pos = position - Vector3.up * 0.75f;
+            Vector3 pos = position + Vector3.back + Vector3.up * 0.5f;
 
             if (WorldManager.Instance.entityManager.SpawnEntity(EntityType.item, pos, false) is not DroppedItem droppedItem)
                 return;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Client;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,35 +8,64 @@ namespace Game
     public class PlayerInteraction : MonoBehaviour
     {
         public Interactable interactableInRange;
-        
-        public void OnTriggerEnter(Collider other)
+
+        private readonly HashSet<Interactable> interacted = new();
+
+        private void FixedUpdate()
         {
-            Debug.Log("csa");
-            
-            if (other.TryGetComponent(out Interactable interactable) && interactable.CanInteract())
-            {
-                interactableInRange = interactable;
-            }
-        }
-        
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.TryGetComponent(out Interactable interactable) && interactable == interactableInRange)
+            if (interactableInRange != null &&
+                !interactableInRange.CanInteract())
             {
                 interactableInRange = null;
             }
         }
-        
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (interactableInRange != null)
+                return;
+
+            if (other.TryGetComponent(out Interactable interactable) &&
+                !interacted.Contains(interactable) &&
+                interactable.CanInteract())
+            {
+                interactableInRange = interactable;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (!other.TryGetComponent(out Interactable interactable))
+                return;
+
+            interacted.Remove(interactable);
+
+            if (interactable == interactableInRange)
+                interactableInRange = null;
+        }
+
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if(!context.performed)
+            if (!context.performed ||
+                interactableInRange == null ||
+                !interactableInRange.CanInteract())
                 return;
-            
-            if(interactableInRange != null)
-            {
-                Debug.Log(interactableInRange.GetId());
-                ClientSend.Interact(interactableInRange.GetInteractionKind(), interactableInRange.GetId());
-            }
+
+            Interactable target = interactableInRange;
+
+            ClientSend.Interact(
+                target.GetInteractionKind(),
+                target.GetId()
+            );
+
+            interacted.Add(target);
+            interactableInRange = null;
+        }
+
+        private void OnDisable()
+        {
+            interacted.Clear();
+            interactableInRange = null;
         }
     }
 }
