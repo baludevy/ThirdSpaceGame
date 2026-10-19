@@ -51,31 +51,31 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
     public sealed class GenerationSettings
     {
         public int seed = 12345;
-        [Range(8, 32)] public int chunkSize = 16;
-        [Range(32, 256)] public int height = 128;
+        [UnityEngine.Range(8, 32)] public int chunkSize = 16;
+        [UnityEngine.Range(32, 256)] public int height = 128;
         public int seaLevel = 42;
         public int baseHeight = 48;
-        [Range(1f, 70f)] public float relief = 36f;
-        [Range(0.0001f, 0.05f)] public float continentScale = 0.0025f;
-        [Range(0.001f, 0.1f)] public float hillScale = 0.015f;
-        [Range(0.0001f, 0.02f)] public float biomeScale = 0.003f;
+        [UnityEngine.Range(1f, 70f)] public float relief = 36f;
+        [UnityEngine.Range(0.0001f, 0.05f)] public float continentScale = 0.0025f;
+        [UnityEngine.Range(0.001f, 0.1f)] public float hillScale = 0.015f;
+        [UnityEngine.Range(0.0001f, 0.02f)] public float biomeScale = 0.003f;
         public bool caves = true;
-        [Range(0.01f, 0.15f)] public float caveScale = 0.045f;
-        [Range(0.03f, 0.25f)] public float caveWidth = 0.10f;
+        [UnityEngine.Range(0.01f, 0.15f)] public float caveScale = 0.045f;
+        [UnityEngine.Range(0.03f, 0.25f)] public float caveWidth = 0.10f;
         public bool trees = true;
-        [Range(0f, 1f)] public float treeDensity = 0.65f;
+        [UnityEngine.Range(0f, 1f)] public float treeDensity = 0.65f;
         public bool ores = true;
         public bool rivers = true;
-        [Range(0.005f, 0.12f)] public float riverWidth = 0.025f;
+        [UnityEngine.Range(0.005f, 0.12f)] public float riverWidth = 0.025f;
     }
 
     [Header("Generation")]
     public GenerationSettings generation = new GenerationSettings();
     public bool generateOnStart = true;
-    [Range(1, 12)] public int viewDistance = 3;
-    [Range(0, 4)] public int unloadMargin = 1;
-    [Range(1, 64)] public int columnsPerFrame = 12;
-    [Range(1, 4096)] public int meshRowsPerFrame = 512;
+    [UnityEngine.Range(1, 12)] public int viewDistance = 3;
+    [UnityEngine.Range(0, 4)] public int unloadMargin = 1;
+    [UnityEngine.Range(1, 64)] public int columnsPerFrame = 12;
+    [UnityEngine.Range(1, 4096)] public int meshRowsPerFrame = 512;
     [Header("Rendering")]
     public Material blockMaterial;
     public bool generateColliders = true;
@@ -92,7 +92,7 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
     public bool allowEditing = true;
     public float reach = 8f;
     public Block selectedBlock = Block.Grass;
-    [Range(1, 256)] public int undoLimit = 64;
+    [UnityEngine.Range(1, 256)] public int undoLimit = 64;
     public bool showHud = true;
     [Header("Persistence")]
     public string saveName = "voxel-world";
@@ -330,6 +330,36 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
         undoLimit = Mathf.Clamp(undoLimit, 1, 256);
     }
 
+    private Color TileColor(int tile, int x, int y)
+    {
+        Color color;
+        switch (tile)
+        {
+            case 0: color = y > 11 + (int)(Hash01(x, 0, 0, 7) * 3f) ? new Color(0.35f, 0.61f, 0.20f) : new Color(0.45f, 0.30f, 0.17f); break;
+            case 1 : color = new Color (0.37f, 0.62f, 0.21f); break;
+            case 2 : color = new Color (0.46f, 0.31f, 0.19f); break;
+            case 3 : color = new Color (0.51f, 0.52f, 0.53f); break;
+            case 4 : color = new Color (0.85f, 0.79f, 0.52f); break;
+            case 5 : color = new Color (0.35f, 0.24f, 0.12f) * (x % 4 == 0 ? 0.72f : 1f); break;
+            case 6 : color = new Color (0.67f, 0.50f, 0.28f) * (y % 5 == 0 ? 0.75f : 1f); break;
+            case 7 : color = new Color (0.22f, 0.46f, 0.14f); break;
+            case 8 : color = new Color (0.18f, 0.43f, 0.72f); break;
+            case 9 : color = new Color (0.92f, 0.95f, 0.96f); break;
+            case 10 : color = new Color (0.54f, 0.77f, 0.88f); break;
+            case 15 : color = new Color (0.19f, 0.20f, 0.22f); break;
+            default : color = new Color (0.48f, 0.49f, 0.50f); break;
+        }
+        float noise = Hash01(x, tile, y, 1613);
+        if (tile >= 11 && tile <= 14 && Noise3(x * 0.42f, tile, y * 0.42f, 1709) > 0.56f)
+        {
+            if (tile == 11) color = new Color(0.13f, 0.13f, 0.14f);
+            if (tile == 12) color = new Color(0.74f, 0.58f, 0.46f);
+            if (tile == 13) color = new Color(0.71f, 0.40f, 0.24f);
+            if (tile == 14) color = new Color(0.94f, 0.77f, 0.22f);
+        }
+        return color * Mathf.Lerp(0.82f, 1.12f, noise);
+    }
+
     private static void ClampSettings(GenerationSettings value)
     {
         value.chunkSize = Mathf.Clamp(value.chunkSize, 8, 32);
@@ -344,6 +374,56 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
         value.caveWidth = Mathf.Clamp(value.caveWidth, 0.03f, 0.25f);
         value.treeDensity = Mathf.Clamp01(value.treeDensity);
         value.riverWidth = Mathf.Clamp(value.riverWidth, 0.005f, 0.12f);
+    }
+    private float Fractal2(float x, float z, int octaves, int salt)
+    {
+        float total = 0f;
+        float weight = 0f;
+        float amplitude = 1f;
+        for (int i = 0; i < octaves; i++)
+        {
+            total += Noise3(x, 0f, z, salt + i * 31) * amplitude;
+            weight += amplitude;
+            amplitude *= 0.5f;
+            x *= 2.03f;
+            z *= 2.03f;
+        }
+        return total / weight;
+    }
+
+    private float Noise3(float x, float y, float z, int salt)
+    {
+        int ix = Mathf.FloorToInt(x);
+        int iy = Mathf.FloorToInt(y);
+        int iz = Mathf.FloorToInt(z);
+        float tx = Fade(x - ix);
+        float ty = Fade(y - iy);
+        float tz = Fade(z - iz);
+        float a = Mathf.Lerp(Hash01(ix, iy, iz, salt), Hash01(ix + 1, iy, iz, salt), tx);
+        float b = Mathf.Lerp(Hash01(ix, iy + 1, iz, salt), Hash01(ix + 1, iy + 1, iz, salt), tx);
+        float c = Mathf.Lerp(Hash01(ix, iy + 1, iz + 1, salt), Hash01(ix + 1, iy, iz + 1, salt), tx);
+        float d = Mathf.Lerp(Hash01(ix, iy +1, iz + 1, salt), Hash01(ix + 1, iy + 1, iz + 1, salt), tx);
+        return Mathf.Lerp(Mathf.Lerp(a, b, ty), Mathf.Lerp(c, d, ty), tz);
+    }
+
+    private float Hash01(int x, int y, int z, int salt)
+    {
+        unchecked
+        {
+            uint hash = (uint)(settings != null ? settings.seed : generation.seed);
+            hash ^= (uint)x * 374761393u;
+            hash ^= (uint)y * 668265264u;
+            hash ^= (uint)z * 2246822519u;
+            hash ^= (uint)salt * 3266489917u;
+            hash =  (hash ^ hash >> 13) * 1274126177u;
+            hash ^= hash >> 16;
+            return (hash & 0x00FFFFFFu) / 16777216f;
+        }
+    }
+
+    private static float Fade(float value)
+    {
+        return value * value * value * (value * (value * 6f - 15f) + 10f);
     }
 
     [ContextMenu("Generate World")]
@@ -419,6 +499,7 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
         }
         UpdateEditing();
     }
+    
 
     private Vector2Int CurrentCenter()
     {
@@ -762,6 +843,12 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
             return SampleOre(x, y, z);
         }
         return Block.Stone;
+    }
+
+    private static void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private bool IsCave(int x, int y, int z)
@@ -1234,6 +1321,17 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
             BlockChanged(position, before, block);
         }
     }
+    
+    public bool BeginEditBatch()
+    {
+        if (!initialized || inBatch)
+        {
+            return false;
+        }
+        batch.Clear();
+        inBatch = true;
+        return true;
+    }
 
     public void EndEditBatch()
     {
@@ -1336,6 +1434,52 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
           return changed;
     }
 
+    private static float SmoothRange(float minimum, float maximum, float value)
+    {
+        return Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(minimum, maximum, value));
+    }
+
+    private static void DestroyOwned(UnityEngine.Object value)
+    {
+        if (value == null) return;
+        if (Application.isPlaying) Destroy(value);
+        else DestroyImmediate(value);
+    }
+    
+    private void UpdateEditing()
+    {
+        if (interactionCamera == null) return;
+        hasPointed = RaycastVoxel(new Ray(interactionCamera.transform.position, interactionCamera.transform.forward), reach, out pointed);
+        if (!allowEditing) return;
+        if (Pressed("F5")) SaveWorld();
+        if (Pressed("F9")) LoadWorld();
+        if (Held("LeftControl") && Pressed("Z")) UndoEdit();
+        if (Held("LeftControl") && Pressed("Y")) RedoEdit();
+        if (Pressed("Digit1")) selectedBlock = Block.Grass;
+        if (Pressed("Digit2")) selectedBlock = Block.Dirt;
+        if (Pressed("Digit3")) selectedBlock = Block.Stone;
+        if (Pressed("Digit4")) selectedBlock = Block.Sand;
+        if (Pressed("Digit5")) selectedBlock = Block.Log;
+        if (Pressed("Digit6")) selectedBlock = Block.Leaves;
+        if (Pressed("Digit7")) selectedBlock = Block.Planks;
+        if (Pressed("Digit8")) selectedBlock = Block.Snow;
+        if (Pressed("Digit9")) selectedBlock = Block.Water;
+        if (demoCameraObject != null && Cursor.lockState != CursorLockMode.Locked) return;
+        if (!hasPointed) return;
+        if (MousePressed(0)) SetBlock(pointed.position, Block.Air);
+        if (MousePressed(2)) selectedBlock = pointed.block;
+        if (Pressed("F") && pointed.normal != Vector3Int.zero)
+        {
+            Vector3Int destination = pointed.position + pointed.normal;
+            Block current;
+            if (destination != WorldToBlock(interactionCamera.transform.position)
+                && TryGetBlock(destination, out current) && !IsSolid(current))
+            {
+                SetBlock(destination, selectedBlock);
+            }
+        }
+    }
+
     public int FillSphere(Vector3Int origin, int radius, Block block)
     {
         if (!initialized || !ValidPosition(origin)) return 0;
@@ -1353,7 +1497,159 @@ public sealed class MinecraftVoxelWorld : MonoBehaviour
                 }
             }
         }
-        if (!initialized || !ValidPosition(origin)) return 0;
+        if (ownsBatch) EndEditBatch();
+        return changed;
+    }
+private bool PrepareMaterial()
+    {
+        if (blockMaterial != null) return true;
+        if (ownedMaterial != null) return true;
+        Shader shader = GraphicsSettings.currentRenderPipeline == null
+            ? Shader.Find("Standard") : Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null) shader = Shader.Find("HDRP/Lit");
+        if (shader == null) shader = Shader.Find("Unlit/Texture");
+        if (shader == null)
+        {
+            LastError = "Assign a material supported by the active render pipeline.";
+            Debug.LogError(LastError, this);
+            return false;
+        }
+        atlas = CreateAtlas();
+        ownedMaterial = new Material(shader);
+        ownedMaterial.name = "Generated Voxel Material";
+        if (ownedMaterial.HasProperty("_MainTex")) ownedMaterial.SetTexture("_MainTex", atlas);
+        if (ownedMaterial.HasProperty("_BaseMap")) ownedMaterial.SetTexture("_BaseMap", atlas);
+        if (ownedMaterial.HasProperty("_BaseColorMap")) ownedMaterial.SetTexture("_BaseColorMap", atlas);
+        if (ownedMaterial.HasProperty("_Color")) ownedMaterial.SetColor("_Color", Color.white);
+        if (ownedMaterial.HasProperty("_BaseColor")) ownedMaterial.SetColor("_BaseColor", Color.white);
+        if (ownedMaterial.HasProperty("_Glossiness")) ownedMaterial.SetFloat("_Glossiness", 0f);
+        if (ownedMaterial.HasProperty("_Smoothness")) ownedMaterial.SetFloat("_Smoothness", 0f);
+        return true;
+    }
+    
+    private Texture2D CreateAtlas()
+    {
+        int width = AtlasColumns * TilePixels;
+        int height = AtlasRows * TilePixels;
+        Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        texture.name = "Procedural Voxel Atlas";
+        texture.filterMode = FilterMode.Point;
+        texture.wrapMode = TextureWrapMode.Clamp;
+        Color[] pixels = new Color[width * height];
+        for (int row = 0; row < AtlasRows; row++)
+        {
+            float shade = row == 0 ? 1f : row == 1 ? 0.87f : row == 2 ? 0.75f : 0.58f;
+            for (int tile = 0; tile < AtlasColumns; tile++)
+            {
+                for (int y = 0; y < TilePixels; y++)
+                {
+                    for (int x = 0; x < TilePixels; x++)
+                    {
+                        Color color = TileColor(tile, x, y);
+                        color *= shade;
+                        color.a = 1f;
+                        pixels[tile * TilePixels + x + (row * TilePixels + y) * width] = color;
+                    }
+                }
+            }
+        }
+        texture.SetPixels(pixels);
+        texture.Apply(false, true);
+        return texture;
+    }
+     public bool RaycastVoxel(Ray ray, float maximumDistance, out VoxelHit hit, bool includeWater = false)
+    {
+        hit = new VoxelHit();
+        if (!initialized || maximumDistance <= 0f || ray.direction.sqrMagnitude < 0.000001f)
+        {
+            return false;
+        }
+        Vector3 direction = transform.InverseTransformVector(ray.direction.normalized);
+        Vector3 origin = transform.InverseTransformPoint(ray.origin);
+        Vector3Int cell = Vector3Int.FloorToInt(origin);
+        Vector3Int step = new Vector3Int(Sign(direction.x), Sign(direction.y), Sign(direction.z));
+        Vector3 delta = new Vector3(Reciprocal(direction.x), Reciprocal(direction.y), Reciprocal(direction.z));
+        Vector3 next = new Vector3(FirstCrossing(origin.x, cell.x, direction.x), FirstCrossing(origin.y, cell.y, direction.y), FirstCrossing(origin.z, cell.z, direction.z));
+        Vector3Int normal = Vector3Int.zero;
+        float distance = 0f;
+        for (int i = 0; i < 8192 && distance <= maximumDistance; i++)
+        {
+            Block block;
+            if (TryGetBlock(cell, out block) && (IsSolid(block) || includeWater && block == Block.Water))
+            {
+                hit.position = cell;
+                hit.normal = normal;
+                hit.block = block;
+                hit.distance = distance;
+                hit.point = ray.origin + ray.direction.normalized * distance;
+                return true;
+            }
+            if (next.x <= next.y && next.x <= next.z)
+            {
+                distance = next.x;
+                next.x += delta.x;
+                cell.x += step.x;
+                normal = new Vector3Int(-step.x, 0, 0);
+            }
+            else if (next.y <= next.z)
+            {
+                distance = next.y;
+                next.y += delta.y;
+                cell.y += step.y;
+                normal = new Vector3Int(0, -step.y, 0);
+            }
+            else
+            {
+                distance = next.z;
+                next.z += delta.z;
+                cell.z += step.z;
+                normal = new Vector3Int(0, 0, -step.z);
+            }
+        }
+        return false;
+    }
+    
+    private static bool Pressed(string name)
+    {
+    #if ENABLE_INPUT_SYSTEM
+        if (Keyboard.current == null) return false;
+            Key key;
+            return Enum.TryParse(name, out key) && Keyboard.current[key].wasPressedThisFrame;
+    #elif ENABLE_LEGACY_INPUT_MANAGER
+            return Input.GetKeyDown(LegacyKey(name));
+    #else
+            return false;
+    #endif
+        }
+        
+    private static bool Held(string name)
+    {
+    #if ENABLE_INPUT_SYSTEM
+            if (Keyboard.current == null) return false;
+            if (name == "LeftControl") name = "LeftCtrl";
+                Key key;
+            return Enum.TryParse(name, out key) && Keyboard.current[key].isPressed;
+    #elif ENABLE_LEGACY_INPUT_MANAGER
+            return Input.GetKey(LegacyKey(name));
+    #else
+            return false;
+    #endif
+    }
+    
+    private static int Sign(float value)
+    {
+        return value > 0f ? 1 : value < 0f ? -1 : 0;
+    }
+    
+    private static float Reciprocal(float value)
+    {
+        return Mathf.Abs(value) < 0.0000001f ? float.PositiveInfinity : Mathf.Abs(1f / value);
+    }
+    
+    private static float FirstCrossing(float origin, int cell, float direction)
+    {
+        if (Mathf.Abs(direction) < 0.0000001f) return float.PositiveInfinity;
+        return ((direction > 0f ? cell + 1f : cell) - origin) / direction;
     }
 }
 
